@@ -1,0 +1,1059 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<title>SMART akcelerátor+ II Pardubického kraje – Mapa aktivit, pozic a vazeb</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    font-family: 'Segoe UI', Tahoma, Arial, sans-serif;
+    margin: 0;
+    padding: 24px;
+    background: #f4f6fa;
+    color: #1a2540;
+  }
+  h1 {
+    margin: 0 0 4px 0;
+    font-size: 26px;
+    color: #1F4E79;
+  }
+  .sub {
+    color: #4a5a77;
+    font-size: 14px;
+    margin-bottom: 20px;
+  }
+  .chips { margin: 6px 0 22px 0; }
+  .chip {
+    display: inline-block;
+    padding: 4px 10px;
+    margin-right: 6px;
+    border-radius: 14px;
+    background: #1F4E79;
+    color: white;
+    font-size: 12px;
+    font-weight: 600;
+  }
+  .chip.alt { background: #2E7D32; }
+  .chip.warn { background: #C0392B; }
+
+  .page {
+    max-width: 1500px;
+    margin: 0 auto 32px auto;
+    background: white;
+    border-radius: 14px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+    padding: 26px 30px;
+  }
+  h2 {
+    color: #1F4E79;
+    border-bottom: 2px solid #1F4E79;
+    padding-bottom: 4px;
+    font-size: 19px;
+    margin-top: 28px;
+    margin-bottom: 14px;
+  }
+  .legend {
+    display: flex; gap: 18px; flex-wrap: wrap; margin: 8px 0 14px 0;
+    font-size: 12px; color: #334; align-items: center;
+  }
+  .sw { display:inline-block; width:14px; height:14px; border-radius:3px; margin-right:6px; vertical-align: middle; }
+
+  /* COLUMN LAYOUT */
+  .cols {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr 1fr;
+    gap: 20px;
+    align-items: stretch;
+  }
+  .col h3 {
+    text-align: center;
+    font-size: 14px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 8px 10px;
+    border-radius: 8px 8px 0 0;
+    margin: 0;
+    color: white;
+  }
+  .col .items { border: 1px solid #dfe3ec; border-top: 0; border-radius: 0 0 8px 8px; padding: 10px; background: #fbfcff; }
+  .col-strategy h3 { background: #E67E22; }
+  .col-activities h3 { background: #1F4E79; }
+  .col-people h3 { background: #2E7D32; }
+
+  .card {
+    background: white;
+    border: 1px solid #d7dce8;
+    border-left: 5px solid #1F4E79;
+    border-radius: 6px;
+    padding: 9px 12px;
+    margin-bottom: 8px;
+    font-size: 13px;
+    line-height: 1.35;
+  }
+  .card.strategy { border-left-color: #E67E22; }
+  .card.people { border-left-color: #2E7D32; }
+  .card .t { font-weight: 700; display: block; margin-bottom: 2px; color: #1F4E79; }
+  .card.strategy .t { color: #B35A10; }
+  .card.people .t { color: #2E7D32; }
+  .card .meta { font-size: 11px; color: #5a6880; font-style: italic; margin-top: 3px; }
+  .card.mandatory::after {
+    content: "POVINNA";
+    float: right;
+    font-size: 10px;
+    background: #C0392B;
+    color: white;
+    padding: 1px 6px;
+    border-radius: 3px;
+    font-weight: 700;
+    margin-left: 6px;
+  }
+  .badges { margin-top: 5px; }
+  .badge {
+    display: inline-block;
+    font-size: 10px;
+    background: #7D3C98;
+    color: white;
+    padding: 1px 6px;
+    margin-right: 3px;
+    border-radius: 3px;
+    font-weight: 600;
+  }
+  .fte {
+    float: right;
+    background: #2E7D32;
+    color: white;
+    font-size: 10px;
+    padding: 1px 6px;
+    border-radius: 3px;
+    font-weight: 700;
+  }
+
+  /* PILOT GRID */
+  .pilots {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin-top: 6px;
+    padding: 8px;
+    background: #eef4fb;
+    border-radius: 6px;
+  }
+  .pilot {
+    background: white;
+    border: 1px solid #c8d2e5;
+    border-radius: 5px;
+    padding: 6px 8px;
+    font-size: 11px;
+  }
+  .pilot .n { font-weight: 700; color: #1F4E79; display: block; }
+  .pilot .a { color: #C0392B; font-weight: 700; font-size: 11px; }
+
+  /* EVAL GRID */
+  .eval-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+  }
+  .eval {
+    background: #f8f4fc;
+    border: 1px solid #d4b9e6;
+    border-radius: 6px;
+    padding: 8px 10px;
+    font-size: 12px;
+    line-height: 1.3;
+  }
+  .eval .code {
+    display: inline-block; background: #7D3C98; color: white;
+    font-weight: 700; padding: 1px 6px; border-radius: 3px; font-size: 11px;
+    margin-right: 5px;
+  }
+  .eval .pts {
+    float: right;
+    font-size: 10px; color: #5a3a7a; font-weight: 700;
+  }
+  .eval .min {
+    display: block; font-size: 10px; color: #7a7a99; margin-top: 3px;
+  }
+  .eval.excl { background: #fdecea; border-color: #f5b7b1; }
+  .eval.excl .code { background: #C0392B; }
+
+  /* RIS3 PYRAMID */
+  .pyramid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 14px;
+    align-items: stretch;
+    margin: 10px 0;
+  }
+  .lvl {
+    background: linear-gradient(180deg, #FFF4E0, #FFE4B5);
+    border: 1px solid #E67E22;
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 12px;
+    position: relative;
+  }
+  .lvl h4 {
+    margin: 0 0 6px 0; font-size: 13px; color: #B35A10;
+  }
+  .arrow {
+    font-size: 22px; color: #E67E22;
+    position: absolute; right: -17px; top: 45%;
+    z-index: 2;
+  }
+  .lvl:last-child .arrow { display: none; }
+
+  /* MAPPING TABLE */
+  table {
+    border-collapse: collapse; width: 100%; font-size: 12px; margin-top: 8px;
+  }
+  th, td {
+    text-align: left; padding: 6px 8px; border: 1px solid #dfe3ec; vertical-align: top;
+  }
+  th { background: #1F4E79; color: white; font-weight: 600; }
+  tr:nth-child(even) td { background: #fafbfe; }
+  td.a { font-weight: 700; color: #1F4E79; white-space: nowrap; }
+
+  .note { font-size: 11px; color: #5a6880; margin-top: 8px; font-style: italic; }
+
+  /* ACTIVITY BAND – side-by-side layout */
+  .band {
+    display: grid;
+    grid-template-columns: 260px 34px 1fr;
+    gap: 0;
+    margin-bottom: 18px;
+    background: #fbfcff;
+    border: 1px solid #dfe3ec;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .band.mandatory { border-color: #c0c8de; }
+  .band-act {
+    background: linear-gradient(180deg, #1F4E79, #2a5e8c);
+    color: white;
+    padding: 14px 14px 14px 14px;
+    position: relative;
+  }
+  .band-act .lbl {
+    font-size: 11px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    opacity: 0.85;
+  }
+  .band-act h4 {
+    margin: 4px 0 8px 0;
+    font-size: 16px;
+    line-height: 1.25;
+  }
+  .band-act .tag {
+    display: inline-block;
+    font-size: 10px;
+    background: rgba(255,255,255,0.18);
+    border: 1px solid rgba(255,255,255,0.4);
+    color: white;
+    padding: 2px 7px;
+    border-radius: 10px;
+    margin: 2px 3px 2px 0;
+    font-weight: 600;
+  }
+  .band-act .tag.mand { background: #C0392B; border-color: #C0392B; }
+  .band-act .desc {
+    font-size: 12px;
+    margin-top: 6px;
+    line-height: 1.4;
+    opacity: 0.95;
+  }
+  .band-act .provaz {
+    margin-top: 10px;
+    font-size: 11px;
+    padding: 6px 8px;
+    background: rgba(255,255,255,0.14);
+    border-radius: 4px;
+    line-height: 1.4;
+  }
+  .band-act .provaz b { color: #FFE4B5; }
+  .band-connector {
+    background: #fbfcff;
+    position: relative;
+  }
+  .band-connector::before {
+    content: '';
+    position: absolute;
+    top: 30px; bottom: 30px; left: 50%;
+    width: 2px;
+    background: #b8c3d8;
+    transform: translateX(-50%);
+  }
+  .band-connector::after {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    background: white;
+    border: 2px solid #1F4E79;
+    background-image: radial-gradient(circle, #1F4E79 30%, white 32%);
+  }
+  .band-people {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 8px;
+    padding: 12px;
+    background: #fbfcff;
+  }
+  .pos {
+    background: white;
+    border: 1px solid #d7dce8;
+    border-left: 4px solid #1F4E79;
+    border-radius: 6px;
+    padding: 8px 10px;
+    font-size: 12px;
+    line-height: 1.38;
+    position: relative;
+  }
+  .pos.partner { border-left-color: #1F4E79; }
+  .pos.kraj    { border-left-color: #2E7D32; }
+  .pos.extern  { border-left-color: #7D3C98; border-left-style: dashed; }
+  .pos h5 {
+    margin: 0 0 4px 0;
+    font-size: 12.5px;
+    color: #1F4E79;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 6px;
+  }
+  .pos.kraj h5 { color: #2E7D32; }
+  .pos.extern h5 { color: #7D3C98; }
+  .pos h5 .who {
+    font-size: 10px;
+    font-weight: 700;
+    padding: 1px 6px;
+    border-radius: 3px;
+    color: white;
+    background: #1F4E79;
+    white-space: nowrap;
+  }
+  .pos.kraj h5 .who { background: #2E7D32; }
+  .pos.extern h5 .who { background: #7D3C98; }
+  .pos .fte-line {
+    font-size: 10.5px;
+    color: #5a6880;
+    margin-bottom: 4px;
+    font-style: italic;
+  }
+  .pos ul {
+    margin: 4px 0 0 16px;
+    padding: 0;
+    font-size: 11px;
+    line-height: 1.32;
+  }
+  .pos ul li { margin-bottom: 1px; }
+  .pos .meta {
+    margin-top: 5px;
+    font-size: 10.5px;
+    color: #5a6880;
+    font-style: italic;
+    border-top: 1px dashed #e0e4ee;
+    padding-top: 4px;
+  }
+  .pos .warn {
+    margin-top: 5px;
+    font-size: 10.5px;
+    color: #C0392B;
+    font-weight: 600;
+    background: #fdecea;
+    padding: 4px 6px;
+    border-radius: 3px;
+  }
+
+  @media print {
+    body { background: white; padding: 0; }
+    .page { box-shadow: none; border-radius: 0; page-break-after: always; }
+    .band { break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+  <h1>SMART akcelerátor+ II Pardubického kraje</h1>
+  <div class="sub">Mapa plánovaných aktivit, klíčových pozic a vazeb na existující výstupy inovačního ekosystému</div>
+  <div class="chips">
+    <span class="chip">Žadatel: Pardubický kraj</span>
+    <span class="chip">Hlavní partner: P-PINK, z. ú.</span>
+    <span class="chip alt">Rozpočet: 65 mil. Kč</span>
+    <span class="chip alt">Realizace: 1/2027 – 6/2029</span>
+    <span class="chip warn">Podání fiší: 24. 4. 2026</span>
+    <span class="chip warn">FTE max: 2,5 (kraj ~1,0 + P-PINK ~1,5)</span>
+  </div>
+
+  <h2>1. Strategický rámec – odkud projekt vychází</h2>
+  <div class="legend">
+    <span><span class="sw" style="background:#E67E22"></span> Existující výstupy & struktury inovačního ekosystému PK</span>
+    <span><span class="sw" style="background:#1F4E79"></span> SMART projekt</span>
+    <span><span class="sw" style="background:#2E7D32"></span> Personální zdroje</span>
+    <span><span class="sw" style="background:#7D3C98"></span> Hodnoticí kritéria</span>
+  </div>
+
+  <div class="pyramid">
+    <div class="lvl">
+      <h4>Národní RIS3 strategie ČR</h4>
+      Rámec pro chytrou specializaci ČR; krajská dimenze = krajská příloha RIS3.
+      <span class="arrow">▶</span>
+    </div>
+    <div class="lvl">
+      <h4>Krajská RIS3 strategie PK</h4>
+      Schválena Zastupitelstvem PK 16. 6. 2020. Definuje domény specializace,
+      horizontální a vertikální témata (kyberbezpečnost, digitalizace, Průmysl 4.0, oběhová ekonomika aj.).
+      <span class="arrow">▶</span>
+    </div>
+    <div class="lvl">
+      <h4>Akční plán krajské RIS3 + implementační struktury</h4>
+      KRPI (Krajská rada pro inovace) – schvalovací orgán.<br>
+      IPPK (Inovační platforma PK) – zastřešující platforma aktérů.<br>
+      KIP (Krajské inovační platformy) – tematické skupiny (např. elektrotechnika + IT).
+      <span class="arrow">▶</span>
+    </div>
+    <div class="lvl">
+      <h4>SMART akcelerátor+ II</h4>
+      Hlavní nástroj pro implementaci krajské RIS3 v letech 2027–2029.
+      Jádrem je pilotní ověření <b>Inovačního centra (IC)</b>.
+    </div>
+  </div>
+</div>
+
+<div class="page">
+  <h2>2. Mapa aktivit ↔ personálu ↔ existujících výstupů</h2>
+  <div class="note">Šipky mezi sloupci jsou zjednodušené: každá aktivita v prostředním sloupci je obsluhována <b>kombinací pozic</b> (pravý sloupec) a navazuje na <b>strategické výstupy a platformy</b> (levý sloupec). Purpurové štítky u aktivit ukazují hlavní hodnoticí kritéria, která se v dané aktivitě posuzují.</div>
+
+  <div class="cols">
+
+    <!-- COL 1: Strategy / existing outputs -->
+    <div class="col col-strategy">
+      <h3>Existující výstupy / struktury</h3>
+      <div class="items">
+        <div class="card strategy">
+          <span class="t">Krajská RIS3 strategie PK</span>
+          Strategický dokument schválený 2020. Definuje domény specializace a horizontální témata.
+          <div class="meta">→ vstup do A2, A3, A4, A5 i A8</div>
+        </div>
+        <div class="card strategy">
+          <span class="t">Akční plán krajské RIS3</span>
+          Aktualizován 1× ročně, schvaluje KRPI. Obsahuje strategické intervence / PO.
+          <div class="meta">→ výstup A2; vstup do A7</div>
+        </div>
+        <div class="card strategy">
+          <span class="t">KRPI – Krajská rada pro inovace</span>
+          Nejvyšší rozhodovací orgán inovačního ekosystému PK. Projednává Akční plán a intervence.
+          <div class="meta">→ min. 1× jednání za projekt (výstup A2)</div>
+        </div>
+        <div class="card strategy">
+          <span class="t">IPPK – Inovační platforma PK</span>
+          Zastřešující platforma sdružující aktéry podporující rozvoj a inovace.
+          <div class="meta">→ komunikační uzel pro A2, A3, A8</div>
+        </div>
+        <div class="card strategy">
+          <span class="t">KIP – Krajské inovační platformy</span>
+          Tematické pracovní skupiny (elektrotechnika + IT a další). Min. 2 jednání KIP / projekt.
+          <div class="meta">→ klíčové pro entrepreneurial discovery (V10)</div>
+        </div>
+        <div class="card strategy">
+          <span class="t">Předchozí projekt SMART akcelerátor+ I</span>
+          Zdroj navazujících témat, zkušeností a týmu. Fyzické ukončení 31. 12. 2026 → návaznost od 1. 1. 2027.
+          <div class="meta">→ kontinuita týmu i výstupů</div>
+        </div>
+        <div class="card strategy">
+          <span class="t">Podnikatelský inkubátor P-PINK</span>
+          Existující infrastruktura pro akcelerační/inkubační služby – základna pro budoucí Inovační centrum.
+          <div class="meta">→ fyzické zázemí pro A7 (IC)</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- COL 2: Activities -->
+    <div class="col col-activities">
+      <h3>Klíčové aktivity SA+II (A1–A8)</h3>
+      <div class="items">
+        <div class="card mandatory">
+          <span class="t">A1 – Řízení projektu</span>
+          Projektové, finanční a administrativní řízení celé žádosti (kraj + P-PINK).
+          <div class="badges"><span class="badge">V1</span><span class="badge">V8</span></div>
+        </div>
+        <div class="card mandatory">
+          <span class="t">A2 – Činnosti základního týmu</span>
+          Výkonná jednotka RIS3: řízení a implementace krajské RIS3 strategie, KRPI, KIP, IPPK.
+          <div class="badges"><span class="badge">V2</span><span class="badge">V4</span><span class="badge">V5</span><span class="badge">V10</span></div>
+        </div>
+        <div class="card mandatory">
+          <span class="t">A3 – Mapování, analýzy, evaluace</span>
+          Analýzy inovačního prostředí, potřeb a potenciálu; evaluace pro Národní RIS3; metodika monitoringu RIS3 PK.
+          <div class="badges"><span class="badge">V3</span><span class="badge">V4</span><span class="badge">V7</span></div>
+        </div>
+        <div class="card">
+          <span class="t">A4 – Vzdělávání a rozvoj kompetencí</span>
+          Vzdělávání odborného týmu a stakeholderů inovačního ekosystému PK.
+          <div class="badges"><span class="badge">V2</span><span class="badge">V4</span></div>
+        </div>
+        <div class="card">
+          <span class="t">A6 – Twinning</span>
+          Spolupráce se zahraničním partnerem, osvojení konkrétního nástroje v podmínkách PK.
+          <div class="badges"><span class="badge">V4</span><span class="badge">V6</span></div>
+        </div>
+        <div class="card">
+          <span class="t">A7 – Pilotní ověření (PO)</span>
+          Ověření, zda nové intervence budou v PK fungovat. <b>Jádro projektu = PO Inovačního centra.</b>
+          <div class="badges"><span class="badge">V3</span><span class="badge">V4</span><span class="badge">V5</span><span class="badge">V6</span><span class="badge">V7</span></div>
+
+          <div class="pilots">
+            <div class="pilot">
+              <span class="n">PO Inovační centrum</span>
+              <span class="a">cca 8 mil.</span>
+              P-PINK; pot. doplnění finance vláda (Havlíček)
+            </div>
+            <div class="pilot">
+              <span class="n">Sféra Pardubice</span>
+              <span class="a">redukovaný rozp.</span>
+              synergie s P-PINK
+            </div>
+            <div class="pilot">
+              <span class="n">Horizonty (RRA PK)</span>
+              <span class="a">k diskuzi</span>
+              tematická návaznost na EU Horizon
+            </div>
+            <div class="pilot">
+              <span class="n">CTTZ UPCE – 1 PO</span>
+              <span class="a">cca 4 mil.</span>
+              výběr tématu na CTTZ
+            </div>
+            <div class="pilot">
+              <span class="n">Talentový management</span>
+              <span class="a">cca 4 mil.</span>
+              rozvoj talentů v PK
+            </div>
+            <div class="pilot">
+              <span class="n">SRS (bude doplněno)</span>
+              <span class="a">cca 2 mil.</span>
+              -
+            </div>
+          </div>
+          <div class="meta">PO celkem cca 25 mil. Kč (~20 mil. pro partnery pro PO + IC). Hl. partner (P-PINK) nesmí být příjemcem voucheru A5.</div>
+        </div>
+        <div class="card">
+          <span class="t">A8 – Marketing a komunikační strategie</span>
+          Posílení komunikace inovačního ekosystému PK dovnitř i vně regionu (přesunuto z rozpočtu PO IC na partnerskou úroveň).
+          <div class="badges"><span class="badge">V4</span><span class="badge">V10</span></div>
+        </div>
+        <div class="card" style="border-left-color:#888;opacity:.75">
+          <span class="t" style="color:#555">A5 – Asistence <span style="font-weight:400;font-size:11px;">(v této verzi vyřazena)</span></span>
+          Asistenční vouchery pro přípravu strategických projektů (max. 1,5 mil. / voucher). Hl. partner nemůže být příjemcem.
+        </div>
+      </div>
+    </div>
+
+    <!-- COL 3: People -->
+    <div class="col col-people">
+      <h3>Personální zdroje – FTE max 2,5</h3>
+      <div class="items">
+        <div class="card people">
+          <span class="t">PARDUBICKÝ KRAJ <span class="fte">~1,0 FTE</span></span>
+          <ul style="margin:4px 0 0 18px; padding:0; font-size:12px;">
+            <li>Projektový manažer (A1)</li>
+            <li><b>RIS3 manažer – 0,7 (povinné)</b> (A2)</li>
+            <li>RIS3 koordinátor (A2)</li>
+            <li>Administrativní pracovník (A1)</li>
+            <li>Analytik / evaluátor (A3)</li>
+          </ul>
+          <div class="meta">Administrativa A1 – projektové řízení za kraj</div>
+        </div>
+        <div class="card people">
+          <span class="t">P-PINK, z. ú. <span class="fte">~1,5 FTE</span></span>
+          <ul style="margin:4px 0 0 18px; padding:0; font-size:12px;">
+            <li>Finanční manažer / administrativa (A1)</li>
+            <li>RIS3 developer (A2, A3)</li>
+            <li>Manažer pilotního ověření – IC (A7)</li>
+            <li>Manažer dalších PO (A7)</li>
+            <li>Manažer twinningu (A6)</li>
+            <li>Marketingový manažer + PR (A8)</li>
+            <li>Vzdělávací koordinátor (A4)</li>
+          </ul>
+          <div class="meta">Hlavní partner – nese odbornou implementaci velké části projektu.</div>
+        </div>
+        <div class="card people">
+          <span class="t">Externí / dle potřeby</span>
+          <ul style="margin:4px 0 0 18px; padding:0; font-size:12px;">
+            <li>Experti pro evaluace (A3)</li>
+            <li>Zahraniční lektor/partner (A6 Twinning)</li>
+            <li>Grafik, web, geoinformatik (A3, A8)</li>
+            <li>Zástupci CTTZ UPCE, Sféra, RRA PK, SRS (A7)</li>
+          </ul>
+        </div>
+        <div class="card people" style="background:#e8f5e9">
+          <span class="t">Povinné pozice dle SPpŽP (kritérium P6)</span>
+          <div style="font-size:12px;">
+            Admin. tým: projektový manažer, finanční manažer, admin. pracovník.<br>
+            Odborný tým: <b>RIS3 manažer (0,7)</b>, RIS3 developer, RIS3 koordinátor.
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="page">
+  <h2>3. Hodnoticí kritéria – kde a jak se projekt posuzuje</h2>
+  <div class="note">Kritéria V1–V10 určují body při věcném hodnocení komisí (kombinovaná + hodnoticí). Kritérium V9 je vylučovací. Čísla v závorkách = max. body / min. hranice (kombinovaná kritéria mají min. hranici u kritéria i u součtu).</div>
+  <div class="eval-grid">
+    <div class="eval"><span class="code">V1</span><span class="pts">4 b</span><b>Admin. tým</b><span class="min">struktura + velikost + náklady</span></div>
+    <div class="eval"><span class="code">V2</span><span class="pts">12 b / min 7,2</span><b>Odborný tým</b><span class="min">vč. externího zajištění</span></div>
+    <div class="eval"><span class="code">V3</span><span class="pts">25 b / min 15</span><b>Potřebnost</b><span class="min">zdůvodnění cílů projektu</span></div>
+    <div class="eval"><span class="code">V4</span><span class="pts">15 b / min 9</span><b>Věcný obsah a kvalita</b><span class="min">jak budou aktivity realizovány</span></div>
+    <div class="eval"><span class="code">V5</span><span class="pts">6 b / min 3,6</span><b>Strategické intervence</b><span class="min">kvalita popisu PO a SPZ</span></div>
+    <div class="eval"><span class="code">V6</span><span class="pts">7 b / min 4,2</span><b>Řízení rizik</b><span class="min">u aktivit i financí</span></div>
+    <div class="eval"><span class="code">V7</span><span class="pts">11 b / min 6,6</span><b>Indikátory</b><span class="min">výběr a hodnoty</span></div>
+    <div class="eval"><span class="code">V8</span><span class="pts">15 b / min 9</span><b>Rozpočet</b><span class="min">přehlednost + přiměřenost</span></div>
+    <div class="eval excl"><span class="code">V9</span><span class="pts">vyluč.</span><b>Rovné příležitosti</b><span class="min">gender, nediskriminace</span></div>
+    <div class="eval"><span class="code">V10</span><span class="pts">5 b / min 3</span><b>Entrep. discovery</b><span class="min">quadruple helix + KIP</span></div>
+  </div>
+
+  <h2>4. Mapování aktivit na hodnoticí kritéria + výstupy ekosystému</h2>
+  <table>
+    <thead>
+      <tr>
+        <th style="width:8%">Aktivita</th>
+        <th style="width:22%">Hlavní hodnoticí kritéria</th>
+        <th style="width:30%">Propojení s existujícími výstupy / strukturami</th>
+        <th style="width:40%">Klíčové pozice / personální pokrytí</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td class="a">A1 Řízení</td><td>V1, V8</td><td>—</td><td>Projektový manažer (kraj) + finanční manažer (P-PINK) + admin.</td></tr>
+      <tr><td class="a">A2 Základní tým</td><td>V2, V4, V5, V10</td><td>RIS3 strategie PK, Akční plán, KRPI, KIP, IPPK</td><td>RIS3 manažer (0,7 – kraj), RIS3 koordinátor (kraj), RIS3 developer (P-PINK)</td></tr>
+      <tr><td class="a">A3 Mapování</td><td>V3, V4, V7</td><td>RIS3 strategie PK; data SA+I; evaluační rámec Nár. RIS3</td><td>Analytik / evaluátor + externí experti</td></tr>
+      <tr><td class="a">A4 Vzdělávání</td><td>V2, V4</td><td>Stakeholdeři v IPPK, KIP, KRPI</td><td>Vzdělávací koordinátor (P-PINK)</td></tr>
+      <tr><td class="a">A6 Twinning</td><td>V4, V6</td><td>Zahraniční inovační ekosystémy; téma RIS3</td><td>Manažer twinningu (P-PINK) + zahraniční partner</td></tr>
+      <tr><td class="a">A7 Pilotní ověření</td><td>V3, V4, V5, V6, V7</td><td>P-PINK inkubátor, CTTZ UPCE, Sféra, RRA PK, SRS</td><td>Manažer PO IC + manažeři dalších PO (P-PINK) + partneři PO</td></tr>
+      <tr><td class="a">A8 Marketing</td><td>V4, V10</td><td>IPPK, KIP jako komunikační kanál; brand inovačního ekosystému PK</td><td>Marketingový manažer + PR specialista + grafik (P-PINK)</td></tr>
+    </tbody>
+  </table>
+
+  <h2>5. Vazby v entrepreneurial discovery procesu (EDP → kritérium V10)</h2>
+  <div class="note">Kritérium V10 posuzuje kvalitu nastavení EDP a zapojení všech účastníků quadruple helix (firmy – akademie – veřejná správa – občanská společnost). Z toho plyne zvýšený důraz na aktivitu A2 a A8 i na využití stávajících KIP/IPPK/KRPI jako prostoru pro EDP.</div>
+
+  <div class="cols" style="grid-template-columns: repeat(4, 1fr);">
+    <div class="col col-strategy"><h3>Firmy</h3>
+      <div class="items" style="font-size:12px; padding:12px;">
+        Zapojené přes KIP (elektrotechnika + IT aj.), P-PINK inkubátor, IC.
+        Kanál: A2, A7 (PO IC), A8.
+      </div>
+    </div>
+    <div class="col col-strategy"><h3>Akademie</h3>
+      <div class="items" style="font-size:12px; padding:12px;">
+        UPCE (zejm. CTTZ), střední odborné školy, VŠ.
+        Kanál: A2, A3, A7 (PO CTTZ + Talent mgmt).
+      </div>
+    </div>
+    <div class="col col-strategy"><h3>Veřejná správa</h3>
+      <div class="items" style="font-size:12px; padding:12px;">
+        Pardubický kraj (žadatel), obce statutární, dotační orgány.
+        Kanál: KRPI, IPPK, A2.
+      </div>
+    </div>
+    <div class="col col-strategy"><h3>Občanská společnost</h3>
+      <div class="items" style="font-size:12px; padding:12px;">
+        Neziskový sektor, profesní a oborová sdružení, sítě talentu.
+        Kanál: A4, A7 (Talent mgmt), A8.
+      </div>
+    </div>
+  </div>
+
+  <div class="note" style="margin-top:18px; background:#fff6e0; border-left:4px solid #E67E22; padding:10px 14px;">
+    <b>K zapracování do fiše a žádosti:</b> u každé aktivity v podrobném popisu projektu explicitně ukázat, jak navazuje na (1) krajskou RIS3, (2) konkrétní KIP / KRPI / IPPK, (3) měřitelný výstup (indikátor → V7) a (4) pozici v realizačním týmu (V1, V2, P6). Je to hlavní nástroj pro získání bodů ve V3, V4, V5 a V10.
+  </div>
+</div>
+
+<div class="page">
+  <h2>6. Aktivity × pozice × náplň činností – propojený pohled</h2>
+  <div class="note">Každá klíčová aktivita je vlevo (modrý panel) a vpravo jsou pozice, které ji realizují, s úvazkem a konkrétní náplní činností. Zelený pruh = kraj, modrý = P-PINK, fialový (čárkovaný) = externí. V modrém panelu je pod aktivitou uvedeno, jak se <b>propojuje s existujícím ekosystémem</b> (RIS3, KRPI, KIP, IPPK) a kde se <b>hodnotí</b> (kritéria V1–V10). Zdroj: <i>činnosti hl. partnera SA+ II.xlsx</i>.</div>
+
+  <div class="legend" style="margin:8px 0 18px 0;">
+    <span><span class="sw" style="background:#1F4E79"></span> Aktivita SA+II</span>
+    <span><span class="sw" style="background:#1F4E79;border:2px solid #1F4E79"></span> Pozice P-PINK (hl. partner)</span>
+    <span><span class="sw" style="background:#2E7D32"></span> Pozice kraj (příjemce)</span>
+    <span><span class="sw" style="background:#7D3C98"></span> Pozice externí / dle potřeby</span>
+    <span><span class="sw" style="background:#C0392B"></span> povinná aktivita / pozice</span>
+  </div>
+
+  <!-- =============== A1 =============== -->
+  <div class="band mandatory">
+    <div class="band-act">
+      <div class="lbl">Aktivita 1</div>
+      <h4>Řízení projektu</h4>
+      <span class="tag mand">POVINNÁ</span>
+      <span class="tag">V1 – admin. tým</span>
+      <span class="tag">V8 – rozpočet</span>
+      <div class="desc">Projektové, finanční a administrativní řízení celé žádosti (kraj + P-PINK). Součet úvazků projektového a finančního manažera za celý projekt = 1,0 FTE pro každou roli (příjemce + partner dohromady).</div>
+      <div class="provaz"><b>Provazba:</b> administrativní podpora pro základní tým (org. KRPI, KIP) ⇒ napojení na A2. Publicita a VZ ⇒ všechny aktivity projektu.</div>
+    </div>
+    <div class="band-connector"></div>
+    <div class="band-people">
+
+      <div class="pos partner">
+        <h5>Projektový manažer <span class="who">P-PINK</span></h5>
+        <div class="fte-line">úvazek 0,3–0,5</div>
+        <ul>
+          <li>koordinace projektu u partnera</li>
+          <li>kontrola plnění rozpočtu a harmonogramu</li>
+          <li>zajištění administrativy – výkazy práce</li>
+          <li>administrace veřejných zakázek partnera</li>
+          <li>komunikace s týmem partnera a admin. týmem příjemce</li>
+          <li>příprava podkladů pro zprávy o realizaci, žádosti o změnu, o platbu</li>
+          <li>dohled nad souladem s pravidly OP JAK</li>
+          <li>kontrola dodržování pravidel publicity</li>
+          <li>administrativní podpora pro základní tým (org. <b>KRPI, KIP</b>)</li>
+          <li>archivace</li>
+        </ul>
+        <div class="meta">Lze vyčlenit administrativního pracovníka až 0,5 FTE.</div>
+      </div>
+
+      <div class="pos partner">
+        <h5>Finanční manažer <span class="who">P-PINK</span></h5>
+        <div class="fte-line">úvazek 0,5</div>
+        <ul>
+          <li>způsobilé čerpání rozpočtu partnera vč. plnění fin. milníků</li>
+          <li>připravuje fin. podklady pro žádost o platbu</li>
+          <li>objednávky, podklady pro mzdy, evidence majetku, proplácení faktur, VZ, pravidla 3E</li>
+          <li>spolupráce na změnách rozpočtu</li>
+          <li>komunikace s týmem partnera i admin. týmem příjemce</li>
+          <li>komunikace s poskytovatelem podpory</li>
+        </ul>
+      </div>
+
+      <div class="pos kraj">
+        <h5>Projektový + Finanční manažer <span class="who">KRAJ</span></h5>
+        <div class="fte-line">oba 0,5 FTE (povinné pozice)</div>
+        <ul>
+          <li>celkové řízení projektu ze strany příjemce</li>
+          <li>koordinace s PM a FM hl. partnera</li>
+          <li>podpisová gesce za příjemce</li>
+          <li>zastřešující komunikace s poskytovatelem</li>
+        </ul>
+        <div class="meta">Případně admin. pracovník (v SA+ I nevyužit).</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- =============== A2 =============== -->
+  <div class="band mandatory">
+    <div class="band-act">
+      <div class="lbl">Aktivita 2</div>
+      <h4>Činnosti základního týmu (RIS3 tým, EDP proces)</h4>
+      <span class="tag mand">POVINNÁ</span>
+      <span class="tag">V2</span><span class="tag">V4</span><span class="tag">V5</span><span class="tag">V10</span>
+      <div class="desc">Výkonná jednotka pro řízení a implementaci krajské RIS3 strategie. Jádro projektu z pohledu obsahu.</div>
+      <div class="provaz"><b>Provazba:</b> <b>RIS3 strategie PK</b> (Akční plán) ⇒ základní dokument. <b>KRPI</b> ⇒ jednání, schvalování AP. <b>KIP + IPPK</b> ⇒ pracovní a diskusní platformy. <b>A8</b> ⇒ propagace. <b>A4</b> ⇒ potřeby vzdělávání. <b>Národní RIS3 aparát</b> ⇒ metodická vazba.</div>
+    </div>
+    <div class="band-connector"></div>
+    <div class="band-people">
+
+      <div class="pos partner">
+        <h5>RIS3 manažer <span class="who">P-PINK</span></h5>
+        <div class="fte-line">úvazek 1,0 (min. 0,7) – klíčová povinná pozice</div>
+        <ul>
+          <li>odborné řízení projektu SA+ II a implementace krajské RIS3</li>
+          <li>řízení odborného týmu vč. personálního obsazení a rozvoje</li>
+          <li>odborné podklady pro Zprávy o realizaci Krajské RIS3 strategie</li>
+          <li>komunikace s dalšími aktéry pro rozvoj IE v kraji</li>
+          <li>koordinace a podpora <b>KIP, IPPK</b></li>
+          <li>koordinace a podpora <b>KRPI</b></li>
+          <li>koordinace propagačních aktivit (vazba na A8)</li>
+          <li>vyhledávání příležitostí mezinár. / mezikrajské spolupráce</li>
+          <li>účast na jednáních Národního RIS3 aparátu</li>
+          <li>spolupráce s RIS3 manažery v dalších krajích</li>
+          <li>spolupráce s RIS3 developery – potřeby vzdělávání (A4)</li>
+        </ul>
+        <div class="meta">V SA+ I: O. Tušl, J. Janků – navázat.</div>
+      </div>
+
+      <div class="pos partner">
+        <h5>RIS3 developer <span class="who">P-PINK</span></h5>
+        <div class="fte-line">úvazek 1,0 (v SA+ I 2× 0,5; min. nestanoveno)</div>
+        <ul>
+          <li>příprava a aktualizace <b>Akčního plánu Krajské RIS3</b></li>
+          <li>identifikace strateg. intervencí/projektů a jejich zařazení do AP</li>
+          <li>development projektových záměrů – od základu po extenzivní podobu</li>
+          <li>organizace a facilitace jednání stakeholderů k intervencím</li>
+          <li>spolupráce na A5 – Asistence a metodická podpora žadatelů o voucher</li>
+          <li>příprava projektových žádostí (kraj nebo hl. partner jako žadatel)</li>
+          <li>spolupráce s RIS3 manažerem o strat. intervencích</li>
+          <li>příprava jednání <b>KIP</b></li>
+          <li>komunikace s partnery z území (podnikatelské subjekty)</li>
+        </ul>
+      </div>
+
+      <div class="pos kraj">
+        <h5>RIS3 koordinátor <span class="who">KRAJ</span></h5>
+        <div class="fte-line">úvazek nestanoven (v SA+ I 0,2) – povinná pozice kraje</div>
+        <ul>
+          <li>provázání činností základního týmu s aktivitami a institucemi kraje</li>
+          <li>zpracování odborných podkladů a Zpráv o realizaci Krajské RIS3</li>
+          <li>spolupráce s admin. týmem a RIS3 manažerem při zprávách, platbách, změnách</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- =============== A3 =============== -->
+  <div class="band mandatory">
+    <div class="band-act">
+      <div class="lbl">Aktivita 3</div>
+      <h4>Mapování, analýzy a evaluace</h4>
+      <span class="tag mand">POVINNÁ</span>
+      <span class="tag">V3</span><span class="tag">V4</span><span class="tag">V7</span>
+      <div class="desc">Analýzy inovačního prostředí, evaluace efektů strategických intervencí, součinnost s Národní metodikou monitoringu RIS3.</div>
+      <div class="provaz"><b>Provazba:</b> <b>RIS3 strategie + Akční plán</b> ⇒ zdroj témat analýz. <b>Národní RIS3 aparát</b> ⇒ metodické zadání evaluací. <b>Data ze SA+ I</b> ⇒ časové řady. <b>A2</b> ⇒ výstupy analýz = vstup pro rozhodování KRPI.</div>
+    </div>
+    <div class="band-connector"></div>
+    <div class="band-people">
+
+      <div class="pos kraj">
+        <h5>RIS3 analytik <span class="who">KRAJ / partner</span></h5>
+        <div class="fte-line">min. 0,7 – povinná pozice; realizátor pravidly neurčen</div>
+        <ul>
+          <li>mapování a analýza vývoje inovačního prostředí a fungování IE</li>
+          <li>mapování pro identifikaci potřeb / projektů</li>
+          <li>vyhodnocování efektů realizovaných strategických intervencí</li>
+          <li>součinnost při tvorbě národní <b>Metodiky pro monitoring krajských RIS3</b></li>
+          <li>vyhodnocení fungování projektu</li>
+          <li>metodika a podklady pro externí zadání</li>
+          <li>spolupráce s národními RIS3 analytiky</li>
+        </ul>
+        <div class="meta">Ideálně využít stávající pracovníky ze SA+ I.</div>
+      </div>
+
+      <div class="pos kraj">
+        <h5>Evaluátor <span class="who">KRAJ</span></h5>
+        <div class="fte-line">min. 0,5 po dobu evaluace (nepovinná pozice)</div>
+        <ul>
+          <li>interní evaluace dle požadavku NRIS3 – hodnocení efektů a dopadů strategických intervencí (min. 3)</li>
+        </ul>
+        <div class="meta">Pouze pokud evaluace nejsou realizovány externě.</div>
+      </div>
+
+      <div class="pos extern">
+        <h5>Externí experti <span class="who">EXTERNÍ</span></h5>
+        <div class="fte-line">dle zadání / VZ</div>
+        <ul>
+          <li>specifické analýzy dle potřeby (např. sektorové, benchmarking)</li>
+          <li>externí evaluace (alternativa k interní)</li>
+          <li>geoinformatika, datové služby (v propojení na A7 – datový portál)</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- =============== A4 =============== -->
+  <div class="band">
+    <div class="band-act">
+      <div class="lbl">Aktivita 4</div>
+      <h4>Vzdělávání a rozvoj kompetencí</h4>
+      <span class="tag">volitelná (vysoce pravděp.)</span>
+      <span class="tag">V2</span><span class="tag">V4</span>
+      <div class="desc">Vzdělávání odborného týmu i dalších cílových skupin (stakeholderů IE PK) na základě identifikovaných potřeb.</div>
+      <div class="provaz"><b>Provazba:</b> <b>A2</b> ⇒ RIS3 manažer + RIS3 developer definují potřeby. <b>IPPK, KIP</b> ⇒ cílové skupiny účastníků. <b>A3</b> ⇒ analýzy potřeb vzdělávání.</div>
+    </div>
+    <div class="band-connector"></div>
+    <div class="band-people">
+
+      <div class="pos kraj">
+        <h5>Manažer vzdělávání <span class="who">KRAJ / partner</span></h5>
+        <div class="fte-line">~0,2 (návrh; v SA+ I nebyla samostatná pozice)</div>
+        <ul>
+          <li>zajištění vzdělávacích akcí od A do Z</li>
+          <li>reakce na podněty z území a odborného týmu</li>
+        </ul>
+        <div class="meta">Při vyšším počtu akcí stojí za zřízení samostatné pozice.</div>
+      </div>
+
+      <div class="pos partner">
+        <h5>Admin. tým partnera <span class="who">P-PINK</span></h5>
+        <div class="fte-line">v rámci 0,3–0,5 PM (bez navýšení úvazku)</div>
+        <ul>
+          <li>organizační zajištění akcí (místa, registrace, smlouvy)</li>
+          <li>výkazy, veřejné zakázky pro dodavatele školení</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- =============== A6 =============== -->
+  <div class="band">
+    <div class="band-act">
+      <div class="lbl">Aktivita 6</div>
+      <h4>Twinning</h4>
+      <span class="tag">volitelná</span>
+      <span class="tag">V4</span><span class="tag">V6</span>
+      <div class="desc">Osvojení konkrétního nástroje od zahraničního subjektu a jeho zavedení v podmínkách PK.</div>
+      <div class="provaz"><b>Provazba:</b> <b>RIS3 domény specializace</b> ⇒ téma twinningu. <b>A2</b> ⇒ vyhledávání příležitostí (RIS3 manažer). <b>A8</b> ⇒ komunikace o výstupech.</div>
+    </div>
+    <div class="band-connector"></div>
+    <div class="band-people">
+
+      <div class="pos partner">
+        <h5>Manažer twinningu <span class="who">P-PINK</span></h5>
+        <div class="fte-line">~0,2 po nezbytnou dobu</div>
+        <ul>
+          <li>celková koordinace a zajištění aktivity twinning</li>
+          <li>komunikace se zahraničním partnerem</li>
+          <li>zpracování požadovaných výstupů aktivity</li>
+        </ul>
+        <div class="meta">V SA+ I realizováno; pro SA+ II ještě dohodnout konkrétní téma.</div>
+      </div>
+
+      <div class="pos extern">
+        <h5>Zahraniční partner <span class="who">EXTERNÍ</span></h5>
+        <div class="fte-line">dle smlouvy</div>
+        <ul>
+          <li>expertní zajištění know-how, školení, konzultace</li>
+          <li>společná jednání, návštěvy</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- =============== A7 =============== -->
+  <div class="band">
+    <div class="band-act">
+      <div class="lbl">Aktivita 7</div>
+      <h4>Pilotní ověření <span style="font-weight:400; opacity:.8">(jádro projektu = PO IC)</span></h4>
+      <span class="tag">volitelná</span>
+      <span class="tag">V3</span><span class="tag">V4</span><span class="tag">V5</span><span class="tag">V6</span><span class="tag">V7</span>
+      <div class="desc">Ověření, zda nové intervence v kraji skutečně fungují. Celkem ~25 mil. Kč: <b>PO IC</b> ~8M · Sféra ~redukce · <b>Horizonty</b> (RRA PK, k diskuzi) · <b>CTTZ UPCE</b> ~4M · <b>Talentový management</b> ~4M · <b>SRS</b> ~2M.</div>
+      <div class="provaz"><b>Provazba:</b> <b>Akční plán RIS3</b> ⇒ definuje PO jako strategické intervence. <b>P-PINK inkubátor</b> ⇒ infrastruktura pro PO IC. <b>A8</b> ⇒ propagace výstupů PO. <b>Pot. doplnění financí (vláda – Havlíček)</b> pro PO IC.</div>
+    </div>
+    <div class="band-connector"></div>
+    <div class="band-people">
+
+      <div class="pos partner">
+        <h5>Manažer PO Inovační centrum <span class="who">P-PINK</span></h5>
+        <div class="fte-line">~0,2 (cca 8 mil. Kč na PO)</div>
+        <ul>
+          <li>komplexní start-upová inkubace a PO Inovačního centra PK</li>
+          <li>celková koordinace a zajištění PO IC</li>
+          <li>komunikace s partnery PO (UPCE, firmy, investoři)</li>
+          <li>zpracování požadovaných výstupů aktivity</li>
+        </ul>
+      </div>
+
+      <div class="pos partner">
+        <h5>Manažer talentového managementu <span class="who">P-PINK</span></h5>
+        <div class="fte-line">~0,2 (cca 4 mil. Kč na PO)</div>
+        <ul>
+          <li>koordinace aktivit talent. managementu</li>
+          <li>vazba na UPCE a střední odborné školy</li>
+          <li>výstupy aktivity (reporty, workshop., mentoring)</li>
+        </ul>
+      </div>
+
+      <div class="pos extern">
+        <h5>Partneři PO (CTTZ UPCE, Sféra, RRA PK, SRS) <span class="who">PARTNEŘI</span></h5>
+        <div class="fte-line">dle smlouvy – každý řídí své PO</div>
+        <ul>
+          <li><b>CTTZ UPCE</b> (~4M) – 1 PO, téma vybere CTTZ</li>
+          <li><b>Sféra Pardubice</b> – redukovaný rozpočet, synergie s P-PINK</li>
+          <li><b>Horizonty (RRA PK)</b> – k diskuzi, téma EU Horizon</li>
+          <li><b>SRS</b> (~2M) – bude doplněno</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- =============== A8 =============== -->
+  <div class="band">
+    <div class="band-act">
+      <div class="lbl">Aktivita 8</div>
+      <h4>Marketingová a komunikační strategie</h4>
+      <span class="tag">volitelná (vysoce pravděp.)</span>
+      <span class="tag">V4</span><span class="tag">V10</span>
+      <div class="desc">Posílení komunikace inovačního ekosystému PK dovnitř i vně. Přesunuto z rozpočtu PO IC na partnerskou úroveň.</div>
+      <div class="provaz"><b>Provazba:</b> <b>IPPK</b> ⇒ platforma pro komunikaci se stakeholdery. <b>KIP</b> ⇒ komunikace tematických výstupů. <b>A2</b> ⇒ RIS3 manažer koordinuje propagaci. <b>A7</b> ⇒ komunikace úspěšných PO.</div>
+    </div>
+    <div class="band-connector"></div>
+    <div class="band-people">
+
+      <div class="pos partner">
+        <h5>Marketingový manažer <span class="who">P-PINK</span></h5>
+        <div class="fte-line">~2× 0,5</div>
+        <ul>
+          <li>realizace marketingové strategie inovačního systému</li>
+          <li>on-line marketing, sociální sítě</li>
+          <li>spolupráce na realizaci výběrových řízení</li>
+          <li>spolupráce na <b>Inovační platformě PK (IPPK)</b></li>
+        </ul>
+      </div>
+
+      <div class="pos partner">
+        <h5>PR specialista <span class="who">P-PINK</span></h5>
+        <div class="fte-line">~0,5</div>
+        <ul>
+          <li>komunikace s médii a širokou veřejností</li>
+          <li>aktivní vyhledávání témat pro medializaci</li>
+          <li>příprava a distribuce tiskových zpráv</li>
+          <li>realizace komunikační strategie</li>
+          <li>reporty a mediální analýzy</li>
+        </ul>
+      </div>
+
+      <div class="pos extern">
+        <h5>Grafik / web / produkce <span class="who">EXTERNÍ</span></h5>
+        <div class="fte-line">dle potřeby (VZ / DPP)</div>
+        <ul>
+          <li>grafické výstupy, webové úpravy, produkce akcí</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- =============== A5 (excluded) =============== -->
+  <div class="band" style="opacity:.85">
+    <div class="band-act" style="background: linear-gradient(180deg, #888, #6b6b6b);">
+      <div class="lbl">Aktivita 5</div>
+      <h4>Asistence <span style="font-weight:400; font-size:13px; opacity:.85">(v této verzi fiše vyřazeno)</span></h4>
+      <span class="tag">volitelná</span>
+      <div class="desc">Asistenční vouchery pro přípravu strategických projektů; max. 1,5 mil. Kč / voucher.</div>
+      <div class="provaz"><b>Provazba:</b> výzvu vyhlašuje <b>kraj</b>, hl. partner developuje projekty (RIS3 developer). <b>Hl. partner s finančním příspěvkem NESMÍ být příjemcem voucheru.</b></div>
+    </div>
+    <div class="band-connector"></div>
+    <div class="band-people">
+      <div class="pos kraj">
+        <h5>Administrace výzvy <span class="who">KRAJ</span></h5>
+        <ul>
+          <li>vyhlášení výzvy, hodnocení žádostí, kontrola realizace</li>
+        </ul>
+      </div>
+      <div class="pos partner">
+        <h5>RIS3 developer (spolupráce) <span class="who">P-PINK</span></h5>
+        <ul>
+          <li>developing projektů, metodická podpora žadatelů</li>
+        </ul>
+        <div class="warn">Hl. partner s fin. příspěvkem nesmí být příjemcem voucheru.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="note" style="margin-top:14px; background:#eaf1fa; border-left:4px solid #1F4E79; padding:10px 14px;">
+    <b>Souhrn úvazků P-PINK</b> při plné variantě povinných + klíčových volitelných aktivit: projektový manažer 0,3–0,5 + finanční manažer 0,5 + RIS3 manažer 1,0 + RIS3 developer 1,0 + manažer twinningu 0,2 + manažeři PO (několikrát 0,2) + 2× marketingový manažer 0,5 + PR specialista 0,5 ≈ <b>min. 4,5+ FTE</b>. &nbsp;<b>FTE strop projektu je však 2,5 (kraj ~1,0 + P-PINK ~1,5)</b> – proto je nutné pozice kombinovat (jeden člověk více rolí) a/nebo snížit úvazky nad rámec povinných minim.
+  </div>
+</div>
+
+</body>
+</html>
