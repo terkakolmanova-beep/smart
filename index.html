@@ -528,32 +528,49 @@
 
     btn.innerHTML = '⏳ Generuji PDF…';
     btn.disabled = true;
-    topBar.style.opacity = '0.4';
+    topBar.style.opacity = '0';
     overlay.style.display = 'none';
 
-    // Sbíráme jen .page divy – bez fixních UI prvků
+    // Klonujeme .page divy do wrapperu
+    // Každá sekce (kromě první) dostane třídu pro zalomení stránky
     const wrapper = document.createElement('div');
-    wrapper.style.cssText = 'background:#f4f6fa; padding:24px; font-family:Segoe UI,Tahoma,Arial,sans-serif;';
-    document.querySelectorAll('.page').forEach(p => {
-      wrapper.appendChild(p.cloneNode(true));
+    wrapper.style.cssText = 'background:#f4f6fa; padding:16px; font-family:Segoe UI,Tahoma,Arial,sans-serif; color:#1a2540;';
+
+    document.querySelectorAll('.page').forEach((p, i) => {
+      const clone = p.cloneNode(true);
+      // Přidáme zalomení před každou sekci kromě první
+      if (i > 0) clone.classList.add('html2pdf__page-break');
+      // Přidáme inline styl aby se bloky nedělily
+      clone.querySelectorAll('.band, .pos, .card, .eval, .pilot, tr, table, .cols').forEach(el => {
+        el.style.pageBreakInside = 'avoid';
+        el.style.breakInside = 'avoid';
+      });
+      wrapper.appendChild(clone);
     });
+
     document.body.appendChild(wrapper);
 
     const opt = {
-      margin: [8, 10, 8, 10],
+      margin: [7, 9, 7, 9],
       filename: 'SMART-akcelerator-II-PK.pdf',
-      image: { type: 'jpeg', quality: 0.92 },
+      image: { type: 'jpeg', quality: 0.93 },
       html2canvas: {
-        scale: 1.8,
+        scale: 1.5,
         useCORS: true,
         scrollX: 0,
         scrollY: 0,
-        backgroundColor: '#f4f6fa'
+        backgroundColor: '#f4f6fa',
+        windowWidth: 1500
       },
       jsPDF: {
         unit: 'mm',
         format: 'a4',
         orientation: 'landscape'
+      },
+      pagebreak: {
+        mode: ['css', 'legacy'],
+        before: '.html2pdf__page-break',
+        avoid: ['.band', '.pos', '.card', '.eval', 'tr', '.pilot', 'table', '.cols']
       }
     };
 
