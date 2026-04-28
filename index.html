@@ -370,10 +370,70 @@
   }
 
   @media print {
-    @page { size: A4 landscape; margin: 12mm; }
-    body { background: white; padding: 0; }
-    .page { box-shadow: none; border-radius: 0; page-break-after: always; }
-    .band { break-inside: avoid; }
+    @page { size: A4 landscape; margin: 10mm 13mm; }
+
+    /* Scale celého obsahu na šířku A4 landscape */
+    html { zoom: 0.71; }
+
+    /* Zachovat barvy pozadí při tisku */
+    * {
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+    }
+
+    body {
+      background: white !important;
+      padding: 0 !important;
+    }
+
+    /* Každá .page = nová stránka; bez stínu a zaoblení */
+    .page {
+      box-shadow: none !important;
+      border-radius: 0 !important;
+      margin: 0 !important;
+      padding: 18px 22px !important;
+      max-width: 100% !important;
+      page-break-after: always;
+      break-after: page;
+    }
+    .page:last-of-type {
+      page-break-after: avoid;
+      break-after: avoid;
+    }
+
+    /* Nadpisy nezůstávají osamocené na konci strany */
+    h2, h3, h4, h5 {
+      page-break-after: avoid;
+      break-after: avoid;
+      orphans: 3;
+      widows: 3;
+    }
+
+    /* Celé bloky drž pohromadě */
+    .band          { break-inside: avoid; page-break-inside: avoid; }
+    .pos           { break-inside: avoid; page-break-inside: avoid; }
+    .card          { break-inside: avoid; page-break-inside: avoid; }
+    .eval          { break-inside: avoid; page-break-inside: avoid; }
+    .pilot         { break-inside: avoid; page-break-inside: avoid; }
+    .col           { break-inside: avoid; page-break-inside: avoid; }
+    .band-people > .pos:first-child { break-before: avoid; }
+
+    /* Vdovy a sirotci – min 3 řádky pohromadě */
+    p, li, td { orphans: 3; widows: 3; }
+
+    /* Čitelnost textu – tmavé texty dostatečně kontrastní */
+    body, td, th, li, p, .desc, .provaz, .meta, .note {
+      color: #111 !important;
+    }
+    .band-act, .band-act * { color: #fff !important; }
+    .pos h5 { color: #1F4E79 !important; }
+    .pos.kraj h5 { color: #2E7D32 !important; }
+    .pos.extern h5 { color: #6A0F8E !important; }
+    .who { background: rgba(0,0,0,0.15) !important; color: #fff !important; }
+    .fte-line { color: #333 !important; }
+    a { color: #1F4E79 !important; text-decoration: none; }
+
+    /* Skrýt UI prvky */
     #pwd-overlay, #top-bar { display: none !important; }
   }
 
