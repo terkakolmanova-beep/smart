@@ -370,28 +370,28 @@
   }
 
   @media print {
-    @page { size: A4 landscape; margin: 10mm 13mm; }
+    @page { size: A4 landscape; margin: 12mm 14mm; }
 
-    /* Scale celého obsahu na šířku A4 landscape */
-    html { zoom: 0.71; }
+    html { zoom: 0.68; }
 
-    /* Zachovat barvy pozadí při tisku */
+    /* Bez pozadí – tisk čistě na bílém */
     * {
-      -webkit-print-color-adjust: exact !important;
-      print-color-adjust: exact !important;
+      background: white !important;
+      -webkit-print-color-adjust: economy !important;
+      print-color-adjust: economy !important;
+      box-shadow: none !important;
     }
 
     body {
       background: white !important;
       padding: 0 !important;
+      color: #111 !important;
     }
 
-    /* Každá .page = nová stránka; bez stínu a zaoblení */
     .page {
-      box-shadow: none !important;
       border-radius: 0 !important;
       margin: 0 !important;
-      padding: 18px 22px !important;
+      padding: 16px 20px !important;
       max-width: 100% !important;
       page-break-after: always;
       break-after: page;
@@ -401,7 +401,6 @@
       break-after: avoid;
     }
 
-    /* Nadpisy nezůstávají osamocené na konci strany */
     h2, h3, h4, h5 {
       page-break-after: avoid;
       break-after: avoid;
@@ -409,29 +408,14 @@
       widows: 3;
     }
 
-    /* Celé bloky drž pohromadě */
-    .band          { break-inside: avoid; page-break-inside: avoid; }
-    .pos           { break-inside: avoid; page-break-inside: avoid; }
-    .card          { break-inside: avoid; page-break-inside: avoid; }
-    .eval          { break-inside: avoid; page-break-inside: avoid; }
-    .pilot         { break-inside: avoid; page-break-inside: avoid; }
-    .col           { break-inside: avoid; page-break-inside: avoid; }
-    .band-people > .pos:first-child { break-before: avoid; }
-
-    /* Vdovy a sirotci – min 3 řádky pohromadě */
+    .band, .pos, .card, .eval, .pilot, .col { break-inside: avoid; page-break-inside: avoid; }
     p, li, td { orphans: 3; widows: 3; }
 
-    /* Čitelnost textu – tmavé texty dostatečně kontrastní */
-    body, td, th, li, p, .desc, .provaz, .meta, .note {
-      color: #111 !important;
-    }
+    /* Zachovat čitelnost barev textu */
+    h1, h2, h3, h4, h5 { color: #1F4E79 !important; }
+    body, td, th, li, p, .desc, .provaz, .meta, .note { color: #111 !important; }
+    .band-act { background: #1F4E79 !important; color: #fff !important; }
     .band-act, .band-act * { color: #fff !important; }
-    .pos h5 { color: #1F4E79 !important; }
-    .pos.kraj h5 { color: #2E7D32 !important; }
-    .pos.extern h5 { color: #6A0F8E !important; }
-    .who { background: rgba(0,0,0,0.15) !important; color: #fff !important; }
-    .fte-line { color: #333 !important; }
-    a { color: #1F4E79 !important; text-decoration: none; }
 
     /* Skrýt UI prvky */
     #pwd-overlay, #top-bar { display: none !important; }
@@ -491,8 +475,6 @@
   </div>
 </div>
 
-<!-- html2pdf library -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
 <!-- PDF DOWNLOAD BUTTON -->
 <div id="top-bar">
@@ -521,69 +503,8 @@
     if (e.key === 'Enter') checkPwd();
   });
 
-  async function generatePDF() {
-    const btn = document.getElementById('pdf-btn');
-    const topBar = document.getElementById('top-bar');
-    const overlay = document.getElementById('pwd-overlay');
-
-    btn.innerHTML = '⏳ Generuji PDF…';
-    btn.disabled = true;
-    topBar.style.opacity = '0';
-    overlay.style.display = 'none';
-
-    // Klonujeme .page divy do wrapperu
-    // Každá sekce (kromě první) dostane třídu pro zalomení stránky
-    const wrapper = document.createElement('div');
-    wrapper.style.cssText = 'background:#f4f6fa; padding:16px; font-family:Segoe UI,Tahoma,Arial,sans-serif; color:#1a2540;';
-
-    document.querySelectorAll('.page').forEach((p, i) => {
-      const clone = p.cloneNode(true);
-      // Přidáme zalomení před každou sekci kromě první
-      if (i > 0) clone.classList.add('html2pdf__page-break');
-      // Přidáme inline styl aby se bloky nedělily
-      clone.querySelectorAll('.band, .pos, .card, .eval, .pilot, tr, table, .cols').forEach(el => {
-        el.style.pageBreakInside = 'avoid';
-        el.style.breakInside = 'avoid';
-      });
-      wrapper.appendChild(clone);
-    });
-
-    document.body.appendChild(wrapper);
-
-    const opt = {
-      margin: [7, 9, 7, 9],
-      filename: 'SMART-akcelerator-II-PK.pdf',
-      image: { type: 'jpeg', quality: 0.93 },
-      html2canvas: {
-        scale: 1.5,
-        useCORS: true,
-        scrollX: 0,
-        scrollY: 0,
-        backgroundColor: '#f4f6fa',
-        windowWidth: 1500
-      },
-      jsPDF: {
-        unit: 'mm',
-        format: 'a4',
-        orientation: 'landscape'
-      },
-      pagebreak: {
-        mode: ['css', 'legacy'],
-        before: '.html2pdf__page-break',
-        avoid: ['.band', '.pos', '.card', '.eval', 'tr', '.pilot', 'table', '.cols']
-      }
-    };
-
-    try {
-      await html2pdf().set(opt).from(wrapper).save();
-    } catch(e) {
-      alert('Chyba při generování PDF. Zkuste Ctrl+P / Cmd+P a uložit jako PDF ručně.');
-    }
-
-    document.body.removeChild(wrapper);
-    btn.innerHTML = '⬇ Stáhnout PDF';
-    btn.disabled = false;
-    topBar.style.opacity = '1';
+  function generatePDF() {
+    window.print();
   }
 </script>
 
