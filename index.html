@@ -418,7 +418,7 @@
     .band-act, .band-act * { color: #fff !important; }
 
     /* Skrýt UI prvky */
-    #pwd-overlay, #top-bar { display: none !important; }
+    #pwd-overlay { display: none !important; }
   }
 
   /* PASSWORD OVERLAY */
@@ -448,18 +448,6 @@
   #pwd-btn:hover { background: #174070; }
   #pwd-err { color: #C0392B; font-size: 13px; margin-top: 10px; min-height: 18px; }
 
-  /* TOP BAR (PDF button) */
-  #top-bar {
-    position: fixed; top: 12px; right: 20px; z-index: 1000;
-    display: flex; gap: 8px;
-  }
-  #pdf-btn {
-    background: #1F4E79; color: white; border: none; border-radius: 8px;
-    padding: 8px 16px; font-size: 13px; font-weight: 600; cursor: pointer;
-    display: flex; align-items: center; gap: 6px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-  }
-  #pdf-btn:hover { background: #174070; }
 </style>
 </head>
 <body>
@@ -475,11 +463,6 @@
   </div>
 </div>
 
-
-<!-- PDF DOWNLOAD BUTTON -->
-<div id="top-bar">
-  <button id="pdf-btn" onclick="generatePDF()">⬇ Stáhnout PDF</button>
-</div>
 
 <script>
   // Check session
@@ -502,10 +485,6 @@
   document.getElementById('pwd-input').addEventListener('keydown', function(e) {
     if (e.key === 'Enter') checkPwd();
   });
-
-  function generatePDF() {
-    window.print();
-  }
 </script>
 
 <div class="page">
