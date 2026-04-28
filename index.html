@@ -491,9 +491,12 @@
   </div>
 </div>
 
+<!-- html2pdf library -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
 <!-- PDF DOWNLOAD BUTTON -->
 <div id="top-bar">
-  <button id="pdf-btn" onclick="window.print()">⬇ Stáhnout PDF</button>
+  <button id="pdf-btn" onclick="generatePDF()">⬇ Stáhnout PDF</button>
 </div>
 
 <script>
@@ -517,6 +520,54 @@
   document.getElementById('pwd-input').addEventListener('keydown', function(e) {
     if (e.key === 'Enter') checkPwd();
   });
+
+  async function generatePDF() {
+    const btn = document.getElementById('pdf-btn');
+    const topBar = document.getElementById('top-bar');
+    const overlay = document.getElementById('pwd-overlay');
+
+    btn.innerHTML = '⏳ Generuji PDF…';
+    btn.disabled = true;
+    topBar.style.opacity = '0.4';
+    overlay.style.display = 'none';
+
+    // Sbíráme jen .page divy – bez fixních UI prvků
+    const wrapper = document.createElement('div');
+    wrapper.style.cssText = 'background:#f4f6fa; padding:24px; font-family:Segoe UI,Tahoma,Arial,sans-serif;';
+    document.querySelectorAll('.page').forEach(p => {
+      wrapper.appendChild(p.cloneNode(true));
+    });
+    document.body.appendChild(wrapper);
+
+    const opt = {
+      margin: [8, 10, 8, 10],
+      filename: 'SMART-akcelerator-II-PK.pdf',
+      image: { type: 'jpeg', quality: 0.92 },
+      html2canvas: {
+        scale: 1.8,
+        useCORS: true,
+        scrollX: 0,
+        scrollY: 0,
+        backgroundColor: '#f4f6fa'
+      },
+      jsPDF: {
+        unit: 'mm',
+        format: 'a4',
+        orientation: 'landscape'
+      }
+    };
+
+    try {
+      await html2pdf().set(opt).from(wrapper).save();
+    } catch(e) {
+      alert('Chyba při generování PDF. Zkuste Ctrl+P / Cmd+P a uložit jako PDF ručně.');
+    }
+
+    document.body.removeChild(wrapper);
+    btn.innerHTML = '⬇ Stáhnout PDF';
+    btn.disabled = false;
+    topBar.style.opacity = '1';
+  }
 </script>
 
 <div class="page">
