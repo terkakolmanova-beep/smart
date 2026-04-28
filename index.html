@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <title>SMART akcelerátor+ II Pardubického kraje – Mapa aktivit, pozic a vazeb</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <style>
   * { box-sizing: border-box; }
   body {
@@ -1003,77 +1004,7 @@
 </div>
 
 <div class="page">
-  <h2>4. Hodnoticí kritéria – kde a jak se projekt posuzuje</h2>
-  <div class="note">Kritéria V1–V10 určují body při věcném hodnocení komisí (kombinovaná + hodnoticí). Kritérium V9 je vylučovací. Čísla v závorkách = max. body / min. hranice (kombinovaná kritéria mají min. hranici u kritéria i u součtu).</div>
-  <div class="eval-grid">
-    <div class="eval"><span class="code">V1</span><span class="pts">4 b</span><b>Admin. tým</b><span class="min">struktura + velikost + náklady</span></div>
-    <div class="eval"><span class="code">V2</span><span class="pts">12 b / min 7,2</span><b>Odborný tým</b><span class="min">vč. externího zajištění</span></div>
-    <div class="eval"><span class="code">V3</span><span class="pts">25 b / min 15</span><b>Potřebnost</b><span class="min">zdůvodnění cílů projektu</span></div>
-    <div class="eval"><span class="code">V4</span><span class="pts">15 b / min 9</span><b>Věcný obsah a kvalita</b><span class="min">jak budou aktivity realizovány</span></div>
-    <div class="eval"><span class="code">V5</span><span class="pts">6 b / min 3,6</span><b>Strategické intervence</b><span class="min">kvalita popisu PO a SPZ</span></div>
-    <div class="eval"><span class="code">V6</span><span class="pts">7 b / min 4,2</span><b>Řízení rizik</b><span class="min">u aktivit i financí</span></div>
-    <div class="eval"><span class="code">V7</span><span class="pts">11 b / min 6,6</span><b>Indikátory</b><span class="min">výběr a hodnoty</span></div>
-    <div class="eval"><span class="code">V8</span><span class="pts">15 b / min 9</span><b>Rozpočet</b><span class="min">přehlednost + přiměřenost</span></div>
-    <div class="eval excl"><span class="code">V9</span><span class="pts">vyluč.</span><b>Rovné příležitosti</b><span class="min">gender, nediskriminace</span></div>
-    <div class="eval"><span class="code">V10</span><span class="pts">5 b / min 3</span><b>Entrep. discovery</b><span class="min">quadruple helix + KIP</span></div>
-  </div>
-
-  <h2>5. Mapování aktivit na hodnoticí kritéria + výstupy ekosystému</h2>
-  <table>
-    <thead>
-      <tr>
-        <th style="width:8%">Aktivita</th>
-        <th style="width:22%">Hlavní hodnoticí kritéria</th>
-        <th style="width:30%">Propojení s existujícími výstupy / strukturami</th>
-        <th style="width:40%">Klíčové pozice / personální pokrytí</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr><td class="a">A1 Řízení</td><td>V1, V8</td><td>—</td><td>Projektový manažer (PK + P-PINK) + finanční manažer (PK + P-PINK); admin. podpora jen P-PINK</td></tr>
-      <tr><td class="a">A2 Základní tým</td><td>V2, V4, V5, V10</td><td>RIS3 strategie PK, Akční plán, KRPI, KIP, IPPK</td><td>RIS3 manažer 1,0 (P-PINK), RIS3 developer 1+2 á 0,5 (P-PINK), RIS3 koordinátor 0,2 (kraj)</td></tr>
-      <tr><td class="a">A3 Mapování</td><td>V3, V4, V7</td><td>RIS3 strategie PK; data SA+I; evaluační rámec Nár. RIS3</td><td>RIS3 analytik 1 – 0,5 (P-PINK), RIS3 analytik 2 – 0,3 (kraj) + evaluátor</td></tr>
-      <tr><td class="a">A4 Vzdělávání</td><td>V2, V4</td><td>Stakeholdeři na IPPK, KIP, KRPI</td><td>Manažer vzdělávání 0,1 (P-PINK)</td></tr>
-      <tr><td class="a">A7 Pilotní ověření</td><td>V3, V4, V5, V6, V7</td><td>P-PINK inkubátor, CTTZ UPCE, Sféra, RRA PK, SIRS</td><td>Manažer/koordinátor PO (P-PINK) + manažeři PO IC PK + manažeři PO u partnerů</td></tr>
-      <tr><td class="a">A8 Marketing</td><td>V4, V10</td><td>IPPK, KIP jako komunikační kanál; brand inovačního ekosystému PK</td><td>Marketingový manažer + PR specialista + grafik (P-PINK)</td></tr>
-    </tbody>
-  </table>
-
-  <h2>6. Vazby v entrepreneurial discovery procesu (EDP → kritérium V10)</h2>
-  <div class="note">Kritérium V10 posuzuje kvalitu nastavení EDP a zapojení všech účastníků quadruple helix (firmy – akademie – veřejná správa – občanská společnost). Z toho plyne zvýšený důraz na aktivitu A2 a A8 i na využití stávajících KIP/IPPK/KRPI jako prostoru pro EDP.</div>
-
-  <div class="cols" style="grid-template-columns: repeat(4, 1fr);">
-    <div class="col col-strategy"><h3>Firmy</h3>
-      <div class="items" style="font-size:12px; padding:12px;">
-        Zapojené přes KIP (elektrotechnika + IT aj.), P-PINK inkubátor, IC.
-        Kanál: A2, A7 (PO IC), A8.
-      </div>
-    </div>
-    <div class="col col-strategy"><h3>Akademie</h3>
-      <div class="items" style="font-size:12px; padding:12px;">
-        UPCE (zejm. CTTZ), střední odborné školy, VŠ, výzkumné organizace.
-        Kanál: A2, A3, A7 (PO CTTZ + Talent mgmt).
-      </div>
-    </div>
-    <div class="col col-strategy"><h3>Veřejná správa</h3>
-      <div class="items" style="font-size:12px; padding:12px;">
-        Pardubický kraj (žadatel), místní samospráva, podpůrné organizace, dotační orgány.
-        Kanál: KRPI, IPPK, A2.
-      </div>
-    </div>
-    <div class="col col-strategy"><h3>Občanská společnost</h3>
-      <div class="items" style="font-size:12px; padding:12px;">
-        Neziskový sektor, profesní a oborová sdružení, sítě talentu, veřejnost a žáci (viz cílovky ve fiši).
-        Kanál: A4, A7 (Talent mgmt), A8.
-      </div>
-    </div>
-  </div>
-
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-
-<div class="page">
-  <h2>7. Rozpočet projektu – předběžný nástřel</h2>
+  <h2>4. Rozpočet projektu – předběžný nástřel</h2>
   <div class="note" style="margin-bottom:18px;">Celkové způsobilé výdaje (CZV): <b>42 611 531 Kč</b>. Pilotní ověření (A7) – výdaje partnerů (Sféra, UPCE, RRA PK, SRS) jsou odhadem <b>~17 388 469 Kč</b>, takže celkový cílový rozpočet projektu bude <b>~60 000 000 Kč</b>. Paušální náklady (režie) jsou dopočteny jako 7 % ze základu.</div>
 
   <!-- TOP ROW: donut + partner split -->
@@ -1320,6 +1251,74 @@
   <div class="note" style="margin-top:14px; background:#fff6e0; border-left:4px solid #E67E22; padding:10px 14px;">
     <b>Poznámky k rozpočtu:</b> CZV (42 611 531 Kč) zahrnuje výdaje P-PINK a Pardubického kraje. Výdaje pilotních partnerů (Sféra Pardubice, CTTZ UPCE, RRA PK, SRS) – cca <b>~17 388 469 Kč</b> – jsou zatím odhadem; po jejich upřesnění bude celkový rozpočet projektu <b>~60 000 000 Kč</b>. Záloha EU+SR (max. 30 % CZV) = cca <b>12 783 459 Kč</b>.
   </div>
+</div>
+
+<div class="page">
+  <h2>5. Hodnoticí kritéria – kde a jak se projekt posuzuje</h2>
+  <div class="note">Kritéria V1–V10 určují body při věcném hodnocení komisí (kombinovaná + hodnoticí). Kritérium V9 je vylučovací. Čísla v závorkách = max. body / min. hranice (kombinovaná kritéria mají min. hranici u kritéria i u součtu).</div>
+  <div class="eval-grid">
+    <div class="eval"><span class="code">V1</span><span class="pts">4 b</span><b>Admin. tým</b><span class="min">struktura + velikost + náklady</span></div>
+    <div class="eval"><span class="code">V2</span><span class="pts">12 b / min 7,2</span><b>Odborný tým</b><span class="min">vč. externího zajištění</span></div>
+    <div class="eval"><span class="code">V3</span><span class="pts">25 b / min 15</span><b>Potřebnost</b><span class="min">zdůvodnění cílů projektu</span></div>
+    <div class="eval"><span class="code">V4</span><span class="pts">15 b / min 9</span><b>Věcný obsah a kvalita</b><span class="min">jak budou aktivity realizovány</span></div>
+    <div class="eval"><span class="code">V5</span><span class="pts">6 b / min 3,6</span><b>Strategické intervence</b><span class="min">kvalita popisu PO a SPZ</span></div>
+    <div class="eval"><span class="code">V6</span><span class="pts">7 b / min 4,2</span><b>Řízení rizik</b><span class="min">u aktivit i financí</span></div>
+    <div class="eval"><span class="code">V7</span><span class="pts">11 b / min 6,6</span><b>Indikátory</b><span class="min">výběr a hodnoty</span></div>
+    <div class="eval"><span class="code">V8</span><span class="pts">15 b / min 9</span><b>Rozpočet</b><span class="min">přehlednost + přiměřenost</span></div>
+    <div class="eval excl"><span class="code">V9</span><span class="pts">vyluč.</span><b>Rovné příležitosti</b><span class="min">gender, nediskriminace</span></div>
+    <div class="eval"><span class="code">V10</span><span class="pts">5 b / min 3</span><b>Entrep. discovery</b><span class="min">quadruple helix + KIP</span></div>
+  </div>
+
+  <h2>6. Mapování aktivit na hodnoticí kritéria + výstupy ekosystému</h2>
+  <table>
+    <thead>
+      <tr>
+        <th style="width:8%">Aktivita</th>
+        <th style="width:22%">Hlavní hodnoticí kritéria</th>
+        <th style="width:30%">Propojení s existujícími výstupy / strukturami</th>
+        <th style="width:40%">Klíčové pozice / personální pokrytí</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td class="a">A1 Řízení</td><td>V1, V8</td><td>—</td><td>Projektový manažer (PK + P-PINK) + finanční manažer (PK + P-PINK); admin. podpora jen P-PINK</td></tr>
+      <tr><td class="a">A2 Základní tým</td><td>V2, V4, V5, V10</td><td>RIS3 strategie PK, Akční plán, KRPI, KIP, IPPK</td><td>RIS3 manažer 1,0 (P-PINK), RIS3 developer 1+2 á 0,5 (P-PINK), RIS3 koordinátor 0,2 (kraj)</td></tr>
+      <tr><td class="a">A3 Mapování</td><td>V3, V4, V7</td><td>RIS3 strategie PK; data SA+I; evaluační rámec Nár. RIS3</td><td>RIS3 analytik 1 – 0,5 (P-PINK), RIS3 analytik 2 – 0,3 (kraj) + evaluátor</td></tr>
+      <tr><td class="a">A4 Vzdělávání</td><td>V2, V4</td><td>Stakeholdeři na IPPK, KIP, KRPI</td><td>Manažer vzdělávání 0,1 (P-PINK)</td></tr>
+      <tr><td class="a">A7 Pilotní ověření</td><td>V3, V4, V5, V6, V7</td><td>P-PINK inkubátor, CTTZ UPCE, Sféra, RRA PK, SIRS</td><td>Manažer/koordinátor PO (P-PINK) + manažeři PO IC PK + manažeři PO u partnerů</td></tr>
+      <tr><td class="a">A8 Marketing</td><td>V4, V10</td><td>IPPK, KIP jako komunikační kanál; brand inovačního ekosystému PK</td><td>Marketingový manažer + PR specialista + grafik (P-PINK)</td></tr>
+    </tbody>
+  </table>
+
+  <h2>7. Vazby v entrepreneurial discovery procesu (EDP → kritérium V10)</h2>
+  <div class="note">Kritérium V10 posuzuje kvalitu nastavení EDP a zapojení všech účastníků quadruple helix (firmy – akademie – veřejná správa – občanská společnost). Z toho plyne zvýšený důraz na aktivitu A2 a A8 i na využití stávajících KIP/IPPK/KRPI jako prostoru pro EDP.</div>
+
+  <div class="cols" style="grid-template-columns: repeat(4, 1fr);">
+    <div class="col col-strategy"><h3>Firmy</h3>
+      <div class="items" style="font-size:12px; padding:12px;">
+        Zapojené přes KIP (elektrotechnika + IT aj.), P-PINK inkubátor, IC.
+        Kanál: A2, A7 (PO IC), A8.
+      </div>
+    </div>
+    <div class="col col-strategy"><h3>Akademie</h3>
+      <div class="items" style="font-size:12px; padding:12px;">
+        UPCE (zejm. CTTZ), střední odborné školy, VŠ, výzkumné organizace.
+        Kanál: A2, A3, A7 (PO CTTZ + Talent mgmt).
+      </div>
+    </div>
+    <div class="col col-strategy"><h3>Veřejná správa</h3>
+      <div class="items" style="font-size:12px; padding:12px;">
+        Pardubický kraj (žadatel), místní samospráva, podpůrné organizace, dotační orgány.
+        Kanál: KRPI, IPPK, A2.
+      </div>
+    </div>
+    <div class="col col-strategy"><h3>Občanská společnost</h3>
+      <div class="items" style="font-size:12px; padding:12px;">
+        Neziskový sektor, profesní a oborová sdružení, sítě talentu, veřejnost a žáci (viz cílovky ve fiši).
+        Kanál: A4, A7 (Talent mgmt), A8.
+      </div>
+    </div>
+  </div>
+
 </div>
 
 <script>
