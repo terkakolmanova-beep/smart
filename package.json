@@ -1,0 +1,13 @@
+{
+  "name": "smart-akcelerator-pk",
+  "version": "1.0.0",
+  "description": "SMART akcelerátor+ II Pardubického kraje – mapa aktivit",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "dependencies": {
+    "puppeteer": "^24.0.0"
+  }
+}

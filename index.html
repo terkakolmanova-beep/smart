@@ -448,9 +448,62 @@
   #pwd-btn:hover { background: #174070; }
   #pwd-err { color: #C0392B; font-size: 13px; margin-top: 10px; min-height: 18px; }
 
+  /* ── PDF TOP BAR ─────────────────────────────────────────────────────── */
+  #top-bar {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 900;
+    display: flex; align-items: center; justify-content: flex-end;
+    gap: 10px; padding: 8px 20px;
+    background: rgba(255,255,255,0.92);
+    backdrop-filter: blur(6px);
+    border-bottom: 1px solid #dfe3ec;
+    box-shadow: 0 1px 6px rgba(0,0,0,0.07);
+  }
+  #pdf-btn {
+    display: inline-flex; align-items: center; gap: 7px;
+    padding: 8px 18px; border: none; border-radius: 8px;
+    background: #1F4E79; color: white;
+    font-size: 13px; font-weight: 600; cursor: pointer;
+    transition: background .15s, transform .1s;
+    box-shadow: 0 2px 8px rgba(31,78,121,0.25);
+  }
+  #pdf-btn:hover  { background: #174070; transform: translateY(-1px); }
+  #pdf-btn:active { transform: translateY(0); }
+  #pdf-btn:disabled { background: #7a9dba; cursor: not-allowed; transform: none; }
+
+  #pdf-badge {
+    display: none; align-items: center; gap: 5px;
+    padding: 5px 10px; border-radius: 6px;
+    background: #fff3cd; border: 1px solid #f0c040;
+    font-size: 11.5px; font-weight: 600; color: #856404;
+    animation: fadein .3s ease;
+  }
+  #pdf-badge.visible { display: inline-flex; }
+  @keyframes fadein { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: none; } }
+
+  /* Odsazení obsahu pod top-barem */
+  body { padding-top: 50px !important; }
+
+  @media print {
+    #top-bar, #pwd-overlay { display: none !important; }
+    body { padding-top: 0 !important; }
+  }
+
 </style>
 </head>
 <body>
+
+<!-- TOP BAR: PDF tlačítko + change-badge -->
+<div id="top-bar">
+  <span id="pdf-badge">⚠ Stránka se změnila – PDF je zastaralé</span>
+  <button id="pdf-btn" onclick="downloadPdf()">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+      <polyline points="7 10 12 15 17 10"/>
+      <line x1="12" y1="15" x2="12" y2="3"/>
+    </svg>
+    Stáhnout PDF
+  </button>
+</div>
 
 <!-- PASSWORD OVERLAY -->
 <div id="pwd-overlay">
@@ -485,6 +538,94 @@
   document.getElementById('pwd-input').addEventListener('keydown', function(e) {
     if (e.key === 'Enter') checkPwd();
   });
+</script>
+
+<script>
+/* ── PDF DOWNLOAD ────────────────────────────────────────────────────────────
+   Volá serverový endpoint /api/pdf, který generuje PDF přes Puppeteer.
+   Fallback: pokud server neběží (otevřeno přímo jako soubor), použij window.print().
+*/
+async function downloadPdf() {
+  const btn   = document.getElementById('pdf-btn');
+  const badge = document.getElementById('pdf-badge');
+
+  btn.disabled = true;
+  btn.innerHTML = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="animation:spin 1s linear infinite"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg> Generuji…`;
+
+  // Zkus serverový endpoint; pokud selže, padni zpět na print()
+  try {
+    const res = await fetch('/api/pdf', { signal: AbortSignal.timeout(60_000) });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
+    const blob = await res.blob();
+    const url  = URL.createObjectURL(blob);
+    const a    = document.createElement('a');
+    a.href     = url;
+    a.download = 'SMART_akcelerator_II_PK.pdf';
+    a.click();
+    URL.revokeObjectURL(url);
+
+    badge.classList.remove('visible');
+  } catch (err) {
+    console.warn('[PDF] Server nedostupný, použit window.print():', err.message);
+    window.print();
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Stáhnout PDF`;
+  }
+}
+
+/* ── SSE: sledování změn souboru ze serveru ──────────────────────────────── */
+(function connectSSE() {
+  const badge = document.getElementById('pdf-badge');
+  let es;
+
+  function connect() {
+    es = new EventSource('/api/events');
+
+    es.addEventListener('message', (e) => {
+      if (e.data === 'change') {
+        badge.classList.add('visible');
+        console.log('[SSE] Stránka se změnila – PDF je zastaralé');
+      }
+    });
+
+    es.addEventListener('error', () => {
+      // Server nedostupný – zkusit znovu za 5 s
+      es.close();
+      setTimeout(connect, 5000);
+    });
+  }
+
+  // Spustit SSE pouze pokud stránka běží přes server (ne z file://)
+  if (location.protocol !== 'file:') connect();
+})();
+
+/* ── MutationObserver: klientské změny DOM (pro případ dynamického obsahu) ─ */
+(function watchDom() {
+  const badge   = document.getElementById('pdf-badge');
+  let debounce;
+
+  const observer = new MutationObserver(() => {
+    clearTimeout(debounce);
+    debounce = setTimeout(() => {
+      badge.classList.add('visible');
+    }, 800);
+  });
+
+  // Sleduj celý <body> kromě #top-bar (aby se badge neobjevoval kvůli sobě)
+  observer.observe(document.body, {
+    childList: true,
+    subtree: true,
+    characterData: true,
+    attributeFilter: ['style', 'class'],
+  });
+})();
+
+/* ── CSS pro loading spinner (keyframes) ─────────────────────────────────── */
+const spinStyle = document.createElement('style');
+spinStyle.textContent = `@keyframes spin { to { transform: rotate(360deg); } }`;
+document.head.appendChild(spinStyle);
 </script>
 
 <div class="page">
