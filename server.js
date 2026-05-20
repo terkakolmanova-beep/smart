@@ -74,13 +74,14 @@ async function generatePdf() {
     // Počkat na vykreslení Chart.js a usazení stránky
     await new Promise(r => setTimeout(r, 2500));
 
-    // Minimální PDF-specifické styly – POUZE layout, ŽÁDNÉ přepisy barev
+    // PDF styly – zoom přes CSS (ne PDF scale) aby se zachovaly gradienty
     await page.addStyleTag({ content: `
       #pwd-overlay, #top-bar { display: none !important; }
-      body { padding: 0 !important; }
+      html { zoom: 0.635; }
+      body { padding: 0 !important; background: #f4f6fa !important; }
       .page {
-        max-width: 100% !important;
-        margin: 0 0 0 0 !important;
+        max-width: 1500px !important;
+        margin: 0 auto 24px auto !important;
         box-shadow: none !important;
         page-break-after: always !important;
         break-after: page !important;
@@ -103,10 +104,10 @@ async function generatePdf() {
     const pdf = await page.pdf({
       format: 'A4',
       landscape: true,
-      margin: { top: '10mm', bottom: '10mm', left: '10mm', right: '10mm' },
+      margin: { top: '8mm', bottom: '8mm', left: '8mm', right: '8mm' },
       printBackground: true,
       displayHeaderFooter: false,
-      scale: 0.63,
+      scale: 1.0,   // žádné PDF-level škálování – zoom řeší CSS
     });
 
     fs.writeFileSync(PDF_FILE, pdf);

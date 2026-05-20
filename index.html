@@ -370,23 +370,16 @@
   }
 
   @media print {
-    @page { size: A4 landscape; margin: 12mm 14mm; }
+    @page { size: A4 landscape; margin: 10mm 12mm; }
 
-    html { zoom: 0.68; }
-
-    /* Bez pozadí – tisk čistě na bílém */
+    /* Zachovat VŠECHNY barvy a pozadí přesně tak jak jsou na webu */
     * {
-      background: white !important;
-      -webkit-print-color-adjust: economy !important;
-      print-color-adjust: economy !important;
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
       box-shadow: none !important;
     }
 
-    body {
-      background: white !important;
-      padding: 0 !important;
-      color: #111 !important;
-    }
+    body { padding: 0 !important; }
 
     .page {
       border-radius: 0 !important;
@@ -401,23 +394,10 @@
       break-after: avoid;
     }
 
-    h2, h3, h4, h5 {
-      page-break-after: avoid;
-      break-after: avoid;
-      orphans: 3;
-      widows: 3;
-    }
-
+    h2, h3, h4, h5 { page-break-after: avoid; break-after: avoid; orphans: 3; widows: 3; }
     .band, .pos, .card, .eval, .pilot, .col { break-inside: avoid; page-break-inside: avoid; }
     p, li, td { orphans: 3; widows: 3; }
 
-    /* Zachovat čitelnost barev textu */
-    h1, h2, h3, h4, h5 { color: #1F4E79 !important; }
-    body, td, th, li, p, .desc, .provaz, .meta, .note { color: #111 !important; }
-    .band-act { background: #1F4E79 !important; color: #fff !important; }
-    .band-act, .band-act * { color: #fff !important; }
-
-    /* Skrýt UI prvky */
     #pwd-overlay { display: none !important; }
   }
 
