@@ -579,41 +579,54 @@ async function downloadPdf() {
 (function connectSSE() {
   const badge = document.getElementById('pdf-badge');
   let es;
+  // Ignoruj první event těsně po připojení (server občas pošle accumulated change)
+  let ignoreFirst = true;
+  setTimeout(() => { ignoreFirst = false; }, 2000);
 
   function connect() {
     es = new EventSource('/api/events');
 
     es.addEventListener('message', (e) => {
-      if (e.data === 'change') {
+      if (e.data === 'change' && !ignoreFirst) {
         badge.classList.add('visible');
-        console.log('[SSE] Stránka se změnila – PDF je zastaralé');
       }
     });
 
     es.addEventListener('error', () => {
-      // Server nedostupný – zkusit znovu za 5 s
       es.close();
       setTimeout(connect, 5000);
     });
   }
 
-  // Spustit SSE pouze pokud stránka běží přes server (ne z file://)
   if (location.protocol !== 'file:') connect();
 })();
 
-/* ── MutationObserver: klientské změny DOM (pro případ dynamického obsahu) ─ */
+/* ── MutationObserver: klientské změny DOM ───────────────────────────────── */
 (function watchDom() {
-  const badge   = document.getElementById('pdf-badge');
+  const badge    = document.getElementById('pdf-badge');
+  const topBar   = document.getElementById('top-bar');
+  const overlay  = document.getElementById('pwd-overlay');
   let debounce;
+  // Nezačínat sledovat hned – počkat na úplné načtení stránky + usazení DOM
+  let active = false;
+  window.addEventListener('load', () => setTimeout(() => { active = true; }, 3000));
 
-  const observer = new MutationObserver(() => {
+  const observer = new MutationObserver((mutations) => {
+    if (!active) return;
+    // Ignoruj změny v #top-bar (badge, tlačítko) a #pwd-overlay
+    const relevant = mutations.some(m => {
+      let node = m.target;
+      while (node && node !== document.body) {
+        if (node === topBar || node === overlay) return false;
+        node = node.parentNode;
+      }
+      return true;
+    });
+    if (!relevant) return;
     clearTimeout(debounce);
-    debounce = setTimeout(() => {
-      badge.classList.add('visible');
-    }, 800);
+    debounce = setTimeout(() => badge.classList.add('visible'), 800);
   });
 
-  // Sleduj celý <body> kromě #top-bar (aby se badge neobjevoval kvůli sobě)
   observer.observe(document.body, {
     childList: true,
     subtree: true,

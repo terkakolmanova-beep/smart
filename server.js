@@ -56,43 +56,44 @@ async function generatePdf() {
   try {
     const page = await browser.newPage();
 
-    // Renderovat jako screen (zachová CSS grid, barvy a layouty)
+    // Renderovat jako screen – zachová všechny CSS barvy, gradienty a grid layouty
     await page.emulateMediaType('screen');
     await page.setViewport({ width: 1600, height: 900, deviceScaleFactor: 1 });
 
-    // Načíst HTML přímo ze souboru – vyhne se cirkulární závislosti na serveru
-    const rawHtml = fs.readFileSync(HTML_FILE, 'utf8');
+    // Přeskočit heslo: nastavit sessionStorage před načtením stránky
+    await page.evaluateOnNewDocument(() => {
+      sessionStorage.setItem('smart_auth', '1');
+    });
 
-    // Přeskočit heslo přímo v HTML (nahradit podmínku sessionStorage)
-    const pdfHtml = rawHtml.replace(
-      "if (sessionStorage.getItem('smart_auth') === '1')",
-      'if (true)'
-    );
-
-    // setContent načte inline HTML; base URL nastaví správné cesty k assetům
-    await page.setContent(pdfHtml, {
+    // Použít file:// URL – správně načte CDN (Chart.js) i všechny inline styly
+    await page.goto(`file://${HTML_FILE}`, {
       waitUntil: 'networkidle0',
       timeout: 30_000,
     });
 
-    // Počkat na vykreslení Chart.js
-    await new Promise(r => setTimeout(r, 2000));
+    // Počkat na vykreslení Chart.js a usazení stránky
+    await new Promise(r => setTimeout(r, 2500));
 
-    // Injekce PDF-specifických stylů (bez stínů, page-break per .page)
+    // Minimální PDF-specifické styly – POUZE layout, ŽÁDNÉ přepisy barev
     await page.addStyleTag({ content: `
       #pwd-overlay, #top-bar { display: none !important; }
-      html, body { background: white !important; }
       body { padding: 0 !important; }
       .page {
-        max-width: 100% !important; margin: 0 !important;
-        box-shadow: none !important; border-radius: 0 !important;
-        page-break-after: always !important; break-after: page !important;
+        max-width: 100% !important;
+        margin: 0 0 0 0 !important;
+        box-shadow: none !important;
+        page-break-after: always !important;
+        break-after: page !important;
       }
-      .page:last-of-type { page-break-after: avoid !important; break-after: avoid !important; }
+      .page:last-of-type {
+        page-break-after: avoid !important;
+        break-after: avoid !important;
+      }
       .band {
         display: grid !important;
         grid-template-columns: 260px 34px 1fr !important;
-        break-inside: avoid !important; page-break-inside: avoid !important;
+        break-inside: avoid !important;
+        page-break-inside: avoid !important;
       }
       .pos, .card, .eval, .pilot, .col
         { break-inside: avoid; page-break-inside: avoid; }
