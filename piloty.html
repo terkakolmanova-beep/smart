@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pilotní ověření – Smart Akcelerátor+ II Pardubického kraje</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Segoe UI', Tahoma, Arial, sans-serif;
+  background: #f0f4f9;
+  color: #1a2540;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── HEADER ──────────────────────────────────────────────── */
+.header {
+  background: linear-gradient(135deg, #1F4E79 0%, #2d6ea8 100%);
+  color: white;
+  padding: 22px 36px 18px;
+  display: flex;
+  align-items: flex-end;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+.header-left { flex: 1; min-width: 260px; }
+.header-left h1 { font-size: 22px; font-weight: 700; line-height: 1.2; }
+.header-left .sub {
+  font-size: 12.5px; opacity: .85; margin-top: 4px;
+  display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+}
+.header-left .sub span { background: rgba(255,255,255,.18); border-radius: 10px; padding: 2px 9px; }
+.header-right { text-align: right; font-size: 12px; opacity: .8; line-height: 1.6; }
+.header-right strong { font-size: 13px; opacity: 1; display: block; color: #fff; }
+
+.context-bar {
+  background: #fff8e1;
+  border-bottom: 2px solid #ffe082;
+  padding: 8px 36px;
+  font-size: 12px;
+  color: #5a3e00;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.context-bar::before {
+  content: "ℹ";
+  font-size: 14px;
+  color: #e67e22;
+  font-weight: 700;
+}
+
+/* ── LAYOUT ──────────────────────────────────────────────── */
+.layout {
+  display: flex;
+  flex: 1;
+  gap: 0;
+  max-width: 1400px;
+  width: 100%;
+  margin: 24px auto;
+  padding: 0 24px;
+  align-items: flex-start;
+}
+
+/* ── SIDEBAR ─────────────────────────────────────────────── */
+.sidebar {
+  width: 290px;
+  flex-shrink: 0;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0,0,0,.07);
+  overflow: hidden;
+  position: sticky;
+  top: 24px;
+}
+.sidebar-title {
+  background: #1F4E79;
+  color: white;
+  padding: 12px 16px;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+}
+.po-tab {
+  padding: 12px 16px;
+  cursor: pointer;
+  border-left: 4px solid transparent;
+  border-bottom: 1px solid #eef1f7;
+  transition: all .15s;
+}
+.po-tab:last-child { border-bottom: none; }
+.po-tab:hover { background: #f0f5fb; }
+.po-tab.active {
+  background: #eef4ff;
+  border-left-color: #1F4E79;
+}
+.po-tab .po-name {
+  font-size: 13px;
+  font-weight: 700;
+  color: #1F4E79;
+  line-height: 1.3;
+  margin-bottom: 3px;
+}
+.po-tab.active .po-name { color: #1F4E79; }
+.po-tab .po-partner {
+  font-size: 11px;
+  color: #C0392B;
+  font-weight: 600;
+}
+.po-tab .po-budget {
+  font-size: 11px;
+  color: #666;
+  margin-top: 2px;
+}
+.po-tab .po-status {
+  display: inline-block;
+  font-size: 10px;
+  padding: 1px 7px;
+  border-radius: 8px;
+  margin-top: 4px;
+  font-weight: 600;
+}
+.po-tab .po-status.full { background: #e8f5e9; color: #2E7D32; }
+.po-tab .po-status.partial { background: #fff3e0; color: #e65100; }
+
+.sidebar-footer {
+  background: #f8f9fb;
+  border-top: 1px solid #e5e9f0;
+  padding: 10px 16px;
+  font-size: 11px;
+  color: #666;
+}
+.sidebar-footer strong { color: #1F4E79; }
+
+/* ── DETAIL PANEL ────────────────────────────────────────── */
+.detail {
+  flex: 1;
+  margin-left: 20px;
+}
+.po-panel { display: none; }
+.po-panel.active { display: block; }
+
+.po-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0,0,0,.07);
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+.po-card-header {
+  background: linear-gradient(90deg, #1F4E79 0%, #2d6ea8 100%);
+  color: white;
+  padding: 18px 24px;
+}
+.po-card-header .po-num {
+  font-size: 11px;
+  opacity: .75;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  margin-bottom: 4px;
+}
+.po-card-header h2 {
+  font-size: 20px;
+  font-weight: 700;
+  margin: 0 0 6px;
+  border: none;
+  padding: 0;
+  color: white;
+}
+.po-card-header .po-meta {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  font-size: 12.5px;
+  opacity: .9;
+}
+.po-card-header .po-meta span {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.po-card-header .po-meta .label { opacity: .7; }
+
+.po-card-body { padding: 22px 24px; }
+
+/* Sections */
+.section { margin-bottom: 22px; }
+.section:last-child { margin-bottom: 0; }
+.section-title {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: .09em;
+  color: #1F4E79;
+  font-weight: 700;
+  margin-bottom: 10px;
+  padding-bottom: 5px;
+  border-bottom: 1px solid #e5ecf7;
+}
+
+/* Problem box */
+.problem-box {
+  background: #fafbff;
+  border: 1px solid #dde5f5;
+  border-left: 4px solid #1F4E79;
+  border-radius: 6px;
+  padding: 12px 16px;
+  font-size: 13px;
+  line-height: 1.6;
+  color: #2a3555;
+}
+.problem-box .stat-row {
+  display: flex;
+  gap: 12px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+.stat-box {
+  background: #1F4E79;
+  color: white;
+  border-radius: 8px;
+  padding: 8px 14px;
+  font-size: 12px;
+  text-align: center;
+  flex: 1;
+  min-width: 130px;
+}
+.stat-box .big { font-size: 22px; font-weight: 700; display: block; line-height: 1.1; }
+.stat-box .label { opacity: .8; font-size: 11px; }
+
+/* Team grid */
+.team-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+  gap: 10px;
+}
+.team-card {
+  background: #f5f8ff;
+  border: 1px solid #dde5f5;
+  border-radius: 8px;
+  padding: 10px 13px;
+}
+.team-card .role { font-weight: 700; font-size: 13px; color: #1F4E79; margin-bottom: 4px; }
+.team-card .fte { font-size: 11px; color: #C0392B; font-weight: 600; margin-bottom: 5px; }
+.team-card .desc { font-size: 11.5px; color: #445; line-height: 1.45; }
+
+/* Budget table */
+.budget-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.budget-table tr { border-bottom: 1px solid #eef1f7; }
+.budget-table tr:last-child { border-bottom: 2px solid #1F4E79; font-weight: 700; }
+.budget-table td { padding: 6px 4px; }
+.budget-table td:last-child { text-align: right; font-weight: 600; color: #1F4E79; white-space: nowrap; padding-left: 16px; }
+.budget-table tr.total td { color: #1F4E79; background: #eef4ff; border-radius: 4px; }
+
+/* Phases */
+.phases {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+.phase {
+  background: #f5f8ff;
+  border: 1px solid #dde5f5;
+  border-radius: 8px;
+  padding: 13px 15px;
+}
+.phase .phase-label {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  color: #888;
+  margin-bottom: 2px;
+}
+.phase .phase-name {
+  font-weight: 700;
+  font-size: 13px;
+  color: #1F4E79;
+  margin-bottom: 7px;
+}
+.phase .phase-period {
+  display: inline-block;
+  background: #1F4E79;
+  color: white;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-size: 10.5px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+.phase p { font-size: 12px; color: #445; line-height: 1.5; }
+
+/* Indicators */
+.ind-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 8px;
+}
+.ind-card {
+  background: #f5f8ff;
+  border: 1px solid #dde5f5;
+  border-radius: 8px;
+  padding: 9px 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 8px;
+}
+.ind-card .ind-desc { font-size: 12px; color: #445; line-height: 1.4; flex: 1; }
+.ind-card .ind-code { font-size: 10px; color: #999; margin-top: 2px; }
+.ind-card .ind-val {
+  font-size: 20px;
+  font-weight: 700;
+  color: #1F4E79;
+  white-space: nowrap;
+  text-align: right;
+  line-height: 1.1;
+}
+.ind-card .ind-val-small { font-size: 13px; }
+
+/* RIS3 badge */
+.ris3-row {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.ris3-badge {
+  background: #e8f0fe;
+  border: 1px solid #c2d2f9;
+  border-radius: 20px;
+  padding: 4px 12px;
+  font-size: 12px;
+  color: #1F4E79;
+  font-weight: 600;
+}
+.ris3-badge.main { background: #1F4E79; color: white; border-color: #1F4E79; }
+.support-note {
+  font-size: 12px;
+  color: #666;
+  margin-top: 8px;
+  padding: 6px 12px;
+  background: #f9f9f9;
+  border-radius: 6px;
+  border: 1px solid #e5e5e5;
+}
+
+/* Placeholder */
+.placeholder-box {
+  background: #fffdf0;
+  border: 2px dashed #e8c84a;
+  border-radius: 10px;
+  padding: 32px 24px;
+  text-align: center;
+  color: #7a5a00;
+}
+.placeholder-box h3 { font-size: 17px; margin-bottom: 8px; color: #5a4000; }
+.placeholder-box p { font-size: 13px; line-height: 1.6; margin-bottom: 6px; }
+.placeholder-box .basic-info {
+  display: inline-block;
+  background: white;
+  border: 1px solid #e8c84a;
+  border-radius: 8px;
+  padding: 10px 20px;
+  margin-top: 12px;
+  font-size: 13px;
+  text-align: left;
+  color: #333;
+}
+.placeholder-box .basic-info b { color: #1F4E79; }
+
+/* Footer */
+.footer {
+  background: #1F4E79;
+  color: rgba(255,255,255,.7);
+  text-align: center;
+  padding: 14px 24px;
+  font-size: 11.5px;
+  margin-top: 24px;
+}
+.footer a { color: rgba(255,255,255,.85); text-decoration: none; }
+.footer a:hover { text-decoration: underline; }
+
+@media (max-width: 800px) {
+  .layout { flex-direction: column; padding: 0 12px; }
+  .sidebar { width: 100%; position: static; }
+  .detail { margin-left: 0; margin-top: 16px; }
+  .phases { grid-template-columns: 1fr; }
+  .header { padding: 16px 16px 12px; }
+  .context-bar { padding: 8px 16px; }
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-left">
+    <h1>Pilotní ověření Smart Akcelerátor+ II</h1>
+    <div class="sub">
+      <span>OP JAK · SC 1.1</span>
+      <span>Pardubický kraj</span>
+      <span>6 pilotních ověření · 31,8 M Kč</span>
+    </div>
+  </div>
+  <div class="header-right">
+    <strong>P-PINK z.ú. (hlavní partner)</strong>
+    Pardubický kraj (žadatel)<br>
+    Konzultační materiál MŠMT
+  </div>
+</div>
+
+<div class="context-bar">
+  Přehled 6 pilotních ověření realizovaných v rámci Aktivity 7 (A7) projektu Smart Akcelerátor+ II Pardubického kraje. Každé PO ověřuje nový intervenční nástroj pro posílení inovačního ekosystému kraje v souladu s krajskou RIS3 strategií.
+</div>
+
+<!-- LAYOUT -->
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <div class="sidebar-title">Pilotní ověření (A7)</div>
+
+    <div class="po-tab active" onclick="showPO('po1')">
+      <div class="po-name">PO1 – Inovační centrum PK</div>
+      <div class="po-partner">P-PINK z.ú.</div>
+      <div class="po-budget">9 340 000 Kč</div>
+      <span class="po-status full">Kompletní popis</span>
+    </div>
+    <div class="po-tab" onclick="showPO('po2')">
+      <div class="po-name">PO2 – Spin-off v „nulté fázi"</div>
+      <div class="po-partner">CTTZ Univerzita Pardubice</div>
+      <div class="po-budget">6 955 000 Kč</div>
+      <span class="po-status partial">Popis bude doplněn</span>
+    </div>
+    <div class="po-tab" onclick="showPO('po3')">
+      <div class="po-name">PO3 – SFÉRA Living Lab</div>
+      <div class="po-partner">SFÉRA Pardubice</div>
+      <div class="po-budget">7 640 613 Kč</div>
+      <span class="po-status partial">Popis bude doplněn</span>
+    </div>
+    <div class="po-tab" onclick="showPO('po4')">
+      <div class="po-name">PO4 – Horizon Europe</div>
+      <div class="po-partner">RRA PK</div>
+      <div class="po-budget">4 488 826 Kč (PO4+PO6)</div>
+      <span class="po-status partial">Popis bude doplněn</span>
+    </div>
+    <div class="po-tab" onclick="showPO('po5')">
+      <div class="po-name">PO5 – KIRI</div>
+      <div class="po-partner">Pardubický kraj</div>
+      <div class="po-budget">2 017 000 Kč</div>
+      <span class="po-status partial">Popis bude doplněn</span>
+    </div>
+    <div class="po-tab" onclick="showPO('po6')">
+      <div class="po-name">PO6 – Reg. kompetence pro mezinár. dotace</div>
+      <div class="po-partner">RRA PK</div>
+      <div class="po-budget">viz PO4</div>
+      <span class="po-status partial">Popis bude doplněn</span>
+    </div>
+
+    <div class="sidebar-footer">
+      Celkem 6 PO + koordinace:<br>
+      <strong>31 825 239 Kč (50 % CZV)</strong><br>
+      Koordinátor PO: P-PINK · 1 383 800 Kč
+    </div>
+  </div>
+
+  <!-- DETAIL -->
+  <div class="detail">
+
+    <!-- ── PO1 ── -->
+    <div class="po-panel active" id="po1">
+      <div class="po-card">
+        <div class="po-card-header">
+          <div class="po-num">Pilotní ověření 1 · P-PINK z.ú.</div>
+          <h2>Inovační centrum Pardubického kraje + Talent management</h2>
+          <div class="po-meta">
+            <span><span class="label">Rozpočet:</span> <strong>9 340 000 Kč</strong></span>
+            <span><span class="label">Délka:</span> <strong>30 měsíců</strong></span>
+            <span><span class="label">Cílová skupina:</span> <strong>5–10 inovativních firem ročně</strong></span>
+            <span><span class="label">Veřejná podpora:</span> <strong>de minimis</strong></span>
+          </div>
+        </div>
+        <div class="po-card-body">
+
+          <div class="section">
+            <div class="section-title">Problém a potenciál</div>
+            <div class="problem-box">
+              Pardubický kraj patří mezi poslední kraje v ČR bez funkčního inovačního centra. Firmy mají zájem o expertní podporu (digitalizace, AI, technologické poradenství), ale narážejí na omezenou dostupnost těchto kapacit v regionu. SWOT analýza inovačního systému kraje (GaREP, 2026) identifikuje <strong>absenci veřejné inovační infrastruktury</strong> jako klíčovou slabinu.
+              <div class="stat-row">
+                <div class="stat-box"><span class="big">&gt;70 %</span><span class="label">podniků zavádí inovace</span></div>
+                <div class="stat-box"><span class="big">70 %</span><span class="label">nemá vlastní VaV oddělení</span></div>
+                <div class="stat-box"><span class="big">81 %</span><span class="label">nemá výzkumné zařízení</span></div>
+                <div class="stat-box"><span class="big">P-PINK</span><span class="label">IC PK buduje na prokázané inkubační historii</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="section">
+            <div class="section-title">Tým a nastavení nástroje</div>
+            <div class="team-grid">
+              <div class="team-card">
+                <div class="role">2 experti IC</div>
+                <div class="fte">každý ~1 600 h / 30 měs.</div>
+                <div class="desc">Expertní konzultace, analytika, propojování firem s VaVaI kapacitami UPCE a dalšími subjekty.</div>
+              </div>
+              <div class="team-card">
+                <div class="role">Garant PO</div>
+                <div class="fte">0,2 FTE</div>
+                <div class="desc">Koordinace expertů, odborná kvalita, provazba s ostatními aktivitami SA+ II.</div>
+              </div>
+              <div class="team-card">
+                <div class="role">Manažer PO</div>
+                <div class="fte">0,5 FTE (HPP)</div>
+                <div class="desc">Řízení rozpočtu, harmonogramu a administrativního souladu s pravidly OP JAK.</div>
+              </div>
+              <div class="team-card">
+                <div class="role">Marketingový specialista</div>
+                <div class="fte">0,25 FTE</div>
+                <div class="desc">Akvizice firem, komunikace služeb IC ve spolupráci s marketingovým týmem SA+ II (A8).</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="section">
+            <div class="section-title">Rozpočet PO1 – Inovační centrum</div>
+            <table class="budget-table">
+              <tr><td>2 experti (3 200 h × 1 800 Kč/h)</td><td>5 760 000 Kč</td></tr>
+              <tr><td>Garant PO IC (960 h × 550 Kč/h)</td><td>528 000 Kč</td></tr>
+              <tr><td>Marketingový specialista (960 h × 500 Kč/h)</td><td>480 000 Kč</td></tr>
+              <tr><td>Manažer PO (0,5 HPP, 30 000 Kč/měs × 30 M + odvody 33,8 %)</td><td>1 204 200 Kč</td></tr>
+              <tr><td>Komunitní a akviziční eventy IC (8 akcí × 20 000 Kč)</td><td>160 000 Kč</td></tr>
+              <tr><td>Analytika, rešerše, evaluace</td><td>100 000 Kč</td></tr>
+              <tr class="total"><td><strong>Celkem IC (bez TM komponenty)</strong></td><td><strong>8 232 200 Kč</strong></td></tr>
+            </table>
+          </div>
+
+          <div class="section">
+            <div class="section-title">Harmonogram – 3 fáze</div>
+            <div class="phases">
+              <div class="phase">
+                <div class="phase-label">Fáze 1</div>
+                <div class="phase-name">Startovací</div>
+                <div class="phase-period">M1 – M6</div>
+                <p>Rozvoj multi-helix spolupráce, nastavení procesů, marketingová kampaň, akvizice prvních firem. Příprava TM komponenty: rešerše zahraničních modelů, výběr screeningových nástrojů, oslovení pilotních škol.</p>
+              </div>
+              <div class="phase">
+                <div class="phase-label">Fáze 2</div>
+                <div class="phase-name">Plný provoz</div>
+                <div class="phase-period">M7 – M24</div>
+                <p>Intenzivní expertní konzultace a analytika, reálné propojování firem s VaVaI kapacitami, pořádání komunitních akcí. TM: screening na pilotních školách, tvorba metodiky, TM eventy (hackathon, projektový den, matching).</p>
+              </div>
+              <div class="phase">
+                <div class="phase-label">Fáze 3</div>
+                <div class="phase-name">Evaluační</div>
+                <div class="phase-period">M25 – M30</div>
+                <p>Vyhodnocení reálného dopadu na firmy, zpracování <strong>Strategie IC</strong> a <strong>Metodiky akcelerace</strong>, závěrečná zpráva. Finalizace talent CRM a doporučení pro rozšíření systému.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="section">
+            <div class="section-title">Indikátory</div>
+            <div class="ind-grid">
+              <div class="ind-card">
+                <div><div class="ind-desc">Počet uspořádaných akcí</div><div class="ind-code">210 171</div></div>
+                <div class="ind-val">10</div>
+              </div>
+              <div class="ind-card">
+                <div><div class="ind-desc">Počet účastí na EFRR aktivitách</div><div class="ind-code">212 031</div></div>
+                <div class="ind-val">200</div>
+              </div>
+              <div class="ind-card">
+                <div><div class="ind-desc">Nové produkty strategického řízení VaVaI</div><div class="ind-code">215 012</div></div>
+                <div class="ind-val ind-val-small">2<br><span style="font-size:10px;font-weight:400;color:#666;">Strategie IC + Metodika</span></div>
+              </div>
+              <div class="ind-card">
+                <div><div class="ind-desc">Implementované nové produkty VaVaI</div><div class="ind-code">215 102</div></div>
+                <div class="ind-val ind-val-small">1<br><span style="font-size:10px;font-weight:400;color:#666;">Metodika akcelerace</span></div>
+              </div>
+              <div class="ind-card">
+                <div><div class="ind-desc">Počet ovlivněných institucí</div><div class="ind-code">244 011</div></div>
+                <div class="ind-val">12</div>
+              </div>
+              <div class="ind-card">
+                <div><div class="ind-desc">Podpořené VaV spolupráce</div><div class="ind-code">203 541</div></div>
+                <div class="ind-val">2</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="section">
+            <div class="section-title">Vazba na RIS3 strategii PK</div>
+            <div class="ris3-row">
+              <span class="ris3-badge main">Oblast C</span>
+              <span class="ris3-badge">C.1 Zvýšení inovační aktivity firem v PK</span>
+              <span class="ris3-badge">C.1.3 Zvýšení spolupráce firem v oblasti VaVaI</span>
+            </div>
+            <div class="support-note">Veřejná podpora poskytovaná firmám bude ošetřena v režimu <strong>de minimis</strong>. Předpokládaný realizátor nástroje v širokém měřítku po úspěšném PO: <strong>P-PINK z.ú.</strong></div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- ── PO2 ── -->
+    <div class="po-panel" id="po2">
+      <div class="po-card">
+        <div class="po-card-header">
+          <div class="po-num">Pilotní ověření 2 · CTTZ Univerzita Pardubice</div>
+          <h2>Platforma pro rozvoj spin-off v „nulté fázi"</h2>
+          <div class="po-meta">
+            <span><span class="label">Rozpočet:</span> <strong>6 955 000 Kč</strong></span>
+            <span><span class="label">Partner:</span> <strong>CTTZ UPCE</strong></span>
+          </div>
+        </div>
+        <div class="po-card-body">
+          <div class="placeholder-box">
+            <h3>Detail PO2 bude doplněn</h3>
+            <p>Základní informace jsou k dispozici — podrobný popis bude doplněn z projektové dokumentace PO2 (CTTZ UPCE).</p>
+            <div class="basic-info">
+              <b>Zaměření:</b> Transfer technologií a znalostí z akademického prostředí do praxe<br>
+              <b>Tým:</b> koordinátor nástrojů, spin-off specialista, řešitelské týmy (3×)<br>
+              <b>Partner:</b> Centrum transferu technologií a znalostí, Univerzita Pardubice
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── PO3 ── -->
+    <div class="po-panel" id="po3">
+      <div class="po-card">
+        <div class="po-card-header">
+          <div class="po-num">Pilotní ověření 3 · SFÉRA Pardubice</div>
+          <h2>SFÉRA Living Lab – Odolný region</h2>
+          <div class="po-meta">
+            <span><span class="label">Rozpočet:</span> <strong>7 640 613 Kč</strong></span>
+            <span><span class="label">Partner:</span> <strong>SFÉRA Pardubice</strong></span>
+          </div>
+        </div>
+        <div class="po-card-body">
+          <div class="placeholder-box">
+            <h3>Detail PO3 bude doplněn</h3>
+            <p>Základní informace jsou k dispozici — podrobný popis bude doplněn z projektové dokumentace PO3 (SFÉRA).</p>
+            <div class="basic-info">
+              <b>Zaměření:</b> Zapojení komunity a firem do řešení reálných problémů regionu<br>
+              <b>Tým:</b> lektoři (5×), vývojáři (5×), mobilní jednotka, laboratorní vybavení<br>
+              <b>Partner:</b> SFÉRA Pardubice
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── PO4 ── -->
+    <div class="po-panel" id="po4">
+      <div class="po-card">
+        <div class="po-card-header">
+          <div class="po-num">Pilotní ověření 4 · RRA PK</div>
+          <h2>Horizon Europe – příprava projektových žádostí</h2>
+          <div class="po-meta">
+            <span><span class="label">Rozpočet:</span> <strong>4 488 826 Kč (PO4+PO6 společně)</strong></span>
+            <span><span class="label">Partner:</span> <strong>RRA PK</strong></span>
+          </div>
+        </div>
+        <div class="po-card-body">
+          <div class="placeholder-box">
+            <h3>Detail PO4 bude doplněn</h3>
+            <p>Základní informace jsou k dispozici — podrobný popis bude doplněn z projektové dokumentace PO4 (RRA PK).</p>
+            <div class="basic-info">
+              <b>Zaměření:</b> Příprava projektových žádostí do programu Horizon Europe<br>
+              <b>Partner:</b> Regionální rozvojová agentura Pardubického kraje<br>
+              <b>Poznámka:</b> Rozpočet sdílen s PO6 (4 488 826 Kč celkem)
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── PO5 ── -->
+    <div class="po-panel" id="po5">
+      <div class="po-card">
+        <div class="po-card-header">
+          <div class="po-num">Pilotní ověření 5 · Pardubický kraj</div>
+          <h2>KIRI – Krajská investiční a rozvojová iniciativa</h2>
+          <div class="po-meta">
+            <span><span class="label">Rozpočet:</span> <strong>2 017 000 Kč</strong></span>
+            <span><span class="label">Partner:</span> <strong>Pardubický kraj</strong></span>
+          </div>
+        </div>
+        <div class="po-card-body">
+          <div class="placeholder-box">
+            <h3>Detail PO5 bude doplněn</h3>
+            <p>Základní informace jsou k dispozici — podrobný popis bude doplněn z projektové dokumentace PO5.</p>
+            <div class="basic-info">
+              <b>Zaměření:</b> Investiční portál, teasery lokalit, investor outreach, matchmaking workshopy<br>
+              <b>Partner:</b> Pardubický kraj (žadatel projektu)<br>
+              <b>Tým:</b> manažer pilotního ověření 0,5 FTE
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── PO6 ── -->
+    <div class="po-panel" id="po6">
+      <div class="po-card">
+        <div class="po-card-header">
+          <div class="po-num">Pilotní ověření 6 · RRA PK</div>
+          <h2>Rozvoj regionálních kompetencí pro mezinárodní dotace</h2>
+          <div class="po-meta">
+            <span><span class="label">Rozpočet:</span> <strong>4 488 826 Kč (PO4+PO6 společně)</strong></span>
+            <span><span class="label">Partner:</span> <strong>RRA PK</strong></span>
+          </div>
+        </div>
+        <div class="po-card-body">
+          <div class="placeholder-box">
+            <h3>Detail PO6 bude doplněn</h3>
+            <p>Základní informace jsou k dispozici — podrobný popis bude doplněn z projektové dokumentace PO6 (RRA PK).</p>
+            <div class="basic-info">
+              <b>Zaměření:</b> Rozvoj regionálních kompetencí pro mezinárodní dotační příležitosti<br>
+              <b>Tým:</b> odborný konzultant, vzdělávání týmu a stakeholderů<br>
+              <b>Partner:</b> Regionální rozvojová agentura Pardubického kraje
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /detail -->
+</div><!-- /layout -->
+
+<div class="footer">
+  Smart Akcelerátor+ II Pardubického kraje · OP JAK · SC 1.1 ·
+  Žadatel: Pardubický kraj · Hlavní partner: P-PINK z.ú. ·
+  <a href="/">← Zpět na mapu projektu</a> ·
+  Zdroj dat: Indikativní fiše SA+ II v5, Rozpočet 29. 6. 2026, Projektová dokumentace PO IC/TM v5
+</div>
+
+<script>
+function showPO(id) {
+  document.querySelectorAll('.po-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.po-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  event.currentTarget.classList.add('active');
+}
+</script>
+</body>
+</html>
