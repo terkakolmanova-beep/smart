@@ -14,7 +14,45 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  padding-top: 48px;
 }
+
+/* ── SHARED TOP BAR ──────────────────────────────────────── */
+#top-bar {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 900;
+  display: flex; align-items: center;
+  padding: 0 16px 0 0;
+  background: rgba(255,255,255,0.95);
+  backdrop-filter: blur(6px);
+  border-bottom: 1px solid #dfe3ec;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.07);
+  height: 48px;
+}
+.topbar-brand {
+  display: flex; align-items: center;
+  padding: 0 18px 0 16px;
+  border-right: 1px solid #e5e9f3;
+  height: 100%;
+  font-size: 12.5px; font-weight: 700; color: #1F4E79;
+  white-space: nowrap;
+  text-decoration: none;
+}
+.topbar-brand span { opacity: .55; font-weight: 400; margin-left: 5px; font-size: 11px; }
+.topbar-nav {
+  display: flex; align-items: stretch; height: 100%;
+  margin-right: auto;
+}
+.topbar-nav a {
+  display: flex; align-items: center;
+  padding: 0 16px;
+  font-size: 12.5px; font-weight: 600; color: #5a6880;
+  text-decoration: none;
+  border-bottom: 3px solid transparent;
+  transition: color .15s, border-color .15s;
+  white-space: nowrap;
+}
+.topbar-nav a:hover { color: #1F4E79; }
+.topbar-nav a.active { color: #1F4E79; border-bottom-color: #1F4E79; }
 
 /* ── HEADER ──────────────────────────────────────────────── */
 .header {
@@ -396,7 +434,16 @@ body {
 </head>
 <body>
 
-<!-- HEADER -->
+<!-- TOP BAR -->
+<div id="top-bar">
+  <a class="topbar-brand" href="/">SA+ II PK <span>Mapa projektu</span></a>
+  <nav class="topbar-nav">
+    <a href="/">Mapa projektu</a>
+    <a href="piloty.html" class="active">Pilotní ověření</a>
+  </nav>
+</div>
+
+<!-- PAGE HEADER -->
 <div class="header">
   <div class="header-left">
     <h1>Pilotní ověření Smart Akcelerátor+ II</h1>

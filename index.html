@@ -478,40 +478,66 @@
   #pwd-btn:hover { background: #174070; }
   #pwd-err { color: #C0392B; font-size: 13px; margin-top: 10px; min-height: 18px; }
 
-  /* ── PDF TOP BAR ─────────────────────────────────────────────────────── */
+  /* ── TOP BAR ─────────────────────────────────────────────────────────── */
   #top-bar {
     position: fixed; top: 0; left: 0; right: 0; z-index: 900;
-    display: flex; align-items: center; justify-content: flex-end;
-    gap: 10px; padding: 8px 20px;
-    background: rgba(255,255,255,0.92);
+    display: flex; align-items: center;
+    gap: 0; padding: 0 16px 0 0;
+    background: rgba(255,255,255,0.95);
     backdrop-filter: blur(6px);
     border-bottom: 1px solid #dfe3ec;
     box-shadow: 0 1px 6px rgba(0,0,0,0.07);
+    height: 48px;
   }
+  .topbar-brand {
+    display: flex; align-items: center;
+    padding: 0 18px 0 16px;
+    border-right: 1px solid #e5e9f3;
+    height: 100%;
+    font-size: 12.5px; font-weight: 700; color: #1F4E79;
+    white-space: nowrap;
+    text-decoration: none;
+  }
+  .topbar-brand span { opacity: .55; font-weight: 400; margin-left: 5px; font-size: 11px; }
+  .topbar-nav {
+    display: flex; align-items: stretch; height: 100%;
+    margin-right: auto;
+  }
+  .topbar-nav a {
+    display: flex; align-items: center;
+    padding: 0 16px;
+    font-size: 12.5px; font-weight: 600; color: #5a6880;
+    text-decoration: none;
+    border-bottom: 3px solid transparent;
+    transition: color .15s, border-color .15s;
+    white-space: nowrap;
+  }
+  .topbar-nav a:hover { color: #1F4E79; }
+  .topbar-nav a.active { color: #1F4E79; border-bottom-color: #1F4E79; }
+  .topbar-right { display: flex; align-items: center; gap: 10px; }
   #pdf-btn {
     display: inline-flex; align-items: center; gap: 7px;
-    padding: 8px 18px; border: none; border-radius: 8px;
+    padding: 7px 16px; border: none; border-radius: 8px;
     background: #1F4E79; color: white;
-    font-size: 13px; font-weight: 600; cursor: pointer;
+    font-size: 12.5px; font-weight: 600; cursor: pointer;
     transition: background .15s, transform .1s;
     box-shadow: 0 2px 8px rgba(31,78,121,0.25);
   }
   #pdf-btn:hover  { background: #174070; transform: translateY(-1px); }
   #pdf-btn:active { transform: translateY(0); }
   #pdf-btn:disabled { background: #7a9dba; cursor: not-allowed; transform: none; }
-
   #pdf-badge {
     display: none; align-items: center; gap: 5px;
-    padding: 5px 10px; border-radius: 6px;
+    padding: 4px 10px; border-radius: 6px;
     background: #fff3cd; border: 1px solid #f0c040;
-    font-size: 11.5px; font-weight: 600; color: #856404;
+    font-size: 11px; font-weight: 600; color: #856404;
     animation: fadein .3s ease;
   }
   #pdf-badge.visible { display: inline-flex; }
   @keyframes fadein { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: none; } }
 
   /* Odsazení obsahu pod top-barem */
-  body { padding-top: 50px !important; }
+  body { padding-top: 56px !important; }
 
   @media print {
     #top-bar, #pwd-overlay { display: none !important; }
@@ -522,17 +548,24 @@
 </head>
 <body>
 
-<!-- TOP BAR: PDF tlačítko + change-badge -->
+<!-- TOP BAR: navigace + PDF tlačítko + change-badge -->
 <div id="top-bar">
-  <span id="pdf-badge">⚠ Stránka se změnila – PDF je zastaralé</span>
-  <button id="pdf-btn" onclick="downloadPdf()">
-    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-      <polyline points="7 10 12 15 17 10"/>
-      <line x1="12" y1="15" x2="12" y2="3"/>
-    </svg>
-    Stáhnout PDF
-  </button>
+  <a class="topbar-brand" href="/">SA+ II PK <span>Mapa projektu</span></a>
+  <nav class="topbar-nav">
+    <a href="/" class="active">Mapa projektu</a>
+    <a href="piloty.html">Pilotní ověření</a>
+  </nav>
+  <div class="topbar-right">
+    <span id="pdf-badge">⚠ Stránka se změnila – PDF je zastaralé</span>
+    <button id="pdf-btn" onclick="downloadPdf()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+        <polyline points="7 10 12 15 17 10"/>
+        <line x1="12" y1="15" x2="12" y2="3"/>
+      </svg>
+      Stáhnout PDF
+    </button>
+  </div>
 </div>
 
 <!-- PASSWORD OVERLAY -->
