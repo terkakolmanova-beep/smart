@@ -91,6 +91,103 @@ body {
   font-weight: 700;
 }
 
+/* ── INTRO SECTION ───────────────────────────────────────── */
+.intro-section {
+  max-width: 1400px;
+  margin: 20px auto 0;
+  padding: 0 24px;
+}
+.intro-grid {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr 0.9fr;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+.intro-block {
+  background: white;
+  border-radius: 12px;
+  padding: 18px 20px;
+  box-shadow: 0 2px 10px rgba(0,0,0,.06);
+  font-size: 13px;
+  line-height: 1.6;
+  color: #2a3555;
+}
+.intro-block-title {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: .09em;
+  font-weight: 700;
+  color: #1F4E79;
+  margin-bottom: 10px;
+  padding-bottom: 6px;
+  border-bottom: 2px solid #1F4E79;
+}
+.intro-problem { border-top: 4px solid #C0392B; }
+.intro-what    { border-top: 4px solid #1F4E79; }
+.intro-overview { border-top: 4px solid #2E7D32; }
+
+.intro-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin-top: 14px;
+}
+.intro-stat {
+  background: #eef4ff;
+  border-radius: 8px;
+  padding: 8px 6px;
+  text-align: center;
+}
+.intro-stat-num {
+  display: block;
+  font-size: 20px;
+  font-weight: 700;
+  color: #1F4E79;
+  line-height: 1.1;
+}
+.intro-stat-label {
+  display: block;
+  font-size: 10px;
+  color: #666;
+  margin-top: 2px;
+}
+
+.po-overview-list { display: flex; flex-direction: column; gap: 4px; }
+.po-ov-row {
+  display: grid;
+  grid-template-columns: 34px 1fr 44px 46px;
+  gap: 6px;
+  align-items: center;
+  padding: 6px 8px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background .12s;
+  font-size: 12px;
+}
+.po-ov-row:hover { background: #f0f5fb; }
+.po-ov-num {
+  font-weight: 700;
+  font-size: 11px;
+  background: #1F4E79;
+  color: white;
+  border-radius: 4px;
+  padding: 2px 5px;
+  text-align: center;
+}
+.po-ov-name { color: #1a2540; font-weight: 500; }
+.po-ov-partner { color: #666; font-size: 11px; }
+.po-ov-amt { font-weight: 700; color: #1F4E79; text-align: right; font-size: 11.5px; }
+
+@media (max-width: 1000px) {
+  .intro-grid { grid-template-columns: 1fr 1fr; }
+  .intro-overview { grid-column: 1 / -1; }
+  .intro-stats { grid-template-columns: repeat(4, 1fr); }
+}
+@media (max-width: 640px) {
+  .intro-grid { grid-template-columns: 1fr; }
+  .intro-stats { grid-template-columns: repeat(2, 1fr); }
+}
+
 /* ── LAYOUT ──────────────────────────────────────────────── */
 .layout {
   display: flex;
@@ -462,6 +559,70 @@ body {
 
 <div class="context-bar">
   Přehled 6 pilotních ověření realizovaných v rámci Aktivity 7 (A7) projektu Smart Akcelerátor+ II Pardubického kraje. Každé PO ověřuje nový intervenční nástroj pro posílení inovačního ekosystému kraje v souladu s krajskou RIS3 strategií.
+</div>
+
+<!-- INTRO SECTION -->
+<div class="intro-section">
+  <div class="intro-grid">
+    <div class="intro-block intro-problem">
+      <div class="intro-block-title">Proč pilotní ověření?</div>
+      <p>Pardubický kraj disponuje silnou průmyslovou základnou, ale v oblasti inovací zaostává za svým potenciálem. Více než <strong>70 % podniků</strong> v kraji sice zavádí inovace, zároveň však <strong>70 % nemá vlastní VaV oddělení</strong> a <strong>81 % nemá výzkumné zařízení</strong>. Firmy narážejí na nedostatek expertní podpory v oblasti digitalizace, AI a technologického poradenství.</p>
+      <p style="margin-top:8px;">Klíčovým strukturálním deficitem je <strong>absence funkčního inovačního centra</strong> — PK patří mezi poslední kraje v ČR, které takovou institucí dosud nedisponují. SWOT analýza inovačního systému kraje (GaREP, 2026) tento nedostatek identifikuje jako jednu z prioritních slabých stránek regionu.</p>
+      <p style="margin-top:8px;">Dalšími výzvami jsou nízká míra spin-off aktivit z akademického prostředí, omezené kapacity pro mezinárodní projektovou spolupráci (Horizon Europe) a chybějící systémový mechanismus pro rozvoj a udržení talentů v regionu.</p>
+    </div>
+    <div class="intro-block intro-what">
+      <div class="intro-block-title">Co jsou pilotní ověření (A7)?</div>
+      <p>Pilotní ověření jsou <strong>ústředním nástrojem projektu Smart Akcelerátor+ II</strong> (Aktivita 7, OP JAK SC 1.1). Smyslem každého PO je v reálném prostředí kraje ověřit, zda navržený intervenční nástroj skutečně funguje — a poskytnout tak datový a zkušenostní základ pro jeho případné rozšíření do trvalého provozu nebo replikaci v jiných krajích.</p>
+      <p style="margin-top:8px;">Každé pilotní ověření je realizováno odborným partnerem projektu, má vlastní tým, rozpočet, harmonogram a měřitelné indikátory. Výstupem každého PO je <strong>závěrečná zpráva s hodnocením</strong> a doporučeními pro realizaci v širokém měřítku.</p>
+      <div class="intro-stats">
+        <div class="intro-stat"><span class="intro-stat-num">6</span><span class="intro-stat-label">pilotních ověření</span></div>
+        <div class="intro-stat"><span class="intro-stat-num">5</span><span class="intro-stat-label">partnerů realizace</span></div>
+        <div class="intro-stat"><span class="intro-stat-num">30</span><span class="intro-stat-label">měsíců trvání</span></div>
+        <div class="intro-stat"><span class="intro-stat-num">31,8 M</span><span class="intro-stat-label">Kč celkem</span></div>
+      </div>
+    </div>
+    <div class="intro-block intro-overview">
+      <div class="intro-block-title">Přehled 6 PO na první pohled</div>
+      <div class="po-overview-list">
+        <div class="po-ov-row" onclick="showPO('po1'); document.getElementById('po1').scrollIntoView({behavior:'smooth', block:'start'})">
+          <span class="po-ov-num">PO1</span>
+          <span class="po-ov-name">Inovační centrum PK + Talent management</span>
+          <span class="po-ov-partner">P-PINK</span>
+          <span class="po-ov-amt">9,34 M</span>
+        </div>
+        <div class="po-ov-row" onclick="showPO('po2'); document.getElementById('po2').scrollIntoView({behavior:'smooth', block:'start'})">
+          <span class="po-ov-num">PO2</span>
+          <span class="po-ov-name">Spin-off v „nulté fázi"</span>
+          <span class="po-ov-partner">UPCE</span>
+          <span class="po-ov-amt">6,96 M</span>
+        </div>
+        <div class="po-ov-row" onclick="showPO('po3'); document.getElementById('po3').scrollIntoView({behavior:'smooth', block:'start'})">
+          <span class="po-ov-num">PO3</span>
+          <span class="po-ov-name">SFÉRA Living Lab – Odolný region</span>
+          <span class="po-ov-partner">SFÉRA</span>
+          <span class="po-ov-amt">7,64 M</span>
+        </div>
+        <div class="po-ov-row" onclick="showPO('po4'); document.getElementById('po4').scrollIntoView({behavior:'smooth', block:'start'})">
+          <span class="po-ov-num">PO4</span>
+          <span class="po-ov-name">Horizon Europe</span>
+          <span class="po-ov-partner">RRA PK</span>
+          <span class="po-ov-amt" style="color:#999;">sdíleno</span>
+        </div>
+        <div class="po-ov-row" onclick="showPO('po5'); document.getElementById('po5').scrollIntoView({behavior:'smooth', block:'start'})">
+          <span class="po-ov-num">PO5</span>
+          <span class="po-ov-name">KIRI – Krajská investiční iniciativa</span>
+          <span class="po-ov-partner">Kraj</span>
+          <span class="po-ov-amt">2,02 M</span>
+        </div>
+        <div class="po-ov-row" onclick="showPO('po6'); document.getElementById('po6').scrollIntoView({behavior:'smooth', block:'start'})">
+          <span class="po-ov-num">PO6</span>
+          <span class="po-ov-name">Reg. kompetence pro mezinár. dotace</span>
+          <span class="po-ov-partner">RRA PK</span>
+          <span class="po-ov-amt">4,49 M</span>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
 <!-- LAYOUT -->
