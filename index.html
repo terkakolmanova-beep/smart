@@ -1418,16 +1418,16 @@ document.head.appendChild(spinStyle);
   <div class="note" style="margin-bottom:18px;">Celkové způsobilé výdaje (CZV) vč. všech 6 pilotních ověření: <b>63 643 384 Kč</b>. Max. rozpočet projektu (s rezervou): <b>65 000 000 Kč</b>. Záloha EU+SR (max. 30 % CZV): <b>19 093 015 Kč</b>. Zdroj: <i>SA+2_rozpočet_pro_piloty_29062026.xlsx</i>.</div>
 
   <!-- TOP ROW: donut + partner split -->
-  <div style="display:grid; grid-template-columns: 1fr 1fr; gap:24px; align-items:start; margin-bottom:28px;">
+  <div style="display:grid; grid-template-columns: 190px 1fr; gap:20px; align-items:start; margin-bottom:28px;">
 
     <!-- DONUT CHART -->
-    <div style="background:#f8faff; border:1px solid #dfe3ec; border-radius:10px; padding:18px 20px;">
-      <div style="font-weight:700; color:#1F4E79; font-size:14px; margin-bottom:14px;">Struktura CZV podle aktivit a kategorií</div>
-      <div style="position:relative; max-width:340px; margin:0 auto;">
-        <canvas id="budgetDonut" width="340" height="340"></canvas>
+    <div style="background:#f8faff; border:1px solid #dfe3ec; border-radius:10px; padding:14px 12px;">
+      <div style="font-weight:700; color:#1F4E79; font-size:12px; margin-bottom:10px;">Struktura CZV</div>
+      <div style="position:relative; max-width:165px; margin:0 auto;">
+        <canvas id="budgetDonut" width="165" height="165"></canvas>
         <div style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); text-align:center; pointer-events:none;">
-          <div style="font-size:22px; font-weight:800; color:#1F4E79;">63,6 M</div>
-          <div style="font-size:11px; color:#5a6880;">Kč celkem CZV</div>
+          <div style="font-size:14px; font-weight:800; color:#1F4E79;">66,1 M</div>
+          <div style="font-size:9px; color:#5a6880;">Kč CZV</div>
         </div>
       </div>
     </div>
@@ -1435,31 +1435,31 @@ document.head.appendChild(spinStyle);
     <!-- SUMMARY TABLE -->
     <div style="background:#f8faff; border:1px solid #dfe3ec; border-radius:10px; padding:18px 20px;">
       <div style="font-weight:700; color:#1F4E79; font-size:14px; margin-bottom:14px;">Přehled podle aktivit / kategorií</div>
-      <table style="font-size:12px; margin-top:0;">
+      <table style="font-size:12px; margin-top:0; width:100%;">
         <thead>
           <tr>
             <th style="width:16px; padding:5px 6px;"></th>
             <th>Aktivita / kategorie</th>
             <th style="text-align:right; white-space:nowrap;">Kč</th>
-            <th style="text-align:right;">%</th>
+            <th style="text-align:right; white-space:nowrap;">%</th>
           </tr>
         </thead>
         <tbody>
-          <tr><td style="background:#1F4E79; border-radius:2px;"></td><td>A1 – Řízení projektu</td><td style="text-align:right; font-weight:600;">5 922 510</td><td style="text-align:right;">9,0 %</td></tr>
-          <tr><td style="background:#2E7D32; border-radius:2px;"></td><td>A2 – Základní tým</td><td style="text-align:right; font-weight:600;">6 768 800</td><td style="text-align:right;">10,2 %</td></tr>
-          <tr><td style="background:#27AE60; border-radius:2px;"></td><td>A3 – Mapování a analýzy</td><td style="text-align:right; font-weight:600;">2 274 000</td><td style="text-align:right;">3,6 %</td></tr>
-          <tr><td style="background:#8E44AD; border-radius:2px;"></td><td>A4 – Vzdělávání</td><td style="text-align:right; font-weight:600;">1 120 800</td><td style="text-align:right;">1,8 %</td></tr>
-          <tr><td style="background:#C0392B; border-radius:2px;"></td><td>A7 – Pilotní ověření (6 PO + koordinace)</td><td style="text-align:right; font-weight:600;">23 751 400</td><td style="text-align:right;">37,3 %</td></tr>
-          <tr><td style="background:#E67E22; border-radius:2px;"></td><td>A8 – Marketing a komunikace</td><td style="text-align:right; font-weight:600;">8 695 600</td><td style="text-align:right;">13,7 %</td></tr>
-          <tr style="border-top:1px solid #dfe3ec;"><td style="background:#7F8C8D; border-radius:2px;"></td><td>Odvody SP + ZP</td><td style="text-align:right; font-weight:600;">8 894 267</td><td style="text-align:right;">14,0 %</td></tr>
-          <tr><td style="background:#BDC3C7; border-radius:2px;"></td><td>Paušální náklady (režie)</td><td style="text-align:right; font-weight:600;">4 210 872</td><td style="text-align:right;">6,4 %</td></tr>
-          <tr><td style="background:#F39C12; border-radius:2px;"></td><td>Majetek + licence</td><td style="text-align:right; font-weight:600;">2 846 331</td><td style="text-align:right;">4,5 %</td></tr>
-          <tr><td style="background:#1ABC9C; border-radius:2px;"></td><td>Cestovní náhrady</td><td style="text-align:right; font-weight:600;">400 000</td><td style="text-align:right;">0,6 %</td></tr>
+          <tr><td style="background:#1F4E79; border-radius:2px;"></td><td>A1 – Řízení projektu</td><td style="text-align:right; font-weight:600; white-space:nowrap;">5 922 510</td><td style="text-align:right; white-space:nowrap;">9,0 %</td></tr>
+          <tr><td style="background:#2E7D32; border-radius:2px;"></td><td>A2 – Základní tým</td><td style="text-align:right; font-weight:600; white-space:nowrap;">6 768 800</td><td style="text-align:right; white-space:nowrap;">10,2 %</td></tr>
+          <tr><td style="background:#27AE60; border-radius:2px;"></td><td>A3 – Mapování a analýzy</td><td style="text-align:right; font-weight:600; white-space:nowrap;">2 274 000</td><td style="text-align:right; white-space:nowrap;">3,6 %</td></tr>
+          <tr><td style="background:#8E44AD; border-radius:2px;"></td><td>A4 – Vzdělávání</td><td style="text-align:right; font-weight:600; white-space:nowrap;">1 120 800</td><td style="text-align:right; white-space:nowrap;">1,8 %</td></tr>
+          <tr><td style="background:#C0392B; border-radius:2px;"></td><td>A7 – Pilotní ověření (6 PO + koordinace)</td><td style="text-align:right; font-weight:600; white-space:nowrap;">23 751 400</td><td style="text-align:right; white-space:nowrap;">37,3 %</td></tr>
+          <tr><td style="background:#E67E22; border-radius:2px;"></td><td>A8 – Marketing a komunikace</td><td style="text-align:right; font-weight:600; white-space:nowrap;">8 695 600</td><td style="text-align:right; white-space:nowrap;">13,7 %</td></tr>
+          <tr style="border-top:1px solid #dfe3ec;"><td style="background:#7F8C8D; border-radius:2px;"></td><td>Odvody SP + ZP</td><td style="text-align:right; font-weight:600; white-space:nowrap;">8 894 267</td><td style="text-align:right; white-space:nowrap;">14,0 %</td></tr>
+          <tr><td style="background:#BDC3C7; border-radius:2px;"></td><td>Paušální náklady (režie)</td><td style="text-align:right; font-weight:600; white-space:nowrap;">4 210 872</td><td style="text-align:right; white-space:nowrap;">6,4 %</td></tr>
+          <tr><td style="background:#F39C12; border-radius:2px;"></td><td>Majetek + licence</td><td style="text-align:right; font-weight:600; white-space:nowrap;">2 846 331</td><td style="text-align:right; white-space:nowrap;">4,5 %</td></tr>
+          <tr><td style="background:#1ABC9C; border-radius:2px;"></td><td>Cestovní náhrady</td><td style="text-align:right; font-weight:600; white-space:nowrap;">400 000</td><td style="text-align:right; white-space:nowrap;">0,6 %</td></tr>
           <tr style="border-top:2px solid #1F4E79;">
             <td style="background:#1F4E79; border-radius:2px;"></td>
             <td style="font-weight:700; color:#1F4E79;">CELKEM CZV</td>
-            <td style="text-align:right; font-weight:700; color:#1F4E79;">66 061 916</td>
-            <td style="text-align:right; font-weight:700;">100 %</td>
+            <td style="text-align:right; font-weight:700; color:#1F4E79; white-space:nowrap;">66 061 916</td>
+            <td style="text-align:right; font-weight:700; white-space:nowrap;">100 %</td>
           </tr>
           <tr style="border-top:1px dashed #dfe3ec;">
             <td></td>
@@ -1522,9 +1522,9 @@ document.head.appendChild(spinStyle);
       <table style="font-size:11.5px; margin:0;">
         <thead><tr><th>Položka</th><th>Subjekt</th><th style="text-align:right;">Kč</th></tr></thead>
         <tbody>
-          <tr><td>Admin. tým P-PINK (PM 0,5 + FM 0,6 + admin 0,5) – jednorázové</td><td>P-PINK</td><td style="text-align:right;">3 485 430</td></tr>
-          <tr><td>Admin. tým PK (PM 0,5 + FM 0,4) – jednorázové</td><td>Kraj</td><td style="text-align:right;">2 437 080</td></tr>
-          <tr style="background:#eaf1fa; font-weight:700;"><td colspan="2">Celkem A1</td><td style="text-align:right;">5 922 510</td></tr>
+          <tr><td>Admin. tým P-PINK (PM 0,5 + FM 0,6 + admin 0,5) – jednorázové</td><td>P-PINK</td><td style="text-align:right; white-space:nowrap;">3 485 430</td></tr>
+          <tr><td>Admin. tým PK (PM 0,5 + FM 0,4) – jednorázové</td><td>Kraj</td><td style="text-align:right; white-space:nowrap;">2 437 080</td></tr>
+          <tr style="background:#eaf1fa; font-weight:700;"><td colspan="2">Celkem A1</td><td style="text-align:right; white-space:nowrap;">5 922 510</td></tr>
         </tbody>
       </table>
     </div>
@@ -1537,13 +1537,13 @@ document.head.appendChild(spinStyle);
       <table style="font-size:11.5px; margin:0;">
         <thead><tr><th>Pozice</th><th>Subjekt</th><th style="text-align:right;">Kč</th></tr></thead>
         <tbody>
-          <tr><td>RIS3 manažer (1,0 HPP, 30 měs.)</td><td>P-PINK</td><td style="text-align:right;">2 880 000</td></tr>
-          <tr><td>RIS3 developer 1 (0,5 HPP, 30 měs.)</td><td>P-PINK</td><td style="text-align:right;">1 440 000</td></tr>
-          <tr><td>RIS3 developer 2 (0,5 DPČ, 30 měs.)</td><td>P-PINK</td><td style="text-align:right;">1 490 400</td></tr>
-          <tr><td>RIS3 developer 3 (0,2 DPČ, 30 měs.)</td><td>P-PINK</td><td style="text-align:right;">518 400</td></tr>
-          <tr><td>Setkání KRPI a inovačních platforem</td><td>P-PINK</td><td style="text-align:right;">50 000</td></tr>
-          <tr><td>RIS3 koordinátor (0,2 úvazek, 30 měs.)</td><td>Kraj</td><td style="text-align:right;">390 000</td></tr>
-          <tr style="background:#eaf1fa; font-weight:700;"><td colspan="2">Celkem A2</td><td style="text-align:right;">6 768 800</td></tr>
+          <tr><td>RIS3 manažer (1,0 HPP, 30 měs.)</td><td>P-PINK</td><td style="text-align:right; white-space:nowrap;">2 880 000</td></tr>
+          <tr><td>RIS3 developer 1 (0,5 HPP, 30 měs.)</td><td>P-PINK</td><td style="text-align:right; white-space:nowrap;">1 440 000</td></tr>
+          <tr><td>RIS3 developer 2 (0,5 DPČ, 30 měs.)</td><td>P-PINK</td><td style="text-align:right; white-space:nowrap;">1 490 400</td></tr>
+          <tr><td>RIS3 developer 3 (0,2 DPČ, 30 měs.)</td><td>P-PINK</td><td style="text-align:right; white-space:nowrap;">518 400</td></tr>
+          <tr><td>Setkání KRPI a inovačních platforem</td><td>P-PINK</td><td style="text-align:right; white-space:nowrap;">50 000</td></tr>
+          <tr><td>RIS3 koordinátor (0,2 úvazek, 30 měs.)</td><td>Kraj</td><td style="text-align:right; white-space:nowrap;">390 000</td></tr>
+          <tr style="background:#eaf1fa; font-weight:700;"><td colspan="2">Celkem A2</td><td style="text-align:right; white-space:nowrap;">6 768 800</td></tr>
         </tbody>
       </table>
     </div>
@@ -1556,10 +1556,10 @@ document.head.appendChild(spinStyle);
       <table style="font-size:11.5px; margin:0;">
         <thead><tr><th>Pozice / Položka</th><th>Subjekt</th><th style="text-align:right;">Kč</th></tr></thead>
         <tbody>
-          <tr><td>RIS3 analytik 1 (0,5 DPČ, 30 měs.)</td><td>P-PINK</td><td style="text-align:right;">1 104 000</td></tr>
-          <tr><td>Evaluátor (0,2 + 0,5 při evaluaci)</td><td>P-PINK</td><td style="text-align:right;">720 000</td></tr>
-          <tr><td>RIS3 analytik 2 (0,3 úvazek, kraj)</td><td>Kraj</td><td style="text-align:right;">450 000</td></tr>
-          <tr style="background:#eaf1fa; font-weight:700;"><td colspan="2">Celkem A3</td><td style="text-align:right;">2 274 000</td></tr>
+          <tr><td>RIS3 analytik 1 (0,5 DPČ, 30 měs.)</td><td>P-PINK</td><td style="text-align:right; white-space:nowrap;">1 104 000</td></tr>
+          <tr><td>Evaluátor (0,2 + 0,5 při evaluaci)</td><td>P-PINK</td><td style="text-align:right; white-space:nowrap;">720 000</td></tr>
+          <tr><td>RIS3 analytik 2 (0,3 úvazek, kraj)</td><td>Kraj</td><td style="text-align:right; white-space:nowrap;">450 000</td></tr>
+          <tr style="background:#eaf1fa; font-weight:700;"><td colspan="2">Celkem A3</td><td style="text-align:right; white-space:nowrap;">2 274 000</td></tr>
         </tbody>
       </table>
     </div>
@@ -1572,10 +1572,10 @@ document.head.appendChild(spinStyle);
       <table style="font-size:11.5px; margin:0;">
         <thead><tr><th>Položka</th><th>Subjekt</th><th style="text-align:right;">Kč</th></tr></thead>
         <tbody>
-          <tr><td>Manažer vzdělávání (DPČ, 30 měs.)</td><td>P-PINK</td><td style="text-align:right;">220 800</td></tr>
-          <tr><td>Vzdělávací služby a akce</td><td>P-PINK</td><td style="text-align:right;">800 000</td></tr>
-          <tr><td>Vzdělávání odborného týmu</td><td>Kraj</td><td style="text-align:right;">100 000</td></tr>
-          <tr style="background:#eaf1fa; font-weight:700;"><td colspan="2">Celkem A4</td><td style="text-align:right;">1 120 800</td></tr>
+          <tr><td>Manažer vzdělávání (DPČ, 30 měs.)</td><td>P-PINK</td><td style="text-align:right; white-space:nowrap;">220 800</td></tr>
+          <tr><td>Vzdělávací služby a akce</td><td>P-PINK</td><td style="text-align:right; white-space:nowrap;">800 000</td></tr>
+          <tr><td>Vzdělávání odborného týmu</td><td>Kraj</td><td style="text-align:right; white-space:nowrap;">100 000</td></tr>
+          <tr style="background:#eaf1fa; font-weight:700;"><td colspan="2">Celkem A4</td><td style="text-align:right; white-space:nowrap;">1 120 800</td></tr>
         </tbody>
       </table>
     </div>
@@ -1590,13 +1590,13 @@ document.head.appendChild(spinStyle);
           <tr><th>Pilotní ověření</th><th>Partner</th><th style="text-align:right;">Kč (vč. odvodů)</th></tr>
         </thead>
         <tbody>
-          <tr><td>Koordinátor VŠECH pilotních ověření (0,5 HPP, 30 měs.)</td><td>P-PINK</td><td style="text-align:right;">1 383 800</td></tr>
-          <tr><td><b>PO1</b> – Inovační centrum PK (manažer, experti, garant, marketing)</td><td>P-PINK</td><td style="text-align:right;">8 382 000</td></tr>
-          <tr><td><b>PO1</b> – Talent management (screeningové a diagnostické nástroje: Invenio/IDENA/CFT 20-R)</td><td>P-PINK</td><td style="text-align:right;">80 000</td></tr>
-          <tr><td><b>PO2</b> – CTTZ UPCE: spin-off v „nulté fázi" (manažer, koordinátor nástrojů, spin-off specialista, řešitelské týmy)</td><td>Univerzita Pardubice</td><td style="text-align:right;">6 868 972</td></tr>
-          <tr><td><b>PO3</b> – SFÉRA Living Lab – Odolný region (garant, lektoři 5×, vývojáři 5×, mobilní jednotka)</td><td>SFÉRA Pardubice</td><td style="text-align:right;">7 640 613</td></tr>
-          <tr><td><b>PO4/6</b> – Mezinárodní projekty a rozvoj kompetencí (manažer PO, odborný konzultant, technologický scout, vzdělávání, Horizon Europe)</td><td>RRA PK</td><td style="text-align:right;">5 935 552</td></tr>
-          <tr><td><b>PO5</b> – KIRI (manažer PO, investiční portál, investor outreach, datová příprava lokalit, matchmaking workshopy)</td><td>Pardubický kraj</td><td style="text-align:right;">2 017 000</td></tr>
+          <tr><td>Koordinátor VŠECH pilotních ověření (0,5 HPP, 30 měs.)</td><td>P-PINK</td><td style="text-align:right; white-space:nowrap;">1 383 800</td></tr>
+          <tr><td><b>PO1</b> – Inovační centrum PK (manažer, experti, garant, marketing)</td><td>P-PINK</td><td style="text-align:right; white-space:nowrap;">8 382 000</td></tr>
+          <tr><td><b>PO1</b> – Talent management (screeningové a diagnostické nástroje: Invenio/IDENA/CFT 20-R)</td><td>P-PINK</td><td style="text-align:right; white-space:nowrap;">80 000</td></tr>
+          <tr><td><b>PO2</b> – CTTZ UPCE: spin-off v „nulté fázi" (manažer, koordinátor nástrojů, spin-off specialista, řešitelské týmy)</td><td>Univerzita Pardubice</td><td style="text-align:right; white-space:nowrap;">6 868 972</td></tr>
+          <tr><td><b>PO3</b> – SFÉRA Living Lab – Odolný region (garant, lektoři 5×, vývojáři 5×, mobilní jednotka)</td><td>SFÉRA Pardubice</td><td style="text-align:right; white-space:nowrap;">7 640 613</td></tr>
+          <tr><td><b>PO4/6</b> – Mezinárodní projekty a rozvoj kompetencí (manažer PO, odborný konzultant, technologický scout, vzdělávání, Horizon Europe)</td><td>RRA PK</td><td style="text-align:right; white-space:nowrap;">5 935 552</td></tr>
+          <tr><td><b>PO5</b> – KIRI (manažer PO, investiční portál, investor outreach, datová příprava lokalit, matchmaking workshopy)</td><td>Pardubický kraj</td><td style="text-align:right; white-space:nowrap;">2 017 000</td></tr>
           <tr style="background:#fde8e8; font-weight:700; border-top:2px solid #C0392B;">
             <td colspan="2" style="color:#C0392B;">Celkem A7 (6 PO + koordinace)</td>
             <td style="text-align:right; color:#C0392B;">32 307 937</td>
@@ -1616,13 +1616,13 @@ document.head.appendChild(spinStyle);
       <table style="font-size:11.5px; margin:0;">
         <thead><tr><th>Položka</th><th>Subjekt</th><th style="text-align:right;">Kč</th></tr></thead>
         <tbody>
-          <tr><td>Marketingový manažer 2× 0,5 (DPČ, 30 měs.)</td><td>P-PINK</td><td style="text-align:right;">3 036 000</td></tr>
-          <tr><td>PR specialista 0,5 (DPČ)</td><td>P-PINK</td><td style="text-align:right;">1 518 000</td></tr>
-          <tr><td>Grafik 0,2 (DPČ, 30 měs.)</td><td>P-PINK</td><td style="text-align:right;">441 600</td></tr>
-          <tr><td>Sociální média – placená propagace (Meta, LinkedIn)</td><td>P-PINK</td><td style="text-align:right;">700 000</td></tr>
-          <tr><td>Medializace</td><td>P-PINK</td><td style="text-align:right;">1 000 000</td></tr>
-          <tr><td>Eventy a akce (5×)</td><td>P-PINK</td><td style="text-align:right;">2 000 000</td></tr>
-          <tr style="background:#eaf1fa; font-weight:700;"><td colspan="2">Celkem A8</td><td style="text-align:right;">8 695 600</td></tr>
+          <tr><td>Marketingový manažer 2× 0,5 (DPČ, 30 měs.)</td><td>P-PINK</td><td style="text-align:right; white-space:nowrap;">3 036 000</td></tr>
+          <tr><td>PR specialista 0,5 (DPČ)</td><td>P-PINK</td><td style="text-align:right; white-space:nowrap;">1 518 000</td></tr>
+          <tr><td>Grafik 0,2 (DPČ, 30 měs.)</td><td>P-PINK</td><td style="text-align:right; white-space:nowrap;">441 600</td></tr>
+          <tr><td>Sociální média – placená propagace (Meta, LinkedIn)</td><td>P-PINK</td><td style="text-align:right; white-space:nowrap;">700 000</td></tr>
+          <tr><td>Medializace</td><td>P-PINK</td><td style="text-align:right; white-space:nowrap;">1 000 000</td></tr>
+          <tr><td>Eventy a akce (5×)</td><td>P-PINK</td><td style="text-align:right; white-space:nowrap;">2 000 000</td></tr>
+          <tr style="background:#eaf1fa; font-weight:700;"><td colspan="2">Celkem A8</td><td style="text-align:right; white-space:nowrap;">8 695 600</td></tr>
         </tbody>
       </table>
     </div>
@@ -1639,11 +1639,11 @@ document.head.appendChild(spinStyle);
       <table style="font-size:11.5px; margin:0;">
         <thead><tr><th>Subjekt</th><th style="text-align:right;">SP</th><th style="text-align:right;">ZP</th></tr></thead>
         <tbody>
-          <tr><td>P-PINK</td><td style="text-align:right;">3 670 598</td><td style="text-align:right;">1 332 072</td></tr>
-          <tr><td>Pardubický kraj</td><td style="text-align:right;">482 112</td><td style="text-align:right;">174 960</td></tr>
-          <tr><td>SFÉRA Pardubice</td><td style="text-align:right;">748 960</td><td style="text-align:right;">271 800</td></tr>
-          <tr><td>RRA PK</td><td style="text-align:right;">657 101</td><td style="text-align:right;">238 464</td></tr>
-          <tr><td>Univerzita Pardubice</td><td style="text-align:right;">967 200</td><td style="text-align:right;">351 000</td></tr>
+          <tr><td>P-PINK</td><td style="text-align:right; white-space:nowrap;">3 670 598</td><td style="text-align:right; white-space:nowrap;">1 332 072</td></tr>
+          <tr><td>Pardubický kraj</td><td style="text-align:right; white-space:nowrap;">482 112</td><td style="text-align:right; white-space:nowrap;">174 960</td></tr>
+          <tr><td>SFÉRA Pardubice</td><td style="text-align:right; white-space:nowrap;">748 960</td><td style="text-align:right; white-space:nowrap;">271 800</td></tr>
+          <tr><td>RRA PK</td><td style="text-align:right; white-space:nowrap;">657 101</td><td style="text-align:right; white-space:nowrap;">238 464</td></tr>
+          <tr><td>Univerzita Pardubice</td><td style="text-align:right; white-space:nowrap;">967 200</td><td style="text-align:right; white-space:nowrap;">351 000</td></tr>
           <tr style="background:#eaf1fa; font-weight:700;"><td>Celkem SP + ZP</td><td colspan="2" style="text-align:right;">8 894 267</td></tr>
         </tbody>
       </table>
@@ -1656,12 +1656,12 @@ document.head.appendChild(spinStyle);
       <table style="font-size:11.5px; margin:0;">
         <thead><tr><th>Položka</th><th>Subjekt</th><th style="text-align:right;">Kč</th></tr></thead>
         <tbody>
-          <tr><td>Paušální náklady – režie</td><td>všichni partneři</td><td style="text-align:right;">4 163 586</td></tr>
-          <tr><td>Cestovní náhrady (zahraniční cesty týmu + stakeholdeři)</td><td>P-PINK</td><td style="text-align:right;">400 000</td></tr>
-          <tr style="border-top:1px dashed #dfe3ec;"><td>Drobný hmotný majetek (notebooky, vybavení Living Lab)</td><td>PK, P-PINK, Sféra</td><td style="text-align:right;">1 651 416</td></tr>
-          <tr><td>Materiál (spotřební – Living Lab)</td><td>SFÉRA</td><td style="text-align:right;">800 000</td></tr>
-          <tr><td>Nehmotný majetek (licence CRM, DB, MS Office, Claude Code, Ahrefs, Canva)</td><td>P-PINK</td><td style="text-align:right;">394 915</td></tr>
-          <tr style="background:#eaf1fa; font-weight:700;"><td colspan="2">Celkem</td><td style="text-align:right;">7 409 917</td></tr>
+          <tr><td>Paušální náklady – režie</td><td>všichni partneři</td><td style="text-align:right; white-space:nowrap;">4 163 586</td></tr>
+          <tr><td>Cestovní náhrady (zahraniční cesty týmu + stakeholdeři)</td><td>P-PINK</td><td style="text-align:right; white-space:nowrap;">400 000</td></tr>
+          <tr style="border-top:1px dashed #dfe3ec;"><td>Drobný hmotný majetek (notebooky, vybavení Living Lab)</td><td>PK, P-PINK, Sféra</td><td style="text-align:right; white-space:nowrap;">1 651 416</td></tr>
+          <tr><td>Materiál (spotřební – Living Lab)</td><td>SFÉRA</td><td style="text-align:right; white-space:nowrap;">800 000</td></tr>
+          <tr><td>Nehmotný majetek (licence CRM, DB, MS Office, Claude Code, Ahrefs, Canva)</td><td>P-PINK</td><td style="text-align:right; white-space:nowrap;">394 915</td></tr>
+          <tr style="background:#eaf1fa; font-weight:700;"><td colspan="2">Celkem</td><td style="text-align:right; white-space:nowrap;">7 409 917</td></tr>
         </tbody>
       </table>
     </div>
