@@ -1189,301 +1189,245 @@ document.head.appendChild(spinStyle);
 
 <div class="page">
   <h2>4. Rozpočet projektu</h2>
-  <!-- TOP ROW: donut + partner split -->
-  <div style="display:grid; grid-template-columns: 190px 1fr; gap:20px; align-items:start; margin-bottom:28px;">
+  <div style="overflow-x:auto; margin-top:4px;">
+    <table style="width:100%; font-size:11px; border-collapse:collapse; min-width:720px;">
+      <thead>
+        <tr style="background:#1F4E79; color:#fff; font-weight:700; font-size:10.5px;">
+          <th style="padding:7px 8px; text-align:left; border-right:1px solid rgba(255,255,255,.2); min-width:160px;">Klíčová aktivita / nákladová položka</th>
+          <th style="padding:7px 6px; border-right:1px solid rgba(255,255,255,.2); min-width:60px;"></th>
+          <th style="padding:7px 6px; text-align:right; border-right:1px solid rgba(255,255,255,.2);">NHIM</th>
+          <th style="padding:7px 6px; text-align:right; border-right:1px solid rgba(255,255,255,.2);">Osobní výdaje</th>
+          <th style="padding:7px 6px; text-align:right; border-right:1px solid rgba(255,255,255,.2);">HM a materiál</th>
+          <th style="padding:7px 6px; text-align:right; border-right:1px solid rgba(255,255,255,.2);">DrNHM</th>
+          <th style="padding:7px 6px; text-align:right; border-right:1px solid rgba(255,255,255,.2);">Nákup služeb</th>
+          <th style="padding:7px 6px; text-align:right; border-right:1px solid rgba(255,255,255,.2);">Přímá podpora</th>
+          <th style="padding:7px 8px; text-align:right; background:#0d3464; min-width:90px;">CELKOVÉ PN</th>
+        </tr>
+      </thead>
+      <tbody>
 
-    <!-- DONUT CHART -->
-    <div style="background:#f8faff; border:1px solid #dfe3ec; border-radius:10px; padding:14px 12px;">
-      <div style="font-weight:700; color:#1F4E79; font-size:12px; margin-bottom:10px;">Struktura CZV</div>
-      <div style="position:relative; max-width:165px; margin:0 auto;">
-        <canvas id="budgetDonut" width="165" height="165"></canvas>
-        <div style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); text-align:center; pointer-events:none;">
-          <div style="font-size:14px; font-weight:800; color:#1F4E79;">66,1 M</div>
-          <div style="font-size:9px; color:#5a6880;">Kč CZV</div>
-        </div>
-      </div>
-    </div>
+        <!-- A1 -->
+        <tr style="border-bottom:1px solid #e8eaf0;">
+          <td rowspan="2" style="padding:6px 8px; font-weight:600; font-size:11px; border-right:1px solid #e8eaf0; vertical-align:middle; background:#f4f6fa; border-bottom:2px solid #cdd3e0;">A1 – Řízení projektu</td>
+          <td style="padding:5px 6px; color:#666; border-right:1px solid #e8eaf0;">žadatel</td>
+          <td style="padding:5px 6px; text-align:right; border-right:1px solid #e8eaf0;"></td>
+          <td style="padding:5px 6px; text-align:right; border-right:1px solid #e8eaf0; white-space:nowrap;">2 437 080</td>
+          <td style="padding:5px 6px; text-align:right; border-right:1px solid #e8eaf0;"></td>
+          <td style="padding:5px 6px; text-align:right; border-right:1px solid #e8eaf0;"></td>
+          <td style="padding:5px 6px; text-align:right; border-right:1px solid #e8eaf0;"></td>
+          <td style="padding:5px 6px; text-align:right; border-right:1px solid #e8eaf0;"></td>
+          <td style="padding:5px 8px; text-align:right; font-weight:600; white-space:nowrap;">2 437 080</td>
+        </tr>
+        <tr style="border-bottom:2px solid #cdd3e0;">
+          <td style="padding:5px 6px; color:#666; border-right:1px solid #e8eaf0;">partner</td>
+          <td style="padding:5px 6px; text-align:right; border-right:1px solid #e8eaf0;"></td>
+          <td style="padding:5px 6px; text-align:right; border-right:1px solid #e8eaf0; white-space:nowrap;">3 485 430</td>
+          <td style="padding:5px 6px; text-align:right; border-right:1px solid #e8eaf0;"></td>
+          <td style="padding:5px 6px; text-align:right; border-right:1px solid #e8eaf0;"></td>
+          <td style="padding:5px 6px; text-align:right; border-right:1px solid #e8eaf0;"></td>
+          <td style="padding:5px 6px; text-align:right; border-right:1px solid #e8eaf0;"></td>
+          <td style="padding:5px 8px; text-align:right; font-weight:600; white-space:nowrap;">3 485 430</td>
+        </tr>
 
-    <!-- SUMMARY TABLE -->
-    <div style="background:#f8faff; border:1px solid #dfe3ec; border-radius:10px; padding:18px 20px;">
-      <div style="font-weight:700; color:#1F4E79; font-size:14px; margin-bottom:14px;">Přehled podle aktivit / kategorií</div>
-      <table style="font-size:12px; margin-top:0; width:100%;">
-        <thead>
-          <tr>
-            <th style="width:16px; padding:5px 6px;"></th>
-            <th>Aktivita / kategorie</th>
-            <th style="text-align:right; white-space:nowrap;">Kč</th>
-            <th style="text-align:right; white-space:nowrap;">%</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><td style="background:#1F4E79; border-radius:2px;"></td><td>A1 – Řízení projektu</td><td style="text-align:right; font-weight:600; white-space:nowrap;">5 922 510</td><td style="text-align:right; white-space:nowrap;">9,0 %</td></tr>
-          <tr><td style="background:#2E7D32; border-radius:2px;"></td><td>A2 – Základní tým</td><td style="text-align:right; font-weight:600; white-space:nowrap;">7 818 800</td><td style="text-align:right; white-space:nowrap;">10,2 %</td></tr>
-          <tr><td style="background:#27AE60; border-radius:2px;"></td><td>A3 – Mapování a analýzy</td><td style="text-align:right; font-weight:600; white-space:nowrap;">2 274 000</td><td style="text-align:right; white-space:nowrap;">3,6 %</td></tr>
-          <tr><td style="background:#8E44AD; border-radius:2px;"></td><td>A4 – Vzdělávání</td><td style="text-align:right; font-weight:600; white-space:nowrap;">1 120 800</td><td style="text-align:right; white-space:nowrap;">1,8 %</td></tr>
-          <tr><td style="background:#C0392B; border-radius:2px;"></td><td>A7 – Pilotní ověření (6 PO + koordinace)</td><td style="text-align:right; font-weight:600; white-space:nowrap;">23 751 400</td><td style="text-align:right; white-space:nowrap;">37,3 %</td></tr>
-          <tr><td style="background:#E67E22; border-radius:2px;"></td><td>A8 – Marketing a komunikace</td><td style="text-align:right; font-weight:600; white-space:nowrap;">8 695 600</td><td style="text-align:right; white-space:nowrap;">13,7 %</td></tr>
-          <tr style="border-top:1px solid #dfe3ec;"><td style="background:#7F8C8D; border-radius:2px;"></td><td>Odvody SP + ZP</td><td style="text-align:right; font-weight:600; white-space:nowrap;">8 894 267</td><td style="text-align:right; white-space:nowrap;">14,0 %</td></tr>
-          <tr><td style="background:#BDC3C7; border-radius:2px;"></td><td>Paušální náklady (režie)</td><td style="text-align:right; font-weight:600; white-space:nowrap;">4 210 872</td><td style="text-align:right; white-space:nowrap;">6,4 %</td></tr>
-          <tr><td style="background:#F39C12; border-radius:2px;"></td><td>Majetek + licence</td><td style="text-align:right; font-weight:600; white-space:nowrap;">2 846 331</td><td style="text-align:right; white-space:nowrap;">4,5 %</td></tr>
-          <tr><td style="background:#1ABC9C; border-radius:2px;"></td><td>Cestovní náhrady</td><td style="text-align:right; font-weight:600; white-space:nowrap;">400 000</td><td style="text-align:right; white-space:nowrap;">0,6 %</td></tr>
-          <tr style="border-top:2px solid #1F4E79;">
-            <td style="background:#1F4E79; border-radius:2px;"></td>
-            <td style="font-weight:700; color:#1F4E79;">CELKEM CZV</td>
-            <td style="text-align:right; font-weight:700; color:#1F4E79; white-space:nowrap;">66 061 916</td>
-            <td style="text-align:right; font-weight:700; white-space:nowrap;">100 %</td>
-          </tr>
-          <tr>
-            <td></td>
-            <td style="font-weight:700; color:#555;">MAX. ROZPOČET CELKEM</td>
-            <td style="text-align:right; font-weight:700; color:#555;">65 000 000</td>
-            <td style="text-align:right; color:#555;">–</td>
-          </tr>
-        </tbody>
-      </table>
+        <!-- A2 -->
+        <tr style="border-bottom:1px solid #e8eaf0;">
+          <td rowspan="2" style="padding:6px 8px; font-weight:600; font-size:11px; border-right:1px solid #e8eaf0; vertical-align:middle; background:#f4f6fa; border-bottom:2px solid #cdd3e0;">A2 – Základní tým</td>
+          <td style="padding:5px 6px; color:#666; border-right:1px solid #e8eaf0;">žadatel</td>
+          <td style="padding:5px 6px; text-align:right; border-right:1px solid #e8eaf0;"></td>
+          <td style="padding:5px 6px; text-align:right; border-right:1px solid #e8eaf0; white-space:nowrap;">390 000</td>
+          <td style="padding:5px 6px; text-align:right; border-right:1px solid #e8eaf0;"></td>
+          <td style="padding:5px 6px; text-align:right; border-right:1px solid #e8eaf0;"></td>
+          <td style="padding:5px 6px; text-align:right; border-right:1px solid #e8eaf0;"></td>
+          <td style="padding:5px 6px; text-align:right; border-right:1px solid #e8eaf0;"></td>
+          <td style="padding:5px 8px; text-align:right; font-weight:600; white-space:nowrap;">390 000</td>
+        </tr>
+        <tr style="border-bottom:2px solid #cdd3e0;">
+          <td style="padding:5px 6px; color:#666; border-right:1px solid #e8eaf0;">partner</td>
+          <td style="padding:5px 6px; text-align:right; border-right:1px solid #e8eaf0;"></td>
+          <td style="padding:5px 6px; text-align:right; border-right:1px solid #e8eaf0; white-space:nowrap;">7 378 800</td>
+          <td style="padding:5px 6px; text-align:right; border-right:1px solid #e8eaf0;"></td>
+          <td style="padding:5px 6px; text-align:right; border-right:1px solid #e8eaf0;"></td>
+          <td style="padding:5px 6px; text-align:right; border-right:1px solid #e8eaf0; white-space:nowrap;">50 000</td>
+          <td style="padding:5px 6px; text-align:right; border-right:1px solid #e8eaf0;"></td>
+          <td style="padding:5px 8px; text-align:right; font-weight:600; white-space:nowrap;">7 428 800</td>
+        </tr>
 
-      <!-- Partner split -->
-      <div style="margin-top:16px; font-size:12px; font-weight:700; color:#1F4E79; margin-bottom:6px;">Rozdělení podle subjektů (z CZV 66 061 916 Kč)</div>
-      <div style="display:flex; gap:8px; flex-wrap:wrap;">
-        <div style="background:#eaf1fa; border:1px solid #b8cce5; border-radius:6px; padding:8px 12px; flex:1; min-width:100px;">
-          <div style="font-size:10px; color:#5a6880; font-weight:600; text-transform:uppercase;">P-PINK</div>
-          <div style="font-size:16px; font-weight:800; color:#1F4E79;">39 514 153</div>
-          <div style="font-size:10px; color:#5a6880;">Kč &nbsp;·&nbsp; 59,8 %</div>
-        </div>
-        <div style="background:#e8f5e9; border:1px solid #a5d6a7; border-radius:6px; padding:8px 12px; flex:1; min-width:100px;">
-          <div style="font-size:10px; color:#5a6880; font-weight:600; text-transform:uppercase;">Pardubický kraj</div>
-          <div style="font-size:16px; font-weight:800; color:#2E7D32;">6 102 625</div>
-          <div style="font-size:10px; color:#5a6880;">Kč &nbsp;·&nbsp; 9,2 %</div>
-        </div>
-        <div style="background:#fdf3e3; border:1px solid #f0d090; border-radius:6px; padding:8px 12px; flex:1; min-width:100px;">
-          <div style="font-size:10px; color:#9a6a00; font-weight:600; text-transform:uppercase;">SFÉRA Pardubice</div>
-          <div style="font-size:16px; font-weight:800; color:#9a6a00;">7 640 613</div>
-          <div style="font-size:10px; color:#5a6880;">Kč &nbsp;·&nbsp; 11,6 %</div>
-        </div>
-        <div style="background:#eef0fb; border:1px solid #c3c8ee; border-radius:6px; padding:8px 12px; flex:1; min-width:100px;">
-          <div style="font-size:10px; color:#3b3f8c; font-weight:600; text-transform:uppercase;">RRA PK</div>
-          <div style="font-size:16px; font-weight:800; color:#3b3f8c;">5 935 552</div>
-          <div style="font-size:10px; color:#5a6880;">Kč &nbsp;·&nbsp; 9,0 %</div>
-        </div>
-        <div style="background:#f3e8fa; border:1px solid #d6b3ec; border-radius:6px; padding:8px 12px; flex:1; min-width:100px;">
-          <div style="font-size:10px; color:#7D3C98; font-weight:600; text-transform:uppercase;">Univerzita Pardubice</div>
-          <div style="font-size:16px; font-weight:800; color:#7D3C98;">6 868 972</div>
-          <div style="font-size:10px; color:#5a6880;">Kč &nbsp;·&nbsp; 10,4 %</div>
-        </div>
-      </div>
-    </div>
+        <!-- A4 -->
+        <tr style="border-bottom:1px solid #e8eaf0;">
+          <td rowspan="2" style="padding:6px 8px; font-weight:600; font-size:11px; border-right:1px solid #e8eaf0; vertical-align:middle; background:#f4f6fa; border-bottom:2px solid #cdd3e0;">A4 – Vzdělávání a rozvoj kompetencí</td>
+          <td style="padding:5px 6px; color:#666; border-right:1px solid #e8eaf0;">žadatel</td>
+          <td style="padding:5px 6px; text-align:right; border-right:1px solid #e8eaf0;"></td>
+          <td style="padding:5px 6px; text-align:right; border-right:1px solid #e8eaf0; white-space:nowrap;">100 000</td>
+          <td style="padding:5px 6px; text-align:right; border-right:1px solid #e8eaf0;"></td>
+          <td style="padding:5px 6px; text-align:right; border-right:1px solid #e8eaf0;"></td>
+          <td style="padding:5px 6px; text-align:right; border-right:1px solid #e8eaf0;"></td>
+          <td style="padding:5px 6px; text-align:right; border-right:1px solid #e8eaf0;"></td>
+          <td style="padding:5px 8px; text-align:right; font-weight:600; white-space:nowrap;">100 000</td>
+        </tr>
+        <tr style="border-bottom:2px solid #cdd3e0;">
+          <td style="padding:5px 6px; color:#666; border-right:1px solid #e8eaf0;">partner</td>
+          <td style="padding:5px 6px; text-align:right; border-right:1px solid #e8eaf0;"></td>
+          <td style="padding:5px 6px; text-align:right; border-right:1px solid #e8eaf0; white-space:nowrap;">220 800</td>
+          <td style="padding:5px 6px; text-align:right; border-right:1px solid #e8eaf0;"></td>
+          <td style="padding:5px 6px; text-align:right; border-right:1px solid #e8eaf0;"></td>
+          <td style="padding:5px 6px; text-align:right; border-right:1px solid #e8eaf0; white-space:nowrap;">800 000</td>
+          <td style="padding:5px 6px; text-align:right; border-right:1px solid #e8eaf0;"></td>
+          <td style="padding:5px 8px; text-align:right; font-weight:600; white-space:nowrap;">1 020 800</td>
+        </tr>
 
+        <!-- A3 -->
+        <tr style="border-bottom:1px solid #e8eaf0;">
+          <td rowspan="2" style="padding:6px 8px; font-weight:600; font-size:11px; border-right:1px solid #e8eaf0; vertical-align:middle; background:#f4f6fa; border-bottom:2px solid #cdd3e0;">A3 – Mapování a analýzy</td>
+          <td style="padding:5px 6px; color:#666; border-right:1px solid #e8eaf0;">žadatel</td>
+          <td style="padding:5px 6px; text-align:right; border-right:1px solid #e8eaf0;"></td>
+          <td style="padding:5px 6px; text-align:right; border-right:1px solid #e8eaf0; white-space:nowrap;">450 000</td>
+          <td style="padding:5px 6px; text-align:right; border-right:1px solid #e8eaf0;"></td>
+          <td style="padding:5px 6px; text-align:right; border-right:1px solid #e8eaf0;"></td>
+          <td style="padding:5px 6px; text-align:right; border-right:1px solid #e8eaf0;"></td>
+          <td style="padding:5px 6px; text-align:right; border-right:1px solid #e8eaf0;"></td>
+          <td style="padding:5px 8px; text-align:right; font-weight:600; white-space:nowrap;">450 000</td>
+        </tr>
+        <tr style="border-bottom:2px solid #cdd3e0;">
+          <td style="padding:5px 6px; color:#666; border-right:1px solid #e8eaf0;">partner</td>
+          <td style="padding:5px 6px; text-align:right; border-right:1px solid #e8eaf0;"></td>
+          <td style="padding:5px 6px; text-align:right; border-right:1px solid #e8eaf0; white-space:nowrap;">1 824 000</td>
+          <td style="padding:5px 6px; text-align:right; border-right:1px solid #e8eaf0;"></td>
+          <td style="padding:5px 6px; text-align:right; border-right:1px solid #e8eaf0;"></td>
+          <td style="padding:5px 6px; text-align:right; border-right:1px solid #e8eaf0;"></td>
+          <td style="padding:5px 6px; text-align:right; border-right:1px solid #e8eaf0;"></td>
+          <td style="padding:5px 8px; text-align:right; font-weight:600; white-space:nowrap;">1 824 000</td>
+        </tr>
+
+        <!-- A7 -->
+        <tr style="border-bottom:1px solid #e8eaf0;">
+          <td rowspan="2" style="padding:6px 8px; font-weight:600; font-size:11px; border-right:1px solid #e8eaf0; vertical-align:middle; background:#f4f6fa; border-bottom:2px solid #cdd3e0;">A7 – Pilotní ověření</td>
+          <td style="padding:5px 6px; color:#666; border-right:1px solid #e8eaf0;">žadatel</td>
+          <td style="padding:5px 6px; text-align:right; border-right:1px solid #e8eaf0;"></td>
+          <td style="padding:5px 6px; text-align:right; border-right:1px solid #e8eaf0; white-space:nowrap;">1 995 600</td>
+          <td style="padding:5px 6px; text-align:right; border-right:1px solid #e8eaf0;"></td>
+          <td style="padding:5px 6px; text-align:right; border-right:1px solid #e8eaf0;"></td>
+          <td style="padding:5px 6px; text-align:right; border-right:1px solid #e8eaf0;"></td>
+          <td style="padding:5px 6px; text-align:right; border-right:1px solid #e8eaf0;"></td>
+          <td style="padding:5px 8px; text-align:right; font-weight:600; white-space:nowrap;">1 995 600</td>
+        </tr>
+        <tr style="border-bottom:2px solid #cdd3e0;">
+          <td style="padding:5px 6px; color:#666; border-right:1px solid #e8eaf0;">partner</td>
+          <td style="padding:5px 6px; text-align:right; border-right:1px solid #e8eaf0;"></td>
+          <td style="padding:5px 6px; text-align:right; border-right:1px solid #e8eaf0;"></td>
+          <td style="padding:5px 6px; text-align:right; border-right:1px solid #e8eaf0;"></td>
+          <td style="padding:5px 6px; text-align:right; border-right:1px solid #e8eaf0;"></td>
+          <td style="padding:5px 6px; text-align:right; border-right:1px solid #e8eaf0;"></td>
+          <td style="padding:5px 6px; text-align:right; border-right:1px solid #e8eaf0; white-space:nowrap;">28 928 737</td>
+          <td style="padding:5px 8px; text-align:right; font-weight:600; white-space:nowrap;">28 928 737</td>
+        </tr>
+
+        <!-- A8 -->
+        <tr style="border-bottom:1px solid #e8eaf0;">
+          <td rowspan="2" style="padding:6px 8px; font-weight:600; font-size:11px; border-right:1px solid #e8eaf0; vertical-align:middle; background:#f4f6fa; border-bottom:2px solid #cdd3e0;">A8 – Marketingová a komunikační strategie kraje</td>
+          <td style="padding:5px 6px; color:#666; border-right:1px solid #e8eaf0;">žadatel</td>
+          <td style="padding:5px 6px; text-align:right; border-right:1px solid #e8eaf0;"></td>
+          <td style="padding:5px 6px; text-align:right; border-right:1px solid #e8eaf0;"></td>
+          <td style="padding:5px 6px; text-align:right; border-right:1px solid #e8eaf0;"></td>
+          <td style="padding:5px 6px; text-align:right; border-right:1px solid #e8eaf0;"></td>
+          <td style="padding:5px 6px; text-align:right; border-right:1px solid #e8eaf0;"></td>
+          <td style="padding:5px 6px; text-align:right; border-right:1px solid #e8eaf0;"></td>
+          <td style="padding:5px 8px; text-align:right; font-weight:600;">—</td>
+        </tr>
+        <tr style="border-bottom:2px solid #cdd3e0;">
+          <td style="padding:5px 6px; color:#666; border-right:1px solid #e8eaf0;">partner</td>
+          <td style="padding:5px 6px; text-align:right; border-right:1px solid #e8eaf0;"></td>
+          <td style="padding:5px 6px; text-align:right; border-right:1px solid #e8eaf0; white-space:nowrap;">4 995 600</td>
+          <td style="padding:5px 6px; text-align:right; border-right:1px solid #e8eaf0;"></td>
+          <td style="padding:5px 6px; text-align:right; border-right:1px solid #e8eaf0;"></td>
+          <td style="padding:5px 6px; text-align:right; border-right:1px solid #e8eaf0; white-space:nowrap;">3 700 000</td>
+          <td style="padding:5px 6px; text-align:right; border-right:1px solid #e8eaf0;"></td>
+          <td style="padding:5px 8px; text-align:right; font-weight:600; white-space:nowrap;">8 695 600</td>
+        </tr>
+
+        <!-- SP/ZP -->
+        <tr style="border-bottom:1px solid #e8eaf0; background:#fafbfc;">
+          <td rowspan="2" style="padding:6px 8px; font-size:11px; border-right:1px solid #e8eaf0; vertical-align:middle; color:#555;">Odvody SP + ZP</td>
+          <td style="padding:5px 6px; color:#666; border-right:1px solid #e8eaf0;">žadatel</td>
+          <td style="padding:5px 6px; text-align:right; border-right:1px solid #e8eaf0;"></td>
+          <td style="padding:5px 6px; text-align:right; border-right:1px solid #e8eaf0; white-space:nowrap;">657 072</td>
+          <td style="padding:5px 6px; text-align:right; border-right:1px solid #e8eaf0;"></td>
+          <td style="padding:5px 6px; text-align:right; border-right:1px solid #e8eaf0;"></td>
+          <td style="padding:5px 6px; text-align:right; border-right:1px solid #e8eaf0;"></td>
+          <td style="padding:5px 6px; text-align:right; border-right:1px solid #e8eaf0;"></td>
+          <td style="padding:5px 8px; text-align:right; white-space:nowrap;">657 072</td>
+        </tr>
+        <tr style="border-bottom:2px solid #cdd3e0; background:#fafbfc;">
+          <td style="padding:5px 6px; color:#666; border-right:1px solid #e8eaf0;">partner</td>
+          <td style="padding:5px 6px; text-align:right; border-right:1px solid #e8eaf0;"></td>
+          <td style="padding:5px 6px; text-align:right; border-right:1px solid #e8eaf0; white-space:nowrap;">5 002 670</td>
+          <td style="padding:5px 6px; text-align:right; border-right:1px solid #e8eaf0;"></td>
+          <td style="padding:5px 6px; text-align:right; border-right:1px solid #e8eaf0;"></td>
+          <td style="padding:5px 6px; text-align:right; border-right:1px solid #e8eaf0;"></td>
+          <td style="padding:5px 6px; text-align:right; border-right:1px solid #e8eaf0;"></td>
+          <td style="padding:5px 8px; text-align:right; white-space:nowrap;">5 002 670</td>
+        </tr>
+
+        <!-- HM+DrNHM+cestovné -->
+        <tr style="border-bottom:2px solid #cdd3e0; background:#fafbfc;">
+          <td colspan="2" style="padding:6px 8px; font-size:11px; border-right:1px solid #e8eaf0; color:#555;">HM, materiál, nehmotný majetek, cestovné</td>
+          <td style="padding:5px 6px; text-align:right; border-right:1px solid #e8eaf0;"></td>
+          <td style="padding:5px 6px; text-align:right; border-right:1px solid #e8eaf0;"></td>
+          <td style="padding:5px 6px; text-align:right; border-right:1px solid #e8eaf0; white-space:nowrap;">2 451 416</td>
+          <td style="padding:5px 6px; text-align:right; border-right:1px solid #e8eaf0; white-space:nowrap;">394 915</td>
+          <td style="padding:5px 6px; text-align:right; border-right:1px solid #e8eaf0; white-space:nowrap;">400 000</td>
+          <td style="padding:5px 6px; text-align:right; border-right:1px solid #e8eaf0;"></td>
+          <td style="padding:5px 8px; text-align:right; white-space:nowrap;">3 246 331</td>
+        </tr>
+
+        <!-- Paušální náklady -->
+        <tr style="border-bottom:2px solid #aab4c8; background:#fafbfc;">
+          <td colspan="2" style="padding:6px 8px; font-size:11px; border-right:1px solid #e8eaf0; color:#555; font-style:italic;">Paušální náklady (nepřímé, 25 % OV žadatele + P-PINK)</td>
+          <td colspan="6" style="border-right:1px solid #e8eaf0;"></td>
+          <td style="padding:5px 8px; text-align:right; font-style:italic; white-space:nowrap;">4 163 586</td>
+        </tr>
+
+        <!-- CELKEM -->
+        <tr style="background:#1F4E79; color:#fff; font-weight:700; font-size:11px; border-bottom:1px solid #0d3464;">
+          <td style="padding:7px 8px; border-right:1px solid rgba(255,255,255,.2);">CELKEM</td>
+          <td style="padding:7px 6px; border-right:1px solid rgba(255,255,255,.2);">žadatel</td>
+          <td style="padding:7px 6px; text-align:right; border-right:1px solid rgba(255,255,255,.2);"></td>
+          <td style="padding:7px 6px; text-align:right; border-right:1px solid rgba(255,255,255,.2);"></td>
+          <td style="padding:7px 6px; text-align:right; border-right:1px solid rgba(255,255,255,.2);"></td>
+          <td style="padding:7px 6px; text-align:right; border-right:1px solid rgba(255,255,255,.2);"></td>
+          <td style="padding:7px 6px; text-align:right; border-right:1px solid rgba(255,255,255,.2);"></td>
+          <td style="padding:7px 6px; text-align:right; border-right:1px solid rgba(255,255,255,.2);"></td>
+          <td style="padding:7px 8px; text-align:right; background:#0d3464;"></td>
+        </tr>
+        <tr style="background:#1F4E79; color:#fff; font-weight:700; font-size:11px; border-bottom:1px solid #0d3464;">
+          <td style="padding:7px 8px; border-right:1px solid rgba(255,255,255,.2);"></td>
+          <td style="padding:7px 6px; border-right:1px solid rgba(255,255,255,.2);">partner</td>
+          <td style="padding:7px 6px; text-align:right; border-right:1px solid rgba(255,255,255,.2);"></td>
+          <td style="padding:7px 6px; text-align:right; border-right:1px solid rgba(255,255,255,.2);"></td>
+          <td style="padding:7px 6px; text-align:right; border-right:1px solid rgba(255,255,255,.2);"></td>
+          <td style="padding:7px 6px; text-align:right; border-right:1px solid rgba(255,255,255,.2);"></td>
+          <td style="padding:7px 6px; text-align:right; border-right:1px solid rgba(255,255,255,.2);"></td>
+          <td style="padding:7px 6px; text-align:right; border-right:1px solid rgba(255,255,255,.2);"></td>
+          <td style="padding:7px 8px; text-align:right; background:#0d3464;"></td>
+        </tr>
+        <tr style="background:#0d3464; color:#fff; font-weight:700; font-size:12px;">
+          <td style="padding:8px 8px; border-right:1px solid rgba(255,255,255,.2);"></td>
+          <td style="padding:8px 6px; border-right:1px solid rgba(255,255,255,.2);">CELKEM</td>
+          <td style="padding:8px 6px; text-align:right; border-right:1px solid rgba(255,255,255,.2);"></td>
+          <td style="padding:8px 6px; text-align:right; border-right:1px solid rgba(255,255,255,.2);"></td>
+          <td style="padding:8px 6px; text-align:right; border-right:1px solid rgba(255,255,255,.2);"></td>
+          <td style="padding:8px 6px; text-align:right; border-right:1px solid rgba(255,255,255,.2);"></td>
+          <td style="padding:8px 6px; text-align:right; border-right:1px solid rgba(255,255,255,.2);"></td>
+          <td style="padding:8px 6px; text-align:right; border-right:1px solid rgba(255,255,255,.2);"></td>
+          <td style="padding:8px 8px; text-align:right;"></td>
+        </tr>
+
+      </tbody>
+    </table>
   </div>
-
-  <!-- DETAIL TABLES per activity -->
-  <h2 style="margin-top:8px;">Detailní rozpis výdajů podle aktivit</h2>
-
-  <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
-
-    <!-- A1 -->
-    <div style="border:1px solid #dfe3ec; border-radius:8px; overflow:hidden;">
-      <div style="background:#1F4E79; color:white; padding:8px 14px; font-weight:700; font-size:13px; display:flex; justify-content:space-between;">
-        <span>A1 – Řízení projektu</span><span>5 922 510 Kč</span>
-      </div>
-      <table style="font-size:11.5px; margin:0;">
-        <thead><tr><th>Položka</th><th>Subjekt</th><th style="text-align:right;">Kč</th></tr></thead>
-        <tbody>
-          <tr><td>Admin. tým P-PINK (PM 0,5 + FM 0,6 + admin 0,5) – jednorázové</td><td>P-PINK</td><td style="text-align:right; white-space:nowrap;">3 485 430</td></tr>
-          <tr><td>Admin. tým PK (PM 0,5 + FM 0,4) – jednorázové</td><td>Kraj</td><td style="text-align:right; white-space:nowrap;">2 437 080</td></tr>
-          <tr style="background:#eaf1fa; font-weight:700;"><td colspan="2">Celkem A1</td><td style="text-align:right; white-space:nowrap;">5 922 510</td></tr>
-        </tbody>
-      </table>
-    </div>
-
-    <!-- A2 -->
-    <div style="border:1px solid #dfe3ec; border-radius:8px; overflow:hidden;">
-      <div style="background:#2E7D32; color:white; padding:8px 14px; font-weight:700; font-size:13px; display:flex; justify-content:space-between;">
-        <span>A2 – Základní tým</span><span>7 818 800 Kč</span>
-      </div>
-      <table style="font-size:11.5px; margin:0;">
-        <thead><tr><th>Pozice</th><th>Subjekt</th><th style="text-align:right;">Kč</th></tr></thead>
-        <tbody>
-          <tr><td>RIS3 manažer (1,0 HPP, 30 měs.)</td><td>P-PINK</td><td style="text-align:right; white-space:nowrap;">2 880 000</td></tr>
-          <tr><td>RIS3 developer 1 (0,5 HPP, 30 měs.)</td><td>P-PINK</td><td style="text-align:right; white-space:nowrap;">1 440 000</td></tr>
-          <tr><td>RIS3 developer 2 (0,5 DPČ, 30 měs.)</td><td>P-PINK</td><td style="text-align:right; white-space:nowrap;">1 490 400</td></tr>
-          <tr><td>RIS3 developer 3 (0,2 DPČ, 30 měs.)</td><td>P-PINK</td><td style="text-align:right; white-space:nowrap;">518 400</td></tr>
-          <tr><td>Setkání KRPI a inovačních platforem</td><td>P-PINK</td><td style="text-align:right; white-space:nowrap;">50 000</td></tr>
-          <tr><td>RIS3 koordinátor (0,2 úvazek, 30 měs.)</td><td>Kraj</td><td style="text-align:right; white-space:nowrap;">390 000</td></tr>
-          <tr><td>Koordinátor PO (0,5 HPP, 30 měs.)</td><td>P-PINK</td><td style="text-align:right; white-space:nowrap;">1 050 000</td></tr>
-          <tr style="background:#eaf1fa; font-weight:700;"><td colspan="2">Celkem A2</td><td style="text-align:right; white-space:nowrap;">7 818 800</td></tr>
-        </tbody>
-      </table>
-    </div>
-
-    <!-- A3 -->
-    <div style="border:1px solid #dfe3ec; border-radius:8px; overflow:hidden;">
-      <div style="background:#27AE60; color:white; padding:8px 14px; font-weight:700; font-size:13px; display:flex; justify-content:space-between;">
-        <span>A3 – Mapování a analýzy</span><span>2 274 000 Kč</span>
-      </div>
-      <table style="font-size:11.5px; margin:0;">
-        <thead><tr><th>Pozice / Položka</th><th>Subjekt</th><th style="text-align:right;">Kč</th></tr></thead>
-        <tbody>
-          <tr><td>RIS3 analytik 1 (0,5 DPČ, 30 měs.)</td><td>P-PINK</td><td style="text-align:right; white-space:nowrap;">1 104 000</td></tr>
-          <tr><td>Evaluátor (0,2 + 0,5 při evaluaci)</td><td>P-PINK</td><td style="text-align:right; white-space:nowrap;">720 000</td></tr>
-          <tr><td>RIS3 analytik 2 (0,3 úvazek, kraj)</td><td>Kraj</td><td style="text-align:right; white-space:nowrap;">450 000</td></tr>
-          <tr style="background:#eaf1fa; font-weight:700;"><td colspan="2">Celkem A3</td><td style="text-align:right; white-space:nowrap;">2 274 000</td></tr>
-        </tbody>
-      </table>
-    </div>
-
-    <!-- A4 -->
-    <div style="border:1px solid #dfe3ec; border-radius:8px; overflow:hidden;">
-      <div style="background:#8E44AD; color:white; padding:8px 14px; font-weight:700; font-size:13px; display:flex; justify-content:space-between;">
-        <span>A4 – Vzdělávání</span><span>1 120 800 Kč</span>
-      </div>
-      <table style="font-size:11.5px; margin:0;">
-        <thead><tr><th>Položka</th><th>Subjekt</th><th style="text-align:right;">Kč</th></tr></thead>
-        <tbody>
-          <tr><td>Manažer vzdělávání (DPČ, 30 měs.)</td><td>P-PINK</td><td style="text-align:right; white-space:nowrap;">220 800</td></tr>
-          <tr><td>Vzdělávací služby a akce</td><td>P-PINK</td><td style="text-align:right; white-space:nowrap;">800 000</td></tr>
-          <tr><td>Vzdělávání odborného týmu</td><td>Kraj</td><td style="text-align:right; white-space:nowrap;">100 000</td></tr>
-          <tr style="background:#eaf1fa; font-weight:700;"><td colspan="2">Celkem A4</td><td style="text-align:right; white-space:nowrap;">1 120 800</td></tr>
-        </tbody>
-      </table>
-    </div>
-
-    <!-- A7 -->
-    <div style="border:1px solid #dfe3ec; border-radius:8px; overflow:hidden; grid-column: span 2;">
-      <div style="background:#C0392B; color:white; padding:8px 14px; font-weight:700; font-size:13px; display:flex; justify-content:space-between;">
-        <span>A7 – Pilotní ověření (5 PO + koordinace)</span><span>32 307 937 Kč vč. SP/ZP partnerů</span>
-      </div>
-      <table style="font-size:11.5px; margin:0;">
-        <thead>
-          <tr><th>Pilotní ověření</th><th>Partner</th><th style="text-align:right;">Kč (vč. odvodů)</th></tr>
-        </thead>
-        <tbody>
-          <tr><td>Koordinátor VŠECH pilotních ověření (0,5 HPP, 30 měs.)</td><td>P-PINK</td><td style="text-align:right; white-space:nowrap;">1 383 800</td></tr>
-          <tr><td><b>PO1</b> – Inovační centrum PK (manažer, experti, garant, marketing)</td><td>P-PINK</td><td style="text-align:right; white-space:nowrap;">8 382 000</td></tr>
-          <tr><td><b>PO2</b> – CTTZ UPCE: spin-off v „nulté fázi" (manažer, koordinátor nástrojů, spin-off specialista, řešitelské týmy)</td><td>Univerzita Pardubice</td><td style="text-align:right; white-space:nowrap;">6 868 972</td></tr>
-          <tr><td><b>PO3</b> – SFÉRA Living Lab – Odolný region (garant, lektoři 5×, vývojáři 5×, mobilní jednotka)</td><td>SFÉRA Pardubice</td><td style="text-align:right; white-space:nowrap;">7 640 613</td></tr>
-          <tr><td><b>PO6</b> – Rozvoj regionálních kompetencí (manažer PO, odborný konzultant, vzdělávání)</td><td>RRA PK</td><td style="text-align:right; white-space:nowrap;">5 500 000</td></tr>
-          <tr><td><b>PO5</b> – KIRI (manažer PO, investiční portál, investor outreach, datová příprava lokalit, matchmaking workshopy)</td><td>Pardubický kraj</td><td style="text-align:right; white-space:nowrap;">1 995 600</td></tr>
-          <tr style="background:#fde8e8; font-weight:700; border-top:2px solid #C0392B;">
-            <td colspan="2" style="color:#C0392B;">Celkem A7 (5 PO + koordinace)</td>
-            <td style="text-align:right; color:#C0392B;">32 307 937</td>
-          </tr>
-          <tr><td colspan="3" style="font-size:10.5px; color:#888; font-style:italic; padding:5px 8px;">
-            Sféra, RRA PK a UPCE realizují výhradně pilotní ověření – uvedená částka = jejich celý rozpočet. U P-PINK a kraje jde o podíl odpovídající mzdám, službám a poměrné části odvodů SP/ZP připadající na pilot.
-          </td></tr>
-        </tbody>
-      </table>
-    </div>
-
-    <!-- A8 -->
-    <div style="border:1px solid #dfe3ec; border-radius:8px; overflow:hidden;">
-      <div style="background:#E67E22; color:white; padding:8px 14px; font-weight:700; font-size:13px; display:flex; justify-content:space-between;">
-        <span>A8 – Marketing a komunikace</span><span>8 695 600 Kč</span>
-      </div>
-      <table style="font-size:11.5px; margin:0;">
-        <thead><tr><th>Položka</th><th>Subjekt</th><th style="text-align:right;">Kč</th></tr></thead>
-        <tbody>
-          <tr><td>Marketingový manažer 2× 0,5 (DPČ, 30 měs.)</td><td>P-PINK</td><td style="text-align:right; white-space:nowrap;">3 036 000</td></tr>
-          <tr><td>PR specialista 0,5 (DPČ)</td><td>P-PINK</td><td style="text-align:right; white-space:nowrap;">1 518 000</td></tr>
-          <tr><td>Grafik 0,2 (DPČ, 30 měs.)</td><td>P-PINK</td><td style="text-align:right; white-space:nowrap;">441 600</td></tr>
-          <tr><td>Sociální média – placená propagace (Meta, LinkedIn)</td><td>P-PINK</td><td style="text-align:right; white-space:nowrap;">700 000</td></tr>
-          <tr><td>Medializace</td><td>P-PINK</td><td style="text-align:right; white-space:nowrap;">1 000 000</td></tr>
-          <tr><td>Eventy a akce (5×)</td><td>P-PINK</td><td style="text-align:right; white-space:nowrap;">2 000 000</td></tr>
-          <tr style="background:#eaf1fa; font-weight:700;"><td colspan="2">Celkem A8</td><td style="text-align:right; white-space:nowrap;">8 695 600</td></tr>
-        </tbody>
-      </table>
-    </div>
-
-  </div>
-
-  <!-- Cross-cutting -->
-  <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:16px;">
-
-    <div style="border:1px solid #dfe3ec; border-radius:8px; overflow:hidden;">
-      <div style="background:#7F8C8D; color:white; padding:8px 14px; font-weight:700; font-size:13px; display:flex; justify-content:space-between;">
-        <span>Odvody SP + ZP (PK a P-PINK)</span><span>5 659 742 Kč</span>
-      </div>
-      <table style="font-size:11.5px; margin:0;">
-        <thead><tr><th>Subjekt</th><th style="text-align:right;">SP</th><th style="text-align:right;">ZP</th></tr></thead>
-        <tbody>
-          <tr><td>P-PINK</td><td style="text-align:right; white-space:nowrap;">3 670 598</td><td style="text-align:right; white-space:nowrap;">1 332 072</td></tr>
-          <tr><td>Pardubický kraj</td><td style="text-align:right; white-space:nowrap;">482 112</td><td style="text-align:right; white-space:nowrap;">174 960</td></tr>
-          <tr style="background:#eaf1fa; font-weight:700;"><td>Celkem SP + ZP</td><td colspan="2" style="text-align:right;">5 659 742</td></tr>
-        </tbody>
-      </table>
-    </div>
-
-    <div style="border:1px solid #dfe3ec; border-radius:8px; overflow:hidden;">
-      <div style="background:#BDC3C7; color:#555; padding:8px 14px; font-weight:700; font-size:13px; display:flex; justify-content:space-between;">
-        <span>Paušál, majetek a cestovné</span><span>7 409 917 Kč</span>
-      </div>
-      <table style="font-size:11.5px; margin:0;">
-        <thead><tr><th>Položka</th><th>Subjekt</th><th style="text-align:right;">Kč</th></tr></thead>
-        <tbody>
-          <tr><td>Paušální náklady – režie</td><td>všichni partneři</td><td style="text-align:right; white-space:nowrap;">4 163 586</td></tr>
-          <tr><td>Cestovní náhrady (zahraniční cesty týmu + stakeholdeři)</td><td>P-PINK</td><td style="text-align:right; white-space:nowrap;">400 000</td></tr>
-          <tr style="border-top:1px dashed #dfe3ec;"><td>Drobný hmotný majetek (notebooky, vybavení Living Lab)</td><td>PK, P-PINK, Sféra</td><td style="text-align:right; white-space:nowrap;">1 651 416</td></tr>
-          <tr><td>Materiál (spotřební – Living Lab)</td><td>SFÉRA</td><td style="text-align:right; white-space:nowrap;">800 000</td></tr>
-          <tr><td>Nehmotný majetek (licence CRM, DB, MS Office, Claude Code, Ahrefs, Canva)</td><td>P-PINK</td><td style="text-align:right; white-space:nowrap;">394 915</td></tr>
-          <tr style="background:#eaf1fa; font-weight:700;"><td colspan="2">Celkem</td><td style="text-align:right; white-space:nowrap;">7 409 917</td></tr>
-        </tbody>
-      </table>
-    </div>
-
-  </div>
-
-  <div class="note" style="margin-top:14px; background:#fff6e0; border-left:4px solid #E67E22; padding:10px 14px;">
-    <b>Poznámky k rozpočtu:</b> CZV (66 061 916 Kč) zahrnuje výdaje všech 5 subjektů: P-PINK (39 514 153 Kč), Pardubický kraj (6 102 625 Kč), SFÉRA Pardubice (7 640 613 Kč), RRA PK (5 935 552 Kč) a Univerzita Pardubice (6 868 972 Kč). Pilotní ověření (A7, 5 PO) tvoří <b>téměř polovinu celkového rozpočtu</b> (~32,3 mil. Kč, 49 %). Max. cílový rozpočet z výzvy: <b>65 000 000 Kč</b> (CZV je třeba optimalizovat na tuto hranici). Záloha EU+SR (max. 30 % CZV) = <b>19 818 575 Kč</b>.
+  <div class="note" style="margin-top:12px; background:#fff6e0; border-left:4px solid #E67E22; padding:8px 12px; font-size:11px;">
+    Čísla v sloupcích NHIM, Osobní výdaje, HM a materiál, DrNHM, Nákup služeb, Přímá podpora a CELKOVÉ PN jsou orientační – doplňte ze zdrojového rozpočtu (SA+2_rozpočet_08072026). Paušální náklady (nepřímé) nejsou součástí CELKOVÉ PN. Max. cílové CZV: <b>65 000 000 Kč</b>.
   </div>
 </div>
-
-</div>
-
-<script>
-(function() {
-  const ctx = document.getElementById('budgetDonut').getContext('2d');
-  new Chart(ctx, {
-    type: 'doughnut',
-    data: {
-      labels: [
-        'A1 – Řízení projektu',
-        'A2 – Základní tým',
-        'A3 – Mapování',
-        'A4 – Vzdělávání',
-        'A7 – Pilotní ověření',
-        'A8 – Marketing',
-        'Odvody SP + ZP',
-        'Paušální náklady',
-        'Majetek + licence',
-        'Cestovní náhrady'
-      ],
-      datasets: [{
-        data: [5247000, 6250400, 2274000, 1120800, 23751400, 8695600, 8894267, 4163586, 2846331, 400000],
-        backgroundColor: ['#1F4E79','#2E7D32','#27AE60','#8E44AD','#C0392B','#E67E22','#7F8C8D','#BDC3C7','#F39C12','#1ABC9C'],
-        borderWidth: 2,
-        borderColor: '#fff',
-        hoverOffset: 6
-      }]
-    },
-    options: {
-      cutout: '60%',
-      plugins: {
-        legend: {
-          display: false
-        },
-        tooltip: {
-          callbacks: {
-            label: function(ctx) {
-              const val = ctx.raw;
-              const pct = (val / 63643384 * 100).toFixed(1);
-              return ' ' + val.toLocaleString('cs-CZ') + ' Kč (' + pct + ' %)';
-            }
-          }
-        }
-      }
-    }
-  });
-})();
-</script>
 
 </body>
 </html>
